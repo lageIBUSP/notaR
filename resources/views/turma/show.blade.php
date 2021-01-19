@@ -9,11 +9,11 @@
 
 <nav class="navbar navbar-inverse">
     <div class="navbar-header">
-        <a class="navbar-brand" href="{{ URL::to('turmas') }}">turma Alert</a>
+        <a class="navbar-brand" href="{{ URL::to('turma') }}">turma Alert</a>
     </div>
     <ul class="nav navbar-nav">
-        <li><a href="{{ URL::to('turmas') }}">View All turmas</a></li>
-        <li><a href="{{ URL::to('turmas/create') }}">Create a turma</a>
+        <li><a href="{{ URL::to('turma') }}">View All turmas</a></li>
+        <li><a href="{{ URL::to('turma/create') }}">Create a turma</a>
     </ul>
 </nav>
 

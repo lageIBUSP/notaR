@@ -9,11 +9,11 @@
 
 <nav class="navbar navbar-inverse">
     <div class="navbar-header">
-	<a class="navbar-brand" href="{{ URL::to('turmas') }}">turma Alert</a>
+	<a class="navbar-brand" href="{{ URL::to('turma') }}">turma Alert</a>
     </div>
     <ul class="nav navbar-nav">
-	<li><a href="{{ URL::to('turmas') }}">Ver todas as turmas</a></li>
-	<li><a href="{{ URL::to('turmas/create') }}">Create a turma</a>
+	<li><a href="{{ URL::to('turma') }}">Ver todas as turmas</a></li>
+	<li><a href="{{ URL::to('turma/create') }}">Create a turma</a>
     </ul>
 </nav>
 @extends('layouts.app')
@@ -23,7 +23,7 @@
 	    <h1>Criar nova turma</h1>
 	</div>
 	<div class="row">
-	    <form action="/submit" method="post">
+	    <form action="/turma" method="post">
 		@csrf
 		@if ($errors->any())
 		    <div class="alert alert-danger" role="alert">

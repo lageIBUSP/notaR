@@ -20,6 +20,6 @@ Route::get('/', function () {
 });
 
 Route::resources([
-    'users' => UserController::class,
-    'turmas' => TurmaController::class,
+    'user' => UserController::class,
+    'turma' => TurmaController::class,
 ]);

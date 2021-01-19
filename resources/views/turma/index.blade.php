@@ -9,11 +9,11 @@
 
 <nav class="navbar navbar-inverse">
     <div class="navbar-header">
-        <a class="navbar-brand" href="{{ URL::to('turmas') }}">Turmas</a>
+        <a class="navbar-brand" href="{{ URL::to('turma') }}">Turmas</a>
     </div>
     <ul class="nav navbar-nav">
-        <li><a href="{{ URL::to('turmas') }}">Todas as turmas</a></li>
-        <li><a href="{{ URL::to('turmas/create') }}">Criar uma turma</a>
+        <li><a href="{{ URL::to('turma') }}">Todas as turmas</a></li>
+        <li><a href="{{ URL::to('turma/create') }}">Criar uma turma</a>
     </ul>
 </nav>
 
@@ -47,10 +47,10 @@
                 <!-- we will add this later since its a little more complicated than the other two buttons -->
 
                 <!-- show the Turma (uses the show method found at GET /Turmas/{id} -->
-                <a class="btn btn-small btn-success" href="{{ URL::to('turmas/' . $value->id) }}">Ver</a>
+                <a class="btn btn-small btn-success" href="{{ URL::to('turma/' . $value->id) }}">Ver</a>
 
                 <!-- edit this Turma (uses the edit method found at GET /Turmas/{id}/edit -->
-                <a class="btn btn-small btn-info" href="{{ URL::to('Turmas/' . $value->id . '/edit') }}">Editar</a>
+                <a class="btn btn-small btn-info" href="{{ URL::to('Turma/' . $value->id . '/edit') }}">Editar</a>
 
             </td>
         </tr>
