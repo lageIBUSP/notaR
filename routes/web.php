@@ -23,3 +23,9 @@ Route::resources([
     'user' => UserController::class,
     'turma' => TurmaController::class,
 ]);
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';

@@ -37,6 +37,7 @@ class TurmaController extends Controller
 	 */
 	public function store(Request $request)
 	{
+		$this->authorize('create', Turma::class);
 		$rules = array(
 			'name'       => 'required',
 			'description'=> 'required'
