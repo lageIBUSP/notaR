@@ -69,7 +69,7 @@ class TurmaController extends Controller
 	public function edit($id)
 	{
 		$turma = Turma::findOrFail($id);
-		return View('turma.edit')->with('turma',$turma);
+		return View('turma.create')->with('turma',$turma);
 	}
 
 	/**

@@ -1,29 +1,11 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>notaR - criar turma</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container">
-
-<nav class="navbar navbar-inverse">
-    <div class="navbar-header">
-	<a class="navbar-brand" href="{{ URL::to('turma') }}">turma Alert</a>
-    </div>
-    <ul class="nav navbar-nav">
-	<li><a href="{{ URL::to('turma') }}">Ver todas as turmas</a></li>
-	<li><a href="{{ URL::to('turma/create') }}">Create a turma</a>
-    </ul>
-</nav>
-@extends('layouts.app')
+@extends('layouts.base')
 @section('content')
     <div class="container">
 	<div class="row">
 	    <h1>Criar nova turma</h1>
 	</div>
 	<div class="row">
-	    <form action="/turma" method="post">
+	    <form action="/turma" method="{{ isset($turma) ? 'put' : 'post'}}">
 		@csrf
 		@if ($errors->any())
 		    <div class="alert alert-danger" role="alert">
@@ -32,7 +14,7 @@
 		@endif
 		<div class="form-group">
 		    <label for="name">Nome</label>
-		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Nome da turma" value="{{ old('nome') }}">
+		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Nome da turma" value="{{ old('nome', isset($turma) ? $turma->nome : '') }}">
 		    @error('name')
 			<div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
@@ -49,5 +31,3 @@
 	</div>
     </div>
     @endsection
-</body>
-    </html>

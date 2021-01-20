@@ -1,22 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Turmas</title>
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
-</head>
-<body>
-<div class="container">
+@extends('layouts.base')
 
-<nav class="navbar navbar-inverse">
-    <div class="navbar-header">
-        <a class="navbar-brand" href="{{ URL::to('turma') }}">Turmas</a>
-    </div>
-    <ul class="nav navbar-nav">
-        <li><a href="{{ URL::to('turma') }}">Todas as turmas</a></li>
-        <li><a href="{{ URL::to('turma/create') }}">Criar uma turma</a>
-    </ul>
-</nav>
-
+@section('content')
 <h1>Todas as Turmas</h1>
 
 <!-- will be used to show any messages -->
@@ -46,11 +30,11 @@
                 <!-- delete the Turma (uses the destroy method DESTROY /Turmas/{id} -->
                 <!-- we will add this later since its a little more complicated than the other two buttons -->
 
-                <!-- show the Turma (uses the show method found at GET /Turmas/{id} -->
+                <!-- show the Turma (uses the show method found at GET /turma/{id} -->
                 <a class="btn btn-small btn-success" href="{{ URL::to('turma/' . $value->id) }}">Ver</a>
 
-                <!-- edit this Turma (uses the edit method found at GET /Turmas/{id}/edit -->
-                <a class="btn btn-small btn-info" href="{{ URL::to('Turma/' . $value->id . '/edit') }}">Editar</a>
+                <!-- edit this Turma (uses the edit method found at GET /turma/{id}/edit -->
+                <a class="btn btn-small btn-info" href="{{ URL::to('turma/' . $value->id . '/edit') }}">Editar</a>
 
             </td>
         </tr>
@@ -59,5 +43,4 @@
 </table>
 
 </div>
-</body>
-</html>
+@endsection
