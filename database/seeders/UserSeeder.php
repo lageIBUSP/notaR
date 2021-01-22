@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
             'name' => Str::random(10),
             'email' => Str::random(10).'@gmail.com',
             'password' => Hash::make('password'),
+	    'is_admin' => true
         ]);
     }
 }
