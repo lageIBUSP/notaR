@@ -57,10 +57,10 @@ class User extends Authenticatable
     }
     public function exerciciosFeitos()
     {
-        return $this->hasManyThrough(Exercicio::class,Nota::Class);
+        return $this->hasManyThrough(Exercicio::class,Nota::class);
     }
     public function prazos()
     {
-        return $this->hasManyThrough(Prazo::class,Turma::class)
+        return $this->hasManyThrough(Prazo::class,Turma::class);
     }
 }
