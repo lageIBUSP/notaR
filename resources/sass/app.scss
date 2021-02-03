@@ -1,8 +1,32 @@
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+@import url('https://fonts.googleapis.com/css?family=Roboto');
 
 // Variables
 @import 'variables';
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+body {
+    font-family: 'Roboto', sans-serif;
+}
+
+h1, h2, h3 {
+    font-family: 'Source Code Pro', sans-serif;
+}
+
+header.topbar{ 
+    width: 100%;
+    padding: 20px;
+    background-color: $blue;
+    h1 {
+        color: $offwhite;
+    }
+}
+
+footer {
+    border-top: #3d3d3d 1px solid;
+    background-color: scale-color($offwhite, $lightness: -10%);
+    padding: 20px;
+}

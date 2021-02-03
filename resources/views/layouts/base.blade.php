@@ -4,26 +4,22 @@
 	@include('includes.head')
 </head>
 <body>
+
+@include('includes.header')
+
 <div class="container">
+	<div class="row">
+		<div id="sidebar" class="col-md-2">
+			@include('includes.sidebar')
+		</div>
 
-	<header class="row">
-		@include('includes.header')
-	</header>
-
-	<!-- sidebar content -->
-	<div id="sidebar" class="col-md-4">
-		@include('includes.sidebar')
+		<div id="content" class="col-md-8">
+			@yield('content')
+		</div>
 	</div>
-
-	<!-- main content -->
-	<div id="content" class="col-md-8">
-		@yield('content')
-	</div>
-
-	<footer class="row">
-		@include('includes.footer')
-	</footer>
-
 </div>
+
+@include('includes.footer')
+
 </body>
 </html>
