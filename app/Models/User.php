@@ -44,4 +44,23 @@ class User extends Authenticatable
     public function isAdmin() {
         return true;
     }
+
+    
+    // relatonships
+    public function turmas()
+    {
+        return $this->belongsToMany(Turmas::class);
+    }
+    public function notas()
+    {
+        return $this->hasMany(Nota::class);
+    }
+    public function exerciciosFeitos()
+    {
+        return $this->hasManyThrough(Exercicio::class,Nota::Class);
+    }
+    public function prazos()
+    {
+        return $this->hasManyThrough(Prazo::class,Turma::class)
+    }
 }

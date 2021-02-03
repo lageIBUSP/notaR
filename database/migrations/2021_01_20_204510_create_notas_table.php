@@ -16,8 +16,9 @@ class CreateNotasTable extends Migration
         Schema::create('notas', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-	    $table->foreignId('user_id')->constrained();
-	    $table->foreignId('exercicio_id')->constrained();
+            $table->float('nota');
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('exercicio_id')->constrained();
         });
     }
 
@@ -29,7 +30,7 @@ class CreateNotasTable extends Migration
     public function down()
     {
         Schema::table('notas', function (Blueprint $table) {
-            //
-        });
+                //
+                });
     }
 }

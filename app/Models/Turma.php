@@ -12,4 +12,19 @@ class Turma extends Model
         'name',
         'description'
     ];
+
+    // relationships
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+    public function prazos()
+    {
+        return $this->hasMany(Prazo::class);
+    }
+    public function exercicios()
+    {
+        return $this->belongsToMany(Exercicio::class)->using(Prazo::Class);
+        //return $this->hasManyThrough(Exercicio::class,Prazo::Class);
+    }
 }
