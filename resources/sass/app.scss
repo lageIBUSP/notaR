@@ -8,25 +8,58 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+html, body {
+    height: 100%;
+}
+
 body {
     font-family: 'Roboto', sans-serif;
+    display: flex;
+    flex-direction: column;
 }
 
 h1, h2, h3 {
     font-family: 'Source Code Pro', sans-serif;
 }
 
-header.topbar{ 
+header.topbar{
     width: 100%;
     padding: 20px;
     background-color: $blue;
+    color: $offwhite;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
     h1 {
-        color: $offwhite;
+        padding: 10px;
+        img.logo {
+            width: 1.5em;
+        }
+        .R {
+            color: $yellow;
+        }
     }
+    a {
+        color: $offwhite;
+        &:hover {
+            color: scale-color($offwhite, $lightness: -10%);
+            text-decoration: none;
+        }
+    }
+    .dropdown-menu {
+        background-color: scale-color($blue, $lightness: +20%);
+    }
+}
+
+div.container {
+    padding: 12px;
+    flex: 1 0 auto;
 }
 
 footer {
     border-top: #3d3d3d 1px solid;
     background-color: scale-color($offwhite, $lightness: -10%);
     padding: 20px;
+    flex-shrink: 0;
 }
