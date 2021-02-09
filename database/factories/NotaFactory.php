@@ -22,6 +22,7 @@ class NotaFactory extends Factory
     public function definition()
     {
         return [
+            'nota' => $this->faker->numberBetween($min = 0, $max = 100)
             //
         ];
     }

@@ -8,10 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Turma extends Model
 {
     use HasFactory;
-    protected $fillable = [
-        'name',
-        'description'
-    ];
+    protected $table = 'turmas';
+    protected $guarded = [];
 
     // relationships
     public function users()
@@ -24,7 +22,6 @@ class Turma extends Model
     }
     public function exercicios()
     {
-        return $this->belongsToMany(Exercicio::class)->using(Prazo::Class);
-        //return $this->hasManyThrough(Exercicio::class,Prazo::Class);
+        return $this->hasManyThrough(Exercicio::class,Prazo::Class);
     }
 }

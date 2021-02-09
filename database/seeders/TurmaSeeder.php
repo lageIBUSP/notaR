@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Turma;
+use App\Models\User;
+use App\Models\Exercicio;
 
 class TurmaSeeder extends Seeder
 {
@@ -14,6 +16,9 @@ class TurmaSeeder extends Seeder
      */
     public function run()
     {
-	    Turma::factory()->count(2)->create();
+	    Turma::factory()
+            ->count(2)
+            ->has(User::factory()->count(3))
+            ->create();
     }
 }

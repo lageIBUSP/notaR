@@ -22,6 +22,7 @@ class PrazoFactory extends Factory
     public function definition()
     {
         return [
+            'prazo' => $this->faker->dateTimeBetween('now', '+1 year')
             //
         ];
     }

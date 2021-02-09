@@ -22,7 +22,10 @@ class ExercicioFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'titulo' => substr($this->faker->sentence(2), 0, -1),
+            'enunciado' => $this->faker->paragraph,
+            'precondicoes' => '',
+            'impedimentos' => '',
         ];
     }
 }
