@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class Nota extends Model
 {
     use HasFactory;
+    protected $table = 'notas';
+    protected $guarded = [];
 
     // relationships
     public function user()

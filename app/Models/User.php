@@ -50,7 +50,7 @@ class User extends Authenticatable
     // relatonships
     public function turmas()
     {
-        return $this->belongsToMany(Turmas::class);
+        return $this->belongsToMany(Turma::class);
     }
     public function notas()
     {

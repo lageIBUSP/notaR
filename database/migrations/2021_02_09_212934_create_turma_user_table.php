@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserTurmaTable extends Migration
+class CreateTurmaUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,12 @@ class CreateUserTurmaTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_turma', function (Blueprint $table) {
+        Schema::create('turma_user', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-	    $table->foreignId('turma_id')->constrained();
-	    $table->foreignId('user_id')->constrained();
-	    $table->unique(['turma_id','user_id']);
+            $table->foreignId('turma_id')->constrained();
+            $table->foreignId('user_id')->constrained();
+            $table->unique(['turma_id','user_id']);
         });
     }
 
@@ -29,6 +29,6 @@ class CreateUserTurmaTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_turma');
+        Schema::dropIfExists('turma_user');
     }
 }
