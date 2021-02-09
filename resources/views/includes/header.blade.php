@@ -1,7 +1,7 @@
 <header class="topbar">
     <h1>
-        <img src="{{ asset('img/logo.png') }}" title="Logo" class="logo">
         nota<span class="R">R</span>
+        <img src="{{ asset('img/logo.png') }}" title="Logo" class="logo">
     </h1>
   @if (Auth::check())
   <div class="dropdown">
