@@ -11,6 +11,12 @@ class Nota extends Model
     protected $table = 'notas';
     protected $guarded = [];
 
+    public function valePara () {
+        $turmas = $this->user->turmas;
+        $prazos = $turmas->prazos->where('exercicio',$this->exercicio);
+        return $prazos->where('prazo',>,$this->createdAt);
+    }
+
     // relationships
     public function user()
     {
@@ -20,6 +26,4 @@ class Nota extends Model
     {
         return $this->belongsTo(Exercicio::class);
     }
-        
-
 }

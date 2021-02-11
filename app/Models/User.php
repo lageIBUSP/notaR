@@ -42,9 +42,16 @@ class User extends Authenticatable
     ];
 
     public function isAdmin() {
-        return true;
+        return $this->is_admin;
     }
 
+    public function temNota() {
+        return $this->notas->isNotEmpty();
+    }
+
+    public function notasEm(Turma $turma) {
+         return true;
+    }
     
     // relatonships
     public function turmas()

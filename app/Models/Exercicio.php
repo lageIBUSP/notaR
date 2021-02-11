@@ -16,6 +16,16 @@ class Exercicio extends Model
         'impedimentos'
     ];
 
+    public function temNota()
+    {
+        return $this->notas->isNotEmpty();
+    }
+
+    public function temPrazo()
+    {
+        return $this->prazos->isNotEmpty();
+    }
+
     public function testes()
     {
         return $this->hasMany(Teste::class);

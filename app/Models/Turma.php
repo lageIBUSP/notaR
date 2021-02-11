@@ -11,6 +11,10 @@ class Turma extends Model
     protected $table = 'turmas';
     protected $guarded = [];
 
+    public function temAluno() {
+        return $this->users->isNotEmpty();
+    }
+
     // relationships
     public function users()
     {
