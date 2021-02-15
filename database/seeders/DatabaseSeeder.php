@@ -19,6 +19,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        $admin = User::factory()->make([
+            'name' => 'Admin Adminsson',
+            'email'=> 'admin@notar.br',
+            'password'=> '123',
+            'is_admin'=>true
+            ]);
 	    $ind_user = User::factory()->create();
         $alunos = User::factory()->count(3)->create();
 	    $turma = Turma::factory()
@@ -27,7 +33,9 @@ class DatabaseSeeder extends Seeder
 
         $turma_vazia = Turma::factory()->create();
 
-        $exercicios = Exercicio::factory()->count(5)->create();
+        $exercicios = Exercicio::factory()->count(5)
+             ->has(Teste::factory()->count(3))
+             ->create();
 
 
         Prazo::factory()
