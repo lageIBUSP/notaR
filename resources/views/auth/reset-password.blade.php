@@ -1,48 +1,37 @@
-<x-guest-layout>
-    <x-auth-card>
-        <x-slot name="logo">
-            <a href="/">
-                <x-application-logo class="w-20 h-20 fill-current text-gray-500" />
-            </a>
-        </x-slot>
+@extends('layouts.anonymous')
+@section('content')
+    <h1>nota<span class="R">R</span> <img src="{{ asset('img/logo.png') }}" title="Logo" class="logo"></h1>
+	<div class="card" style="width: 18rem">
+	<div class="card-body">
+	    <form action="{{ route('password.update') }}" method="POST">
+		@csrf
+        <input type="hidden" name="token" value="{{ $request->route('token') }}">
 
-        <!-- Validation Errors -->
-        <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
-        <form method="POST" action="{{ route('password.update') }}">
-            @csrf
-
-            <!-- Password Reset Token -->
-            <input type="hidden" name="token" value="{{ $request->route('token') }}">
-
-            <!-- Email Address -->
-            <div>
-                <x-label for="email" :value="__('Email')" />
-
-                <x-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email', $request->email)" required autofocus />
-            </div>
-
-            <!-- Password -->
-            <div class="mt-4">
-                <x-label for="password" :value="__('Password')" />
-
-                <x-input id="password" class="block mt-1 w-full" type="password" name="password" required />
-            </div>
-
-            <!-- Confirm Password -->
-            <div class="mt-4">
-                <x-label for="password_confirmation" :value="__('Confirm Password')" />
-
-                <x-input id="password_confirmation" class="block mt-1 w-full"
-                                    type="password"
-                                    name="password_confirmation" required />
-            </div>
-
-            <div class="flex items-center justify-end mt-4">
-                <x-button>
-                    {{ __('Reset Password') }}
-                </x-button>
-            </div>
-        </form>
-    </x-auth-card>
-</x-guest-layout>
+		<div class="form-group">
+		    <label for="email">Email</label>
+		    <input type="text" class="form-control @error('email') is-invalid @enderror" id="email" name="email" value="{{ old('email', $request->email) }}">
+		    @error('email')
+			<div class="invalid-feedback">{{ $message }}</div>
+		    @enderror
+		</div>
+		<div class="form-group">
+		    <label for="password">Senha</label>
+		    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="">
+		    @error('password')
+			<div class="invalid-feedback">{{ $message }}</div>
+		    @enderror
+		</div>
+		<div class="form-group">
+		    <label for="password_confirmation">Confirmar senha</label>
+		    <input type="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" placeholder="">
+		    @error('password_confirmation')
+			<div class="invalid-feedback">{{ $message }}</div>
+		    @enderror
+		</div>
+        <div class="form-group" style="display: flex; flex-direction: row; justify-content: center; align-items: center;">
+            <button type="submit" class="btn btn-primary">Redefinir senha</button>
+        </div>
+	    </form>
+	</div>
+    </div>
+@endsection
