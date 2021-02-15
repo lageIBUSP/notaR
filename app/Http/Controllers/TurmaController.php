@@ -46,7 +46,7 @@ class TurmaController extends Controller
 
 		// store
 		$turma = tap(new Turma($data))->save();
-		return redirect('/turma');
+		return View('turma.show')->with('turma',$turma);
 	}
 
 	/**
@@ -70,30 +70,64 @@ class TurmaController extends Controller
 	public function edit($id)
 	{
 		$turma = Turma::findOrFail($id);
-		return View('turma.create')->with('turma',$turma);
+		return View('turma.edit')->with('turma',$turma);
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, $id)
-	{
-		$turma = Turma::findOrFail($id);
-		return View('turma.update')->with('turma',$turma);
-	}
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+                if ($this->somethingElseIsInvalid()) {
+                $validator->errors()->add('field', 'Something is wrong with this field!');
+                }
+                });
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $turma = Turma::findOrFail($id);
+        $this->authorize('edit',$turma);
+        $rules = array(
+                'name'       => 'required',
+                'description'=> 'required'
+                );
+        $data = $request->validate($rules);
+        $turma->update($data);
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+dd($request);
+die();
+        if (isset($data->maillist)) {
+            $emails = explode("\n",$data->maillist);
+            $pssw = $data->defaultpassword;
+            foreach( $emails as $email ) {
+                $newmember = User::updateOrCreate(['email' => $email],[]);
+                if ($newmember->password == "") $newmember->update(['password' => Hash::make($pssw)]);
+                $turma->users->save($user);
+            }
+        }
+
+        return View('turma.show')->with('turma',$turma);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

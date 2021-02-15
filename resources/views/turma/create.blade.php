@@ -14,7 +14,7 @@
 		@endif
 		<div class="form-group">
 		    <label for="name">Nome</label>
-		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Nome da turma" value="{{ old('nome', isset($turma) ? $turma->nome : '') }}">
+		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Nome da turma" value="{{ old('nome', isset($turma) ? $turma->name : '') }}">
 		    @error('name')
 			<div class="invalid-feedback">{{ $message }}</div>
 		    @enderror

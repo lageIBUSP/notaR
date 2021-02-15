@@ -9,6 +9,7 @@ use App\Models\Exercicio;
 use App\Models\Nota;
 use App\Models\Prazo;
 use App\Models\Teste;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,10 +20,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $admin = User::factory()->make([
+        $admin = User::factory()->create([
             'name' => 'Admin Adminsson',
             'email'=> 'admin@notar.br',
-            'password'=> '123',
+            'password'=> Hash::make('123'),
             'is_admin'=>true
             ]);
 	    $ind_user = User::factory()->create();
