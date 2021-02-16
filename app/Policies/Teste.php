@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Turma;
+use App\Models\Teste;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TurmaPolicy
+class TestePolicy
 {
     use HandlesAuthorization;
 
@@ -14,10 +14,10 @@ class TurmaPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Turma  $turma
+     * @param  \App\Models\Teste  $teste
      * @return mixed
      */
-    public function view(User $user, Turma $turma)
+    public function view(User $user, Teste $teste)
     {
         return true;
     }
@@ -37,11 +37,12 @@ class TurmaPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Turma  $turma
+     * @param  \App\Models\Teste  $teste
      * @return mixed
      */
-    public function edit(User $user, Turma $turma)
+    public function edit(User $user, Teste $teste)
     {
+        //
         return $user->isAdmin();
     }
 
@@ -49,13 +50,11 @@ class TurmaPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Turma  $turma
+     * @param  \App\Models\Teste  $teste
      * @return mixed
      */
-    public function delete(User $user, Turma $turma)
+    public function delete(User $user, Teste $teste)
     {
-        return $turma->temAluno() ?
-                false // proibido deletar turma com aluno
-                : $user->isAdmin();
+        return $user->isAdmin();
     }
 }

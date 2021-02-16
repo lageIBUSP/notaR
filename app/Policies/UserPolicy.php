@@ -2,11 +2,10 @@
 
 namespace App\Policies;
 
-use App\Models\Turma;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class TurmaPolicy
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -14,12 +13,12 @@ class TurmaPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Turma  $turma
+     * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function view(User $user, Turma $turma)
+    public function view(User $user, User $model)
     {
-        return true;
+        return $user->isAdmin() || $user == $model;
     }
 
     /**
@@ -37,25 +36,27 @@ class TurmaPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Turma  $turma
+     * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function edit(User $user, Turma $turma)
+    public function edit(User $user, User $model)
     {
-        return $user->isAdmin();
+        return $user->isAdmin() || $user == $model;
     }
 
+    /**
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Turma  $turma
+     * @param  \App\Models\User  $model
      * @return mixed
      */
-    public function delete(User $user, Turma $turma)
+    public function delete(User $user, User $model)
     {
-        return $turma->temAluno() ?
-                false // proibido deletar turma com aluno
+        return $model->temNota() 
+                ? false // não pode deletar usuário que já tem nota
                 : $user->isAdmin();
     }
+
 }

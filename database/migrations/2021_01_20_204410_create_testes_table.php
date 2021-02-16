@@ -14,13 +14,13 @@ class CreateTestesTable extends Migration
     public function up()
     {
         Schema::create('testes', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-	    $table->string('condicao');
-	    $table->string('dica');
-	    $table->float('peso');
-	    $table->foreignId('exercicio_id')->constrained();
-        });
+                $table->id();
+                $table->timestamps();
+                $table->text('condicao');
+                $table->text('dica');
+                $table->float('peso');
+                $table->foreignId('exercicio_id')->constrained();
+            });
     }
 
     /**
@@ -31,7 +31,7 @@ class CreateTestesTable extends Migration
     public function down()
     {
         Schema::table('testes', function (Blueprint $table) {
-            //
-        });
+                //
+                });
     }
 }

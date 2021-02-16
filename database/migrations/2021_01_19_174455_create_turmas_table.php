@@ -17,7 +17,7 @@ class CreateTurmasTable extends Migration
             $table->id();
             $table->timestamps();
 	    $table->string('name')->unique();
-	    $table->longText('description');
+	    $table->text('description');
         });
     }
 

@@ -15,74 +15,94 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
-    }
+		return View('user.index')->with('users',User::all());
+	}
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+	/**
+	 * Show the form for creating a new resource.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function create()
+	{
+		$this->authorize('create', User::class);
+		return View('user.create');
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+		$this->authorize('create', User::class);
+		$rules = array(
+			'name'      => 'required',
+			'email'     => 'required',
+			'password'  => 'required'
+		);
+		$data = $request->validate($rules);
 
-    /**
-     * Show the profile of a given user.
-     *
-     * @param  int  $id
-     * @return \Illuminate\View\View
-     */
-    public function show($id)
-    {
-        return view('user.show', [
-		'user' => User::findOrFail($id)
-        ]);
-    }
+		// store
+		$user = tap(new User($data))->save();
+		return redirect('user');
+	}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+	/**
+	 * Show the profile of a given User.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\View\View
+	 */
+	public function show($id)
+	{
+		$user = User::findOrFail($id);
+		return View('user.show')->with('user',$user);
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function edit($id)
+	{
+		$user = User::findOrFail($id);
+		return View('user.edit')->with('user',$user);
+	}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function update(Request $request, $id)
+	{
+		$this->authorize('edit', User::class);
+		$rules = array(
+			'name'       => 'required',
+			'email'      => 'required',
+		);
+		$data = $request->validate($rules);
+
+		$user = User::findOrFail($id);
+        $user->update($data);
+		return View('user.show')->with('user',$user);
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int  $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function destroy($id)
+	{
+		//
+	}
 }

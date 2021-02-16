@@ -6,6 +6,7 @@ use Illuminate\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Turma;
+use App\Models\User;
 
 class TurmaController extends Controller
 {
@@ -40,13 +41,13 @@ class TurmaController extends Controller
 		$this->authorize('create', Turma::class);
 		$rules = array(
 			'name'       => 'required',
-			'description'=> 'required'
+			'description'=> 'required',
 		);
 		$data = $request->validate($rules);
 
 		// store
 		$turma = tap(new Turma($data))->save();
-		return redirect('/turma');
+		return View('turma.show')->with('turma',$turma);
 	}
 
 	/**
@@ -70,30 +71,65 @@ class TurmaController extends Controller
 	public function edit($id)
 	{
 		$turma = Turma::findOrFail($id);
-		return View('turma.create')->with('turma',$turma);
+		return View('turma.edit')->with('turma',$turma);
 	}
 
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function update(Request $request, $id)
-	{
-		$turma = Turma::findOrFail($id);
-		return View('turma.update')->with('turma',$turma);
-	}
+    /**
+     * Configure the validator instance.
+     *
+     * @param  \Illuminate\Validation\Validator  $validator
+     * @return void
+     */
+    public function withValidator($validator)
+    {
+        $validator->after(function ($validator) {
+                if ($this->somethingElseIsInvalid()) {
+                $validator->errors()->add('field', 'Something is wrong with this field!');
+                }
+                });
+    }
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        $turma = Turma::findOrFail($id);
+        $this->authorize('edit',$turma);
+        $rules = array(
+                'name'       => 'required',
+                'description'=> 'required'
+                );
+        $data = $request->validate($rules);
+        $turma->update($data);
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return \Illuminate\Http\Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
+        if (isset($request->maillist)) {
+            $emails = explode("\n",$request->maillist);
+            $pssw = $request->defaultpassword;
+            foreach( $emails as $email ) {
+                $newmember = User::where('email',$email)->first();
+                if(!$newmember) {  
+                    $newmember = User::create(['email' => $email]);
+                    $newmember->password = $pssw;
+                }
+                $turma->users()->save($newmember);
+            }
+        }
+
+        return View('turma.show')->with('turma',$turma);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
 }

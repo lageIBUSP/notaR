@@ -16,10 +16,10 @@ class CreatePrazosTable extends Migration
         Schema::create('prazos', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-	    $table->time('prazo');
-	    $table->foreignId('turma_id')->constrained();
-	    $table->foreignId('exercicio_id')->constrained();
-	    $table->unique(['turma_id','exercicio_id']);
+            $table->dateTime('prazo');
+            $table->foreignId('turma_id')->constrained();
+            $table->foreignId('exercicio_id')->constrained();
+            $table->unique(['turma_id','exercicio_id']);
         });
     }
 
@@ -31,7 +31,7 @@ class CreatePrazosTable extends Migration
     public function down()
     {
         Schema::table('prazos', function (Blueprint $table) {
-            //
-        });
+                //
+                });
     }
 }
