@@ -1,5 +1,4 @@
 @extends('layouts.base')
-
 @section('content')
 <h1>Todas as Turmas</h1>
 

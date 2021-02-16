@@ -110,8 +110,11 @@ class TurmaController extends Controller
             $emails = explode("\n",$request->maillist);
             $pssw = $request->defaultpassword;
             foreach( $emails as $email ) {
-                $newmember = User::updateOrCreate(['email' => $email],[]);
-                if ($newmember->password == "") $newmember->update(['password' => Hash::make($pssw)]);
+                $newmember = User::where('email',$email)->first();
+                if(!$newmember) {  
+                    $newmember = User::create(['email' => $email]);
+                    $newmember->password = $pssw;
+                }
                 $turma->users()->save($newmember);
             }
         }

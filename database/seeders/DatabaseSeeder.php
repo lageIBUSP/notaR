@@ -9,7 +9,6 @@ use App\Models\Exercicio;
 use App\Models\Nota;
 use App\Models\Prazo;
 use App\Models\Teste;
-use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -23,9 +22,9 @@ class DatabaseSeeder extends Seeder
         $admin = User::factory()->create([
             'name' => 'Admin Adminsson',
             'email'=> 'admin@notar.br',
-            'password'=> Hash::make('123'),
             'is_admin'=>true
             ]);
+        $admin->password = "123";
 	    $ind_user = User::factory()->create();
         $alunos = User::factory()->count(3)->create();
 	    $turma = Turma::factory()

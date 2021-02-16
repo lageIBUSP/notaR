@@ -6,10 +6,18 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    /** 
+    * Sets a hashed password
+    */
+    public function setPasswordAttribute($value) {
+        $this->attributes['password'] = Hash::make($value);
+    }
 
     /**
      * The model's default values for attributes.
@@ -18,6 +26,8 @@ class User extends Authenticatable
      */
     protected $attributes = [
         'is_admin' => false,
+        'name' => "",
+        'password' => "",
     ];
     /**
      * The attributes that are mass assignable.
