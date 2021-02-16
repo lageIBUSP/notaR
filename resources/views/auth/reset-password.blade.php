@@ -23,7 +23,7 @@
 		</div>
 		<div class="form-group">
 		    <label for="password_confirmation">Confirmar senha</label>
-		    <input type="password_confirmation" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" placeholder="">
+		    <input type="password" class="form-control @error('password_confirmation') is-invalid @enderror" id="password_confirmation" name="password_confirmation" placeholder="">
 		    @error('password_confirmation')
 			<div class="invalid-feedback">{{ $message }}</div>
 		    @enderror

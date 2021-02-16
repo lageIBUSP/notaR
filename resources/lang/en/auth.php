@@ -13,8 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Usuário não encontrado.',
-    'password' => 'A senha informada está incorreta.',
+    'failed' => 'Usuário ou senha incorretos.',
     'throttle' => 'Número de tentativas excedido, tente novamente em :seconds segundos.',
 
 ];
