@@ -6,6 +6,7 @@ use Illuminate\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Turma;
+use App\Models\User;
 
 class TurmaController extends Controller
 {
@@ -40,7 +41,7 @@ class TurmaController extends Controller
 		$this->authorize('create', Turma::class);
 		$rules = array(
 			'name'       => 'required',
-			'description'=> 'required'
+			'description'=> 'required',
 		);
 		$data = $request->validate($rules);
 
@@ -105,15 +106,13 @@ class TurmaController extends Controller
         $data = $request->validate($rules);
         $turma->update($data);
 
-dd($request);
-die();
-        if (isset($data->maillist)) {
-            $emails = explode("\n",$data->maillist);
-            $pssw = $data->defaultpassword;
+        if (isset($request->maillist)) {
+            $emails = explode("\n",$request->maillist);
+            $pssw = $request->defaultpassword;
             foreach( $emails as $email ) {
                 $newmember = User::updateOrCreate(['email' => $email],[]);
                 if ($newmember->password == "") $newmember->update(['password' => Hash::make($pssw)]);
-                $turma->users->save($user);
+                $turma->users()->save($newmember);
             }
         }
 
