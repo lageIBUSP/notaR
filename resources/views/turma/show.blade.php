@@ -1,5 +1,4 @@
 @extends('layouts.base')
-
 @section('content')
 
 <h1>{{ $turma->name }}</h1>
