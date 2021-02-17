@@ -81,12 +81,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(Nota::class);
     }
-    public function exerciciosFeitos()
+
+    // acessors
+    public function getPrazosAttribute()
     {
-        return $this->hasManyThrough(Exercicio::class,Nota::class);
-    }
-    public function prazos()
-    {
-        return $this->hasManyThrough(Prazo::class,Turma::class);
+        return $this->turmas->pluck('prazos')->collapse();
     }
 }

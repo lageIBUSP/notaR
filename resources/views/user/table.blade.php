@@ -10,24 +10,42 @@
     <tbody>
     @foreach($users as $key => $value)
         <tr>
-            <td>{{ $value->name }}</td>
-            <td>{{ $value->email }}</td>
-            <td>{{ $value->is_admin ? "SIM" : ""}}</td>
-
-            <!-- we will also add show, edit, and delete buttons -->
             <td>
+                <a href={{"/user/".$value->id}}>
+                <div style="height:100%;width:100%">
+                    {{ $value->name }}
+                </div>
+                </a>
+            </td>
+            <td>
+                <a href={{"/user/".$value->id}}>
+                <div style="height:100%;width:100%">
+                    {{ $value->email }}
+                </div>
+                </a>
+            </td>
+            <td>
+                <a href={{"/user/".$value->id}}>
+                <div style="height:100%;width:100%">
+                    {{ $value->is_admin ? "SIM" : ""}}
+                </div>
+                </a>
+            </td>
 
-                <!-- show  -->
-                <a class="btn btn-small btn-show" href="{{ URL::to('user/' . $value->id) }}">Ver</a>
+            <td>
 
                 <!-- edit  -->
                 @if ($editButton ?? '')
+                @can ('edit', $value)
                 <a class="btn btn-small btn-edit" href="{{ URL::to('user/' . $value->id . '/edit') }}">Editar</a>
+                @endcan
                 @endif
 
                 <!-- remove -->
                 @if ($removeButton ?? '')
+                @can ('edit', $turma)
                 <a class="btn btn-small btn-remove" href="{{ URL::to('turma/' . $turma->id . '/remove/'.$value->id) }}">Remover</a>
+                @endcan
                 @endif
 
             </td>

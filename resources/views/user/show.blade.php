@@ -11,12 +11,19 @@
     </div>
 
     <a class="collapse-button" data-toggle="collapse" href="#collapseNotas" role="button" aria-expanded="true" aria-controls="collapseNotas">
-        <h2>Notas</h2>
+        <h2>Todas as Notas</h2>
     </a>
     <div class="collapse" id="collapseNotas">
         @include('nota.table',['notas' => $user->notas])
     </div>
     
+
+    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazos" role="button" aria-expanded="true" aria-controls="collapsePrazos">
+        <h2>Prazos</h2>
+    </a>
+    <div class="collapse" id="collapsePrazos">
+        @include('prazo.table',['prazos' => $user->prazos])
+    </div>
     <a class="btn btn-edit" href="{{ URL::to('user/' . $user->id . '/edit') }}">Editar</a>
     <a class="btn btn-delete" href="{{ URL::to('user/' . $user->id . '/delete') }}">Deletar</a>
 

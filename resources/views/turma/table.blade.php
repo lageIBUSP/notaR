@@ -1,28 +1,39 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <td>Id</td>
             <td>Nome</td>
             <td>Descrição</td>
+            @can ('edit', App\Model\Turma::class)
             <td>Ações</td>
+            @endcan
         </tr>
     </thead>
     <tbody>
     @foreach($turmas as $key => $value)
         <tr>
-            <td>{{ $value->id }}</td>
-            <td>{{ $value->name }}</td>
-            <td>{{ $value->description }}</td>
+            <td>
+                <a href={{"/turma/".$value->id}}>
+                <div style="height:100%;width:100%">
+                    {{ $value->name }}
+                </div>
+                </a>
+            </td>
+            <td>
+                <a href={{"/turma/".$value->id}}>
+                <div style="height:100%;width:100%">
+                    {{ $value->description }}
+                </div>
+                </a>
+            </td>
 
+            @can ('edit', $value)
             <td>
 
-                <!-- show -->
-                <a class="btn btn-small btn-success" href="{{ URL::to('turma/' . $value->id) }}">Ver</a>
-
                 <!-- edit -->
-                <a class="btn btn-small btn-info" href="{{ URL::to('turma/' . $value->id . '/edit') }}">Editar</a>
+                <a class="btn btn-small btn-edit" href="{{ URL::to('turma/' . $value->id . '/edit') }}">Editar</a>
 
             </td>
+            @endcan
         </tr>
     @endforeach
     </tbody>

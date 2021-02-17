@@ -15,13 +15,29 @@
     @foreach($notas as $key => $value)
         <tr>
             @unless ($user ?? '')
-                <td>{{ $value->user->name }}</td>
+                <td>
+                <a href={{"/user/".$value->user->id}}>
+                <div style="height:100%;width:100%">
+                    {{ $value->user->name }}
+                </div>
+                </a>
+                </td>
             @endif
             @unless ($exercicio ?? '')
-                <td>{{ $value->exercicio->titulo }}</td>
+                <td>
+                <a href={{"/exercicio/".$value->exercicio->id}}>
+                <div style="height:100%;width:100%">
+                    {{ $value->exercicio->titulo }}
+                </div>
+                </a>
+                </td>
             @endif
-            <td>{{ $value->nota }}</td>
-            <td>{{ $value->created_at }}</td>
+            <td>
+                {{ $value->nota }}
+            </td>
+            <td>
+                {{ $value->created_at }}
+            </td>
         </tr>
     @endforeach
     </tbody>
