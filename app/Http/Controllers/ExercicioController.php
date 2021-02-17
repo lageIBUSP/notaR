@@ -53,12 +53,11 @@ class ExercicioController extends Controller
 	/**
 	 * Show the profile of a given Exercicio.
 	 *
-	 * @param  int  $id
+     * @param  \App\Models\Exercicio  $exercicio
 	 * @return \Illuminate\View\View
 	 */
-	public function show($id)
+	public function show(Exercicio $exercicio)
 	{
-		$exercicio = Exercicio::findOrFail($id);
 		$this->authorize('view', $exercicio);
 		return View('exercicio.show')->with('exercicio',$exercicio);
 	}
@@ -66,12 +65,11 @@ class ExercicioController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+     * @param  \App\Models\Exercicio  $exercicio
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id)
+	public function edit(Exercicio $exercicio)
 	{
-		$exercicio = Exercicio::findOrFail($id);
 		$this->authorize('edit', $exercicio);
 		return View('exercicio.edit')->with('exercicio',$exercicio);
 	}
@@ -80,12 +78,11 @@ class ExercicioController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Exercicio  $exercicio
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Exercicio $exercicio)
     {
-        $exercicio = Exercicio::findOrFail($id);
         $this->authorize('edit',$exercicio);
         $rules = array(
                 'titulo'       => 'required',
@@ -100,13 +97,14 @@ class ExercicioController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Exercicio  $exercicio
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Exercicio $exercicio)
     {
-        $exercicio = Exercicio::findOrFail($id);
 		$this->authorize('delete', $exercicio);
+        $exercicio->delete();
+        return redirect('exercicio');
         //...
     }
 }

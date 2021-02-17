@@ -46,7 +46,7 @@
 
                     <!-- remove -->
                     @if ($removeButton ?? '')
-                        <a class="btn btn-small btn-remove" href="{{ URL::to('turma/' . $turma->id . '/removePrazo/'.$value->id) }}">Remover</a>
+                        <a class="btn btn-small btn-delete" href="{{ URL::to('prazo/'.$value->id.'/delete') }}">Remover</a>
                     @endif
 
                 </td>

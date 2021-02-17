@@ -19,3 +19,15 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+// Code for our application. This function will ony be called after the page has finished loading:
+$(document).ready(() => {
+    $('.delete').click(function(e){
+        e.preventDefault() // Don't post the form, unless confirmed
+        if (confirm('Tem certeza que quer deletar? Essa ação não pode ser desfeita.')) {
+            // Post the form
+            $(e.target).closest('form').submit() // Post the surrounding form
+        }
+    });
+
+});

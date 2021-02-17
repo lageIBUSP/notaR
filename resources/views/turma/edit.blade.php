@@ -58,10 +58,19 @@
         <h2>Prazos</h2>
     </a>
     <div class="collapse" id="collapsePrazos">
-        @include('prazo.table',['prazos' => $turma->prazos, 'editButton' => true, 'removeButton' => true])
+        @include('prazo.table',['prazos' => $turma->prazos, 'removeButton' => true])
     </div>
     
-    <a class="btn btn-delete" href="{{ URL::to('turma/' . $turma->id . '/delete') }}">Deletar</a>
+    @can ('delete', $turma)
+     <form method="POST" action="/turma/{{$turma->id}}">
+        {{ csrf_field() }}
+        {{ method_field('DELETE') }}
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-danger delete" value="Deletar">
+        </div>
+    </form>
+    @endcan
 
     </div>
 @endsection

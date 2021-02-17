@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Turma;
 use App\Models\User;
+use App\Models\Exercicio;
+use App\Models\Prazo;
 
 class TurmaController extends Controller
 {
@@ -53,24 +55,22 @@ class TurmaController extends Controller
 	/**
 	 * Show the profile of a given Turma.
 	 *
-	 * @param  int  $id
+     * @param  \App\Models\Turma  $turma
 	 * @return \Illuminate\View\View
 	 */
-	public function show($id)
+	public function show(Turma $turma)
 	{
-		$turma = Turma::findOrFail($id);
 		return View('turma.show')->with('turma',$turma);
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+     * @param  \App\Models\Turma  $turma
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id)
+	public function edit(Turma $turma)
 	{
-		$turma = Turma::findOrFail($id);
 		$this->authorize('edit', $turma);
 		return View('turma.edit')->with('turma',$turma);
 	}
@@ -79,12 +79,11 @@ class TurmaController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\Turma  $turma
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Turma $turma)
     {
-        $turma = Turma::findOrFail($id);
         $this->authorize('edit',$turma);
         $rules = array(
                 'name'       => 'required',
@@ -93,7 +92,8 @@ class TurmaController extends Controller
         $data = $request->validate($rules);
         $turma->update($data);
 
-        if (isset($request->maillist)) {
+        // bulk add users
+        if ($request->maillist ?? "") {
             $emails = explode("\n",$request->maillist);
             $pssw = $request->defaultpassword;
             foreach( $emails as $email ) {
@@ -112,13 +112,13 @@ class TurmaController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  \App\Models\Turma  $turma
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Turma $turma)
     {
-        $turma = Turma::findOrFail($id);
 		$this->authorize('delete', $turma);
-        //
+        $turma->delete();
+        return redirect('turma');
     }
 }

@@ -23,7 +23,14 @@
         <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/edit') }}">Editar</a>
     @endcan
     @can ('delete', $turma)
-        <a class="btn btn-delete" href="{{ URL::to('turma/' . $turma->id . '/delete') }}">Deletar</a>
+     <form method="POST" action="/turma/{{$turma->id}}">
+        {{ csrf_field() }}
+        {{ method_field('DELETE') }}
+
+        <div class="form-group">
+            <input type="submit" class="btn btn-danger delete" value="Deletar">
+        </div>
+    </form>
     @endcan
 
 @endsection

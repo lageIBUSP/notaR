@@ -53,12 +53,11 @@ class UserController extends Controller
 	/**
 	 * Show the profile of a given User.
 	 *
-	 * @param  int  $id
+	 * @param  App\Models\User $user
 	 * @return \Illuminate\View\View
 	 */
-	public function show($id)
+	public function show(User $user)
 	{
-		$user = User::findOrFail($id);
 		$this->authorize('view', $user);
 		return View('user.show')->with('user',$user);
 	}
@@ -66,12 +65,11 @@ class UserController extends Controller
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  int  $id
+	 * @param  App\Models\User $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id)
+	public function edit(User $user)
 	{
-		$user = User::findOrFail($id);
 		$this->authorize('edit', $user);
 		return View('user.edit')->with('user',$user);
 	}
@@ -80,12 +78,11 @@ class UserController extends Controller
 	 * Update the specified resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  int  $id
+	 * @param  App\Models\User $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $id)
+	public function update(Request $request, User $user)
 	{
-		$user = User::findOrFail($id);
 		$this->authorize('edit', $user);
 		$rules = array(
 			'name'       => 'required',
@@ -100,13 +97,14 @@ class UserController extends Controller
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  int  $id
+	 * @param  App\Models\User $user
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id)
+	public function destroy(User $user)
 	{
-		$user = User::findOrFail($id);
 		$this->authorize('delete', $user);
+        $user->delete();
+        return redirect('user');
 		//
 	}
 }
