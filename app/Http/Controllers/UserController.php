@@ -59,6 +59,7 @@ class UserController extends Controller
 	public function show($id)
 	{
 		$user = User::findOrFail($id);
+		$this->authorize('view', $user);
 		return View('user.show')->with('user',$user);
 	}
 
@@ -71,6 +72,7 @@ class UserController extends Controller
 	public function edit($id)
 	{
 		$user = User::findOrFail($id);
+		$this->authorize('edit', $user);
 		return View('user.edit')->with('user',$user);
 	}
 
@@ -83,14 +85,14 @@ class UserController extends Controller
 	 */
 	public function update(Request $request, $id)
 	{
-		$this->authorize('edit', User::class);
+		$user = User::findOrFail($id);
+		$this->authorize('edit', $user);
 		$rules = array(
 			'name'       => 'required',
 			'email'      => 'required',
 		);
 		$data = $request->validate($rules);
 
-		$user = User::findOrFail($id);
         $user->update($data);
 		return View('user.show')->with('user',$user);
 	}
@@ -103,6 +105,8 @@ class UserController extends Controller
 	 */
 	public function destroy($id)
 	{
+		$user = User::findOrFail($id);
+		$this->authorize('delete', $user);
 		//
 	}
 }

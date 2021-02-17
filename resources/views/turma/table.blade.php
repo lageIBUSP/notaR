@@ -3,9 +3,7 @@
         <tr>
             <td>Nome</td>
             <td>Descrição</td>
-            @can ('edit', App\Model\Turma::class)
             <td>Ações</td>
-            @endcan
         </tr>
     </thead>
     <tbody>
@@ -26,14 +24,14 @@
                 </a>
             </td>
 
-            @can ('edit', $value)
             <td>
 
                 <!-- edit -->
+                @can ('edit', $value)
                 <a class="btn btn-small btn-edit" href="{{ URL::to('turma/' . $value->id . '/edit') }}">Editar</a>
+                @endcan
 
             </td>
-            @endcan
         </tr>
     @endforeach
     </tbody>

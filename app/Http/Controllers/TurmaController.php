@@ -71,23 +71,10 @@ class TurmaController extends Controller
 	public function edit($id)
 	{
 		$turma = Turma::findOrFail($id);
+		$this->authorize('edit', $turma);
 		return View('turma.edit')->with('turma',$turma);
 	}
 
-    /**
-     * Configure the validator instance.
-     *
-     * @param  \Illuminate\Validation\Validator  $validator
-     * @return void
-     */
-    public function withValidator($validator)
-    {
-        $validator->after(function ($validator) {
-                if ($this->somethingElseIsInvalid()) {
-                $validator->errors()->add('field', 'Something is wrong with this field!');
-                }
-                });
-    }
     /**
      * Update the specified resource in storage.
      *
@@ -130,6 +117,8 @@ class TurmaController extends Controller
      */
     public function destroy($id)
     {
+        $turma = Turma::findOrFail($id);
+		$this->authorize('delete', $turma);
         //
     }
 }

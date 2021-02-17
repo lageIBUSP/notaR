@@ -19,7 +19,11 @@
         @include('prazo.table',['prazos' => $turma->prazos, 'editButton' => true, 'removeButton' => true])
     </div>
     
-    <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/edit') }}">Editar</a>
-    <a class="btn btn-delete" href="{{ URL::to('turma/' . $turma->id . '/delete') }}">Deletar</a>
+    @can ('edit', $turma)
+        <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/edit') }}">Editar</a>
+    @endcan
+    @can ('delete', $turma)
+        <a class="btn btn-delete" href="{{ URL::to('turma/' . $turma->id . '/delete') }}">Deletar</a>
+    @endcan
 
 @endsection

@@ -59,6 +59,7 @@ class ExercicioController extends Controller
 	public function show($id)
 	{
 		$exercicio = Exercicio::findOrFail($id);
+		$this->authorize('view', $exercicio);
 		return View('exercicio.show')->with('exercicio',$exercicio);
 	}
 
@@ -71,6 +72,7 @@ class ExercicioController extends Controller
 	public function edit($id)
 	{
 		$exercicio = Exercicio::findOrFail($id);
+		$this->authorize('edit', $exercicio);
 		return View('exercicio.edit')->with('exercicio',$exercicio);
 	}
 
@@ -103,6 +105,8 @@ class ExercicioController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $exercicio = Exercicio::findOrFail($id);
+		$this->authorize('delete', $exercicio);
+        //...
     }
 }

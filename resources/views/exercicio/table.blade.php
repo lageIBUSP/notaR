@@ -27,7 +27,7 @@
             <td>
 
                 <!-- show -->
-                <a class="btn btn-small btn-success" href="{{ URL::to('exericio/' . $value->id) }}">Fazer</a>
+                <a class="btn btn-small btn-success" href="{{ URL::to('exercicio/' . $value->id) }}">Fazer</a>
 
                 <!-- edit -->
                 @can ('edit', $value)
