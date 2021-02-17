@@ -21,11 +21,6 @@ class Exercicio extends Model
         return $this->notas->isNotEmpty();
     }
 
-    public function temPrazo()
-    {
-        return $this->prazos->isNotEmpty();
-    }
-
     public function testes()
     {
         return $this->hasMany(Teste::class);
@@ -35,11 +30,6 @@ class Exercicio extends Model
     public function users()
     {
         return $this->belongsToManyThrough(User::class,Nota::class);
-    }
-    public function turmas()
-    {
-        //return $this->belongsToManyThrough(Turma::class,Prazo::class);
-        return $this->belongsToMany(Turma::class)->using(Prazo::Class);
     }
     public function prazos()
     {

@@ -24,8 +24,4 @@ class Turma extends Model
     {
         return $this->hasMany(Prazo::class);
     }
-    public function exercicios()
-    {
-        return $this->hasManyThrough(Exercicio::class,Prazo::Class);
-    }
 }
