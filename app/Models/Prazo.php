@@ -20,6 +20,4 @@ class Prazo extends Pivot
     {
         return $this->belongsTo(Exercicio::class);
     }
-        
-
 }

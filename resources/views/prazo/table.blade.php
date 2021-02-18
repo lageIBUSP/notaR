@@ -6,6 +6,9 @@
                 <td>Turma</td>
             @endif
             <td>Prazo</td>
+            @if ($user ?? "")
+                <td>Nota</td>
+            @endif
             @if ($turma ?? "")
             @can ('edit', $turma)
                 <td>Ações</td>
@@ -34,6 +37,11 @@
                 </td>
             @endif
             <td>{{ $value->prazo }}</td>
+            @if ($user ?? "")
+                <td>
+                    {{ $user->notaFinal($value) }}
+                </td>
+            @endif
 
             @if ($turma ?? "")
             @can ('edit', $turma)

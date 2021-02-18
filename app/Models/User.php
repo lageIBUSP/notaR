@@ -64,6 +64,19 @@ class User extends Authenticatable
         return $this->is_admin;
     }
 
+    /**
+     * Nota final (atual) dentro do prazo
+     *
+     * @var App\Model\Prazo $prazo
+     * @return float
+     */
+    public function notaFinal(Prazo $prazo) {
+        return $this->notas()->
+                where('exercicio_id',$prazo->exercicio_id)-> //exercicio correto
+                where('created_at','<',$prazo->prazo)-> //dentro do prazo
+                get()->max('nota'); //maior nota
+    }
+
     public function temNota() {
         return $this->notas->isNotEmpty();
     }
