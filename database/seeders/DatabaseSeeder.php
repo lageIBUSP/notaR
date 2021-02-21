@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
             'is_admin'=>true
             ]);
         $admin->password = "123";
+        $admin->save();
+        
 	    $ind_user = User::factory()->create();
         $alunos = User::factory()->count(3)->create();
 	    $turma = Turma::factory()
