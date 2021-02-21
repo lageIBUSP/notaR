@@ -109,6 +109,19 @@ class TurmaController extends Controller
         return View('turma.show')->with('turma',$turma);
     }
 
+	/**
+	 * Remove user from turma
+	 *
+     * @param  \App\Models\Turma  $turma
+     * @param  \App\Models\User  $user
+	 * @return \Illuminate\Http\Response
+	 */
+	public function remove(Turma $turma, User $user)
+	{
+		$this->authorize('edit', $turma);
+        $turma->users()->detach($user->id);
+		return redirect('/turma/'.$turma->id);
+	}
     /**
      * Remove the specified resource from storage.
      *

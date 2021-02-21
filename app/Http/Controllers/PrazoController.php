@@ -80,6 +80,9 @@ class PrazoController extends Controller
      */
     public function destroy(Prazo $prazo)
     {
-        //
+		$this->authorize('delete', $prazo);
+        $turma = $prazo->turma;
+        $prazo->delete();
+		return redirect('/turma/'.$turma->id);
     }
 }

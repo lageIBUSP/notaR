@@ -1,7 +1,9 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <td>Exercicio</td>
+            @unless ($exercicio ?? "")
+                <td>Exercicio</td>
+            @endif
             @unless ($turma ?? "")
                 <td>Turma</td>
             @endif
@@ -19,13 +21,15 @@
     <tbody>
     @foreach($prazos as $key => $value)
         <tr>
-            <td>
-                <a href={{"/exercicio/".$value->exercicio->id}}>
-                <div style="height:100%;width:100%">
-                    {{ $value->exercicio->titulo }}
-                </div>
-                </a>
-            </td>
+            @unless ($exercicio ?? "")
+                <td>
+                    <a href={{"/exercicio/".$value->exercicio->id}}>
+                    <div style="height:100%;width:100%">
+                        {{ $value->exercicio->titulo }}
+                    </div>
+                    </a>
+                </td>
+            @endif
 
             @unless ($turma ?? "")
                 <td>
@@ -54,7 +58,16 @@
 
                     <!-- remove -->
                     @if ($removeButton ?? '')
-                        <a class="btn btn-small btn-delete" href="{{ URL::to('prazo/'.$value->id.'/delete') }}">Remover</a>
+                    @can ('delete', $value)
+                     <form method="POST" action="/prazo/{{$value->id}}">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+
+                        <div class="form-group">
+                            <input type="submit" class="btn btn-remove" value="Remover">
+                        </div>
+                    </form>
+                    @endcan
                     @endif
 
                 </td>

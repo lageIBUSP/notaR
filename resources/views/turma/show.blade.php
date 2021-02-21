@@ -8,14 +8,14 @@
     <a class="collapse-button" data-toggle="collapse" href="#collapseMembros" role="button" aria-expanded="true" aria-controls="collapseMembros">
         <h2>Membros</h2>
     </a>
-    <div class="collapse" id="collapseMembros">
+    <div class="collapse show" id="collapseMembros">
         @include('user.table',['users' => $turma->users, 'editButton' => true, 'removeButton' => true])
     </div>
 
     <a class="collapse-button" data-toggle="collapse" href="#collapsePrazos" role="button" aria-expanded="true" aria-controls="collapsePrazos">
         <h2>Prazos</h2>
     </a>
-    <div class="collapse" id="collapsePrazos">
+    <div class="collapse show" id="collapsePrazos">
         @include('prazo.table',['prazos' => $turma->prazos, 'editButton' => true, 'removeButton' => true])
     </div>
     

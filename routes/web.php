@@ -32,4 +32,6 @@ Route::resources([
     'nota' => NotaController::class,
 ]);
 
+Route::get('/turma/{turma}/remove/{user}', [TurmaController::class, 'remove']);
+
 require __DIR__.'/auth.php';

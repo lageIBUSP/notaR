@@ -14,7 +14,7 @@ class Prazo extends Pivot
     // relationships
     public function turma()
     {
-        return $this->belongsTo(turma::class);
+        return $this->belongsTo(Turma::class);
     }
     public function exercicio()
     {
