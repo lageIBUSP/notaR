@@ -4,7 +4,9 @@ services:
     app:
         build:
             context: ./docker/php
-            dockerfile: Dockerfile
+            dockerfile: Dockerfile            
+            args:
+                WWWGROUP: '${WWWGROUP}'
         image: app
         ports:
             - '8000:${APP_PORT:-80}'
