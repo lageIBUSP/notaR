@@ -40,8 +40,9 @@ class UserController extends Controller
 		$this->authorize('create', User::class);
 		$rules = array(
 			'name'      => 'required',
-			'email'     => 'required',
-			'password'  => 'required'
+			'email'     => 'required|unique:users',
+			'password'  => 'required',
+            'is_admin'  => 'sometimes|boolean'
 		);
 		$data = $request->validate($rules);
 

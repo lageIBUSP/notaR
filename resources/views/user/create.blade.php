@@ -29,7 +29,14 @@
 		<div class="form-group">
 		    <label for="password">Senha</label>
 		    <input type="password" class="form-control @error('password') is-invalid @enderror" id="password" name="password" placeholder="" >
-		    @error('name')
+		    @error('password')
+			    <div class="invalid-feedback">{{ $message }}</div>
+		    @enderror
+		</div>
+		<div class="form-group">
+		    <label for="is_admin">Dar poderes de administrador/professor?</label>
+		    <input type="checkbox" id="is_admin" name="is_admin" value="1">
+		    @error('is_admin')
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 		</div>
