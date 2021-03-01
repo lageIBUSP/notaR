@@ -8,6 +8,21 @@ use App\Http\Controllers\PrazoController;
 use App\Http\Controllers\ExercicioController;
 use App\Http\Controllers\TesteController;
 
+// Use APP_URL by default
+URL::forceRootUrl(env('APP_URL'));
+
+// Using proxy url/schema
+$proxy_url    = env('PROXY_URL');
+$proxy_schema = env('PROXY_SCHEMA');
+
+if (!empty($proxy_url)) {
+   URL::forceRootUrl($proxy_url);
+}
+
+if (!empty($proxy_schema)) {
+   URL::forceSchema($proxy_schema);
+}
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,7 +33,6 @@ use App\Http\Controllers\TesteController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
 Route::get('/', function () {
     return view('home');
 });
