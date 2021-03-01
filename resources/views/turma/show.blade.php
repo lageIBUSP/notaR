@@ -12,12 +12,20 @@
         @include('user.table',['users' => $turma->users, 'editButton' => true, 'removeButton' => true])
     </div>
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazos" role="button" aria-expanded="true" aria-controls="collapsePrazos">
-        <h2>Prazos</h2>
+    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
+        <h2>Prazos Futuros</h2>
     </a>
-    <div class="collapse show" id="collapsePrazos">
-        @include('prazo.table',['prazos' => $turma->prazos, 'editButton' => true, 'removeButton' => true])
+    <div class="collapse {{$collapsed ?? "" ? "" : "show" }}" id="collapsePrazosFuturos">
+        @include('prazo.table',['prazos' => $turma->prazos->where('futuro')])
     </div>
+
+    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
+        <h2>Prazos Passados</h2>
+    </a>
+    <div class="collapse" id="collapsePrazosPassados">
+        @include('prazo.table',['prazos' => $turma->prazos->where('passado')])
+    </div>
+
     
     @can ('edit', $turma)
         <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/edit') }}">Editar</a>

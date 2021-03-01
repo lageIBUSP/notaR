@@ -81,10 +81,6 @@ class User extends Authenticatable
         return $this->notas->isNotEmpty();
     }
 
-    public function notasEm(Turma $turma) {
-         return true;
-    }
-    
     // relatonships
     public function turmas()
     {
@@ -98,6 +94,6 @@ class User extends Authenticatable
     // acessors
     public function getPrazosAttribute()
     {
-        return $this->turmas->pluck('prazos')->collapse();
+        return $this->turmas()->with(['prazos','prazos.exercicio','prazos.turma'])->get()->pluck('prazos')->collapse();
     }
 }

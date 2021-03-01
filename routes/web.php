@@ -10,18 +10,8 @@ use App\Http\Controllers\TesteController;
 
 // Use APP_URL by default
 URL::forceRootUrl(env('APP_URL'));
-
-// Using proxy url/schema
-$proxy_url    = env('PROXY_URL');
-$proxy_schema = env('PROXY_SCHEMA');
-
-if (!empty($proxy_url)) {
-   URL::forceRootUrl($proxy_url);
-}
-
-if (!empty($proxy_schema)) {
-   URL::forceSchema($proxy_schema);
-}
+// For use of https
+URL::forceScheme(env('APP_SCHEME', 'http'));
 
 /*
 |--------------------------------------------------------------------------
@@ -47,5 +37,6 @@ Route::resources([
 ]);
 
 Route::get('/turma/{turma}/remove/{user}', [TurmaController::class, 'remove']);
+Route::get('/turma/{turma}/prazos', [TurmaController::class, 'prazos']);
 
 require __DIR__.'/auth.php';

@@ -75,6 +75,18 @@ class TurmaController extends Controller
 		return View('turma.edit')->with('turma',$turma);
 	}
 
+	/**
+	 * Show the form for editing the prazos
+	 *
+     * @param  \App\Models\Turma  $turma
+	 * @return \Illuminate\Http\Response
+	 */
+	public function prazos(Turma $turma)
+	{
+		$this->authorize('edit', $turma);
+		return View('turma.prazos')->with('turma',$turma)->with('exercicios',Exercicio::all());
+	}
+
     /**
      * Update the specified resource in storage.
      *

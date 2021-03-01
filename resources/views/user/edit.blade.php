@@ -27,6 +27,15 @@
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 		</div>
+        @can ('makeAdmin',$user)
+		<div class="form-group">
+		    <label for="is_admin">Dar poderes de administrador/professor?</label>
+		    <input type="checkbox" id="is_admin" name="is_admin" value="1" {{$user->isAdmin()?"checked":""}}>
+		    @error('is_admin')
+			    <div class="invalid-feedback">{{ $message }}</div>
+		    @enderror
+		</div>
+        @endcan
 		<button type="submit" class="btn btn-primary">Salvar</button>
 	    </form>
 	</div>

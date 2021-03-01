@@ -59,4 +59,16 @@ class UserPolicy
                 : $user->isAdmin();
     }
 
+    /**
+     * Determine whether the user can turn the user into admin
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return mixed
+     */
+    public function makeAdmin(User $user, User $model)
+    {
+        return $user->isAdmin();
+    }
+
 }

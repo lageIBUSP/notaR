@@ -9,11 +9,7 @@
 	    <form action={{'/turma/'.$turma->id}} method="POST">
 		@csrf
         @method('PUT')
-		@if ($errors->any())
-		    <div class="alert alert-danger" role="alert">
-			Please fix the following errors
-		    </div>
-		@endif
+        @include ('includes.error_alert')
 		<div class="form-group">
 		    <label for="name">Nome</label>
 		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('nome', $turma->name) }}">
@@ -54,12 +50,7 @@
         @include('user.table',['users' => $turma->users, 'editButton' => true, 'removeButton' => true])
     </div>
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazos" role="button" aria-expanded="true" aria-controls="collapsePrazos">
-        <h2>Prazos</h2>
-    </a>
-    <div class="collapse" id="collapsePrazos">
-        @include('prazo.table',['prazos' => $turma->prazos, 'removeButton' => true])
-    </div>
+    @include('prazo.doubletable',['prazos' => $turma->prazos, 'removeButton' => true, 'collapsed' =>true])
     
     @can ('delete', $turma)
      <form method="POST" action="/turma/{{$turma->id}}">
