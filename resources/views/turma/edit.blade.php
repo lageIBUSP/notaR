@@ -50,7 +50,20 @@
         @include('user.table',['users' => $turma->users, 'editButton' => true, 'removeButton' => true])
     </div>
 
-    @include('prazo.doubletable',['prazos' => $turma->prazos, 'removeButton' => true, 'collapsed' =>true])
+    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
+        <h2>Prazos Futuros</h2>
+    </a>
+    <div class="collapse" id="collapsePrazosFuturos">
+        @include('prazo.table',['prazos' => $turma->prazos->where('futuro')])
+    </div>
+
+    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
+        <h2>Prazos Passados</h2>
+    </a>
+    <div class="collapse" id="collapsePrazosPassados">
+        @include('prazo.table',['prazos' => $turma->prazos->where('passado')])
+    </div>
+
     
     @can ('delete', $turma)
      <form method="POST" action="/turma/{{$turma->id}}">
