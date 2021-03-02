@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Validation\Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Turma;
@@ -81,11 +81,53 @@ class TurmaController extends Controller
      * @param  \App\Models\Turma  $turma
 	 * @return \Illuminate\Http\Response
 	 */
-	public function prazos(Turma $turma)
+	public function editprazos(Turma $turma)
 	{
 		$this->authorize('edit', $turma);
 		return View('turma.prazos')->with('turma',$turma)->with('exercicios',Exercicio::all());
 	}
+
+    /**
+     * Update the prazos in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Turma  $turma
+     * @return \Illuminate\Http\Response
+     */
+    public function updateprazos(Request $request, Turma $turma)
+	{
+		$this->authorize('edit', $turma);
+        $rules = array([
+            'prazos' => 'required|array',
+            'prazos.*' => 'sometimes|date'
+           ]);
+
+        $validator = Validator::make($request->all(), $rules);
+        $data = $validator->valid()['prazos'];
+        
+        foreach($data as $ex => $prazo) {
+            $oldprazo = $turma->prazos->where('exercicio_id',$ex)->first();
+            if($oldprazo) {
+                if($prazo) {
+                    $oldprazo->update(['prazo'=>$prazo]);
+                }
+                else {
+                    $oldprazo->delete();
+                }
+            }
+            else {
+                if($prazo) {
+                    Prazo::create(['prazo'=>$prazo
+                                  ,'turma_id'=>$turma->id
+                                  ,'exercicio_id'=>$ex
+                                  ]);
+                }
+            }
+        }
+
+		return redirect('/turma/'.$turma->id);
+	}
+
 
     /**
      * Update the specified resource in storage.
@@ -118,7 +160,7 @@ class TurmaController extends Controller
             }
         }
 
-        return View('turma.show')->with('turma',$turma);
+		return redirect('/turma/'.$turma->id);
     }
 
 	/**

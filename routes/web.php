@@ -37,6 +37,7 @@ Route::resources([
 ]);
 
 Route::get('/turma/{turma}/remove/{user}', [TurmaController::class, 'remove']);
-Route::get('/turma/{turma}/prazos', [TurmaController::class, 'prazos']);
+Route::get('/turma/{turma}/prazos', [TurmaController::class, 'editprazos']);
+Route::put('/turma/{turma}/prazos', [TurmaController::class, 'updateprazos']);
 
 require __DIR__.'/auth.php';

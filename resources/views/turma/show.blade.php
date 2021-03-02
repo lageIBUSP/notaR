@@ -29,6 +29,7 @@
     
     @can ('edit', $turma)
         <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/edit') }}">Editar</a>
+        <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/prazos') }}">Alterar prazos</a>
     @endcan
     @can ('delete', $turma)
      <form method="POST" action="/turma/{{$turma->id}}">
