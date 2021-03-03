@@ -37,7 +37,4 @@
         </div>
         @include('nota.table',['notas' => $user->notas])
     </div>
-    
-    <a class="btn btn-delete" href="{{ URL::to('user/' . $user->id . '/delete') }}">Deletar</a>
-
 @endsection
