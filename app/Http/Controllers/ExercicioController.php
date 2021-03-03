@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Exercicio;
 use App\Models\User;
+use App\Models\Teste;
 
 class ExercicioController extends Controller
 {
@@ -40,15 +41,31 @@ class ExercicioController extends Controller
 	{
 		$this->authorize('create', Exercicio::class);
 		$rules = array(
-			'name'       => 'required|string',
+			'name'       => 'required|string|unique:exercicios',
 			'description'=> 'required',
 			'precondicoes'=>'sometimes',
+			'dicas'	=> 'array',
+			'condicoes' => 'array',
+			'pesos' => 'array',
+			'dicas.*'	=> 'required',
+			'condicoes.*' => 'required',
+			'pesos.*' => 'required|numeric|min:0'
 		);
 		$data = $request->validate($rules);
 
 		// store
 		$exercicio = tap(new Exercicio($data))->save();
-		return View('exercicio.show')->with('exercicio',$exercicio);
+
+		$n = count($data['dicas']);
+		for ($i = 0; $i < $n; $i++) {
+			$teste = Teste::create(['condicao' => $data['condicoes'][$i],
+									 'dica' => $data['dicas'][$i],
+									 'peso' => $data['pesos'][$i],
+									 'exercicio_id' => $exercicio->id
+									 ]);
+		}
+
+		return retirect('/exercicio/'.$exercicio->id);
 	}
 
 	/**

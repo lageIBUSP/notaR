@@ -37,5 +37,21 @@ $(document).ready(() => {
 
     $('.clear-input').click(function() {
         $(this).closest('td').find('input').val('');
+        console.log("clearinput");
     });
+
+    updaterows();
 });
+
+function updaterows () {
+    $('.add-row').unbind('click').click(function() {
+        var row = $(this).closest('tr').clone();
+        row.find('input').val('');
+        $(this).closest('tr').after(row);
+        updaterows();
+    })
+
+    $('.remove-row').unbind('click').click(function(){
+        var row = $(this).closest('tr').remove();
+    })
+}

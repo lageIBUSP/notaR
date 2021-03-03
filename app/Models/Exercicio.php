@@ -12,7 +12,7 @@ class Exercicio extends Model
     protected $fillable = [
         'name',
         'description',
-        'preconds'
+        'precondicoes'
     ];
 
     public function temNota()
