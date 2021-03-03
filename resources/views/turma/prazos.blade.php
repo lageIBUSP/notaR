@@ -7,25 +7,43 @@
     </div>
     <div class="row">
         <form action={{'/turma/'.$turma->id.'/prazos'}} method="POST">
-		@csrf
-        @method('PUT')
+            @csrf
+            @method('PUT')
             @include ('includes.error_alert')
-            @foreach($exercicios as $key => $ex)
-                <div class="form-group">
-                    {{$ex->titulo}}
-                    <input type='text' 
-                        class="form-control @error('prazos[]') is-invalid @enderror datetimepicker-input"
-                        data-toggle="datetimepicker"
-                        id="prazos[{{$ex->id}}]"
-                        data-target="#prazos[{{$ex->id}}]"
-                        name="prazos[{{$ex->id}}]"
-                        value="{{$ex->prazoEm($turma)}}">
-                    @error('{{"prazos[]"}}')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <td>Exercicio</td>
+                            <td>Prazo</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($exercicios as $key => $ex)
+                        <tr>
+                            <td>
+                                {{$ex->titulo}}
+                            </td>
+                            <td>
+                            <span class="form-group">
+                                <input type='text' 
+                                    class="form-control @error('prazos[]') is-invalid @enderror datetimepicker-input"
+                                    data-toggle="datetimepicker"
+                                    id="prazos[{{$ex->id}}]"
+                                    data-target="#prazos[{{$ex->id}}]"
+                                    name="prazos[{{$ex->id}}]"
+                                    value="{{$ex->prazoEm($turma)}}">
 
-                </div>
-            @endforeach
+                                <i class="fas fa-steam"></i>
+                                @error('{{"prazos[]"}}')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </td>
+
+                            </span>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             <button type="submit" class="btn btn-primary">Salvar</button>
     </form>
     </div>

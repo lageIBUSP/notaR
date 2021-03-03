@@ -99,7 +99,7 @@ class TurmaController extends Controller
 		$this->authorize('edit', $turma);
         $rules = array([
             'prazos' => 'required|array',
-            'prazos.*' => 'sometimes|date'
+            'prazos.*' => 'nullable|date'
            ]);
 
         $validator = Validator::make($request->all(), $rules);
