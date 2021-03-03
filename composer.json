@@ -8,6 +8,7 @@
     "license": "GPLv3",
     "require": {
         "php": "^7.3|^8.0",
+        "cturbelin/rserve-php": "2.0.x-dev",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",

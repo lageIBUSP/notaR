@@ -11,11 +11,12 @@ RUN install.r Rserve \
     bbmle
 
 # Copies the required files for notaR
-#COPY . /usr/local/src/myscripts
-#WORKDIR /usr/local/src/myscripts
+RUN mkdir -p /usr/local/src/notar
+COPY . /usr/local/src/notar
+WORKDIR /usr/local/src/notar
 
 # We will listen on 6311 
 EXPOSE 6311
 
 # Run the Rserve library:
-CMD R --vanilla -e "library(Rserve);" -e "run.Rserve();"
+CMD R --vanilla -e "library(Rserve);" -e "run.Rserve(remote=TRUE);"
