@@ -143,8 +143,11 @@ footer {
 // Styles forms but only inside the main area of the site:
 .container-main {
     form {
-        padding: 10px;
         width: 100%;
+    }
+
+    .row {
+        padding: 10px;
     }
     
     .form-group {
