@@ -7,11 +7,7 @@
 	<div class="row">
 	    <form action="/exercicio" method="{{ isset($exercicio) ? 'put' : 'post'}}">
 		@csrf
-		@if ($errors->any())
-		    <div class="alert alert-danger" role="alert">
-			Please fix the following errors
-		    </div>
-		@endif
+		@include ('includes.error_alert')
 		<div class="form-group">
 		    <label for="name">Nome</label>
 		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Nome da exercicio" value="{{ old('nome', isset($exercicio) ? $exercicio->name : '') }}">
