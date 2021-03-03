@@ -23,7 +23,7 @@ class ExercicioFactory extends Factory
     {
         return [
             'name' => substr($this->faker->sentence(2), 0, -1),
-            'decription' => $this->faker->paragraph,
+            'description' => $this->faker->paragraph,
             'precondicoes' => ''
         ];
     }

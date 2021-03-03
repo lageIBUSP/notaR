@@ -3,7 +3,7 @@
 
 <h1>{{ $exercicio->name }}</h1>
     <div class="jumbotron">
-        <p>{{ $exercicio->decription }}</p>
+        <p>{{ $exercicio->description }}</p>
     </div>
 
     <!-- todo: form pra enviar exercicio -->

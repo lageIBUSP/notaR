@@ -17,7 +17,7 @@ class CreateExerciciosTable extends Migration
             $table->id();
             $table->timestamps();
             $table->string('name')->unique();
-            $table->text('decription');
+            $table->text('description');
             $table->text('precondicoes');
         });
     }

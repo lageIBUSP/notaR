@@ -11,7 +11,7 @@ class Exercicio extends Model
     protected $table = 'exercicios';
     protected $fillable = [
         'name',
-        'decription',
+        'description',
         'preconds'
     ];
 
