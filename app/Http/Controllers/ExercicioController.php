@@ -65,7 +65,7 @@ class ExercicioController extends Controller
 									 ]);
 		}
 
-		return retirect('/exercicio/'.$exercicio->id);
+		return redirect('/exercicio/'.$exercicio->id);
 	}
 
 	/**
@@ -109,7 +109,7 @@ class ExercicioController extends Controller
         $data = $request->validate($rules);
         $exercicio->update($data);
 
-        return View('exercicio.show')->with('exercicio',$exercicio);
+        return redirect('/exercicio/'.$exercicio->id);
     }
 
     /**

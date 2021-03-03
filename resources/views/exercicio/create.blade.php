@@ -35,7 +35,7 @@
 		    @enderror
 		</div>
 
-        <table class="table table-striped table-bordered">
+        <table class="table table-striped table-bordered sortable">
             <thead>
                 <tr>
                     <td>Condição</td>
@@ -82,7 +82,6 @@
                     </td>
                     
                     <td>
-
                         <i type="button" class='btn fa fa-minus-circle remove-row' ></i>
                         <i type="button" class='btn fa fa-plus-circle add-row' ></i>
                     </td>

@@ -11,8 +11,10 @@ try {
 
     global.moment = require('moment');
     require('tempusdominus-bootstrap-4');
+
 } catch (e) {}
 
+import 'jquery-ui/ui/widgets/sortable.js';
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -39,6 +41,8 @@ $(document).ready(() => {
         $(this).closest('td').find('input').val('');
         console.log("clearinput");
     });
+
+    $('.sortable tbody').sortable();
 
     updaterows();
 });
