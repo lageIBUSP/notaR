@@ -29,6 +29,12 @@
  * Date: 2020-05-04T22:49Z
  */
 
+/*!@preserve
+ * Tempus Dominus Bootstrap4 v5.39.0 (https://tempusdominus.github.io/bootstrap-4/)
+ * Copyright 2016-2020 Jonathan Peterson and contributors
+ * Licensed under MIT (https://github.com/tempusdominus/bootstrap-3/blob/master/LICENSE)
+ */
+
 /**!
  * @fileOverview Kickass library to create and place poppers near their reference elements.
  * @version 1.16.1
@@ -53,3 +59,7 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
+//! moment.js
+
+//! moment.js locale configuration

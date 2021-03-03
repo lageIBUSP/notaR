@@ -27,17 +27,32 @@
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 		</div>
-        @can ('makeAdmin',$user)
+		@if(Auth::user()->isAdmin())
 		<div class="form-group">
-		    <label for="is_admin">Dar poderes de administrador/professor?</label>
-		    <input type="checkbox" id="is_admin" name="is_admin" value="1" {{$user->isAdmin()?"checked":""}}>
+		    <label for="is_admin">
+		    	<input type="checkbox" id="is_admin" name="is_admin" value="1" {{$user->isAdmin()?"checked":""}}>
+				Dar poderes de administrador/professor?
+			</label>
 		    @error('is_admin')
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 		</div>
-        @endcan
+        @endif
 		<button type="submit" class="btn btn-primary">Salvar</button>
+
 	    </form>
+
+		@can ('delete', $user)
+		<form method="POST" action="/user/{{$user->id}}">
+			{{ csrf_field() }}
+			{{ method_field('DELETE') }}
+
+			<div class="form-group">
+				<input type="submit" class="btn btn-delete delete" value="Deletar">
+			</div>
+		</form>
+		@endcan
+
 	</div>
     </div>
     @endsection

@@ -7,7 +7,7 @@
 
 @include('includes.header')
 
-<div class="container">
+<div class="container container-main">
 	<div class="row">
 		<div id="sidebar" class="col-md-2">
 			@include('includes.sidebar')

@@ -8,6 +8,9 @@ try {
     window.$ = window.jQuery = require('jquery');
 
     require('bootstrap');
+
+    global.moment = require('moment');
+    require('tempusdominus-bootstrap-4');
 } catch (e) {}
 
 /**
@@ -29,5 +32,7 @@ $(document).ready(() => {
             $(e.target).closest('form').submit() // Post the surrounding form
         }
     });
+
+    $('.datetimepicker-input').datetimepicker();
 
 });

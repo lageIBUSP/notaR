@@ -71,7 +71,7 @@
         {{ method_field('DELETE') }}
 
         <div class="form-group">
-            <input type="submit" class="btn btn-danger delete" value="Deletar">
+            <input type="submit" class="btn btn-delete delete" value="Deletar">
         </div>
     </form>
     @endcan
