@@ -54,7 +54,7 @@ class TurmaPolicy
      */
     public function delete(User $user, Turma $turma)
     {
-        return $turma->temAluno() ?
+        return $turma->temAluno() || $turma->temPrazo()?
                 false // proibido deletar turma com aluno
                 : $user->isAdmin();
     }
