@@ -1,7 +1,6 @@
 @extends('layouts.base')
 @section('content')
 
-{{var_dump(old('condicoes',[0=>""]))}}
 <div class="container">
 	<div class="row">
 	    <h1>Criar novo exercício</h1>
@@ -50,11 +49,11 @@
                 <tr>
                     <td>
                         <input type='text' 
-                            class="form-control form-inline @error('condicoes[{{$i}}]') is-invalid @enderror"
+                            class="form-control form-inline @error('condicoes.'.$i) is-invalid @enderror"
                             id="condicoes[]"
                             name="condicoes[]"
                             value="{{old('condicoes',[0=>""])[$i]}}">
-                            @error('{{"condicoes[{{$i}}]"}}')
+                            @error('condicoes.'.$i)
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                     </td>
@@ -62,22 +61,22 @@
 
                     <td>
                         <input type='text' 
-                            class="form-control form-inline @error('dicas[{{$i}}]') is-invalid @enderror"
+                            class="form-control form-inline @error('dicas.'.$i) is-invalid @enderror"
                             id="dicas[]"
                             name="dicas[]"
                             value="{{$dica}}">
-                            @error('{{"dicas[{{$i}}]"}}')
+                            @error('dicas.'.$i)
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                     </td>
                     
                     <td>
                         <input type='text' 
-                            class="form-control form-inline small @error('pesos[{{$i}}]') is-invalid @enderror"
+                            class="form-control form-inline small @error('pesos.'.$i) is-invalid @enderror"
                             id="pesos[]"
                             name="pesos[]"
                             value="{{old('pesos',[0=>""])[$i]}}">
-                            @error('{{"pesos[{{$i}}]"}}')
+                            @error('pesos.'.$i)
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                     </td>
