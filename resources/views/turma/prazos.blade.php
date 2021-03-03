@@ -24,22 +24,19 @@
                                 {{$ex->titulo}}
                             </td>
                             <td>
-                            <span class="form-group">
                                 <input type='text' 
-                                    class="form-control @error('prazos[]') is-invalid @enderror datetimepicker-input"
+                                    class="form-control form-inline @error('prazos[]') is-invalid @enderror datetimepicker-input"
                                     data-toggle="datetimepicker"
                                     id="prazos[{{$ex->id}}]"
                                     data-target="#prazos[{{$ex->id}}]"
                                     name="prazos[{{$ex->id}}]"
                                     value="{{$ex->prazoEm($turma)}}">
 
-                                <i class="fas fa-steam"></i>
+                                <i class="fa fa-times-circle clear-input"></i>
                                 @error('{{"prazos[]"}}')
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                             </td>
-
-                            </span>
                         </tr>
                         @endforeach
                     </tbody>
