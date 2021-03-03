@@ -10,10 +10,9 @@ class Exercicio extends Model
     use HasFactory;
     protected $table = 'exercicios';
     protected $fillable = [
-        'titulo',
-        'enunciado',
-        'preconds',
-        'impedimentos'
+        'name',
+        'decription',
+        'preconds'
     ];
 
     public function temNota()

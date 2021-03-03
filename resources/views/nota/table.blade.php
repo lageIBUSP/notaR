@@ -27,7 +27,7 @@
                 <td>
                 <a href={{"/exercicio/".$value->exercicio->id}}>
                 <div style="height:100%;width:100%">
-                    {{ $value->exercicio->titulo }}
+                    {{ $value->exercicio->name }}
                 </div>
                 </a>
                 </td>

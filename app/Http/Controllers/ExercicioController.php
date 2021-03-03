@@ -40,8 +40,8 @@ class ExercicioController extends Controller
 	{
 		$this->authorize('create', Exercicio::class);
 		$rules = array(
-			'titulo'       => 'required',
-			'enunciado'=> 'required',
+			'name'       => 'required',
+			'decription'=> 'required',
 		);
 		$data = $request->validate($rules);
 
@@ -85,8 +85,8 @@ class ExercicioController extends Controller
     {
         $this->authorize('edit',$exercicio);
         $rules = array(
-                'titulo'       => 'required',
-                'enunciado'=> 'required'
+                'name'       => 'required',
+                'decription'=> 'required'
                 );
         $data = $request->validate($rules);
         $exercicio->update($data);

@@ -1,9 +1,9 @@
 @extends('layouts.base')
 @section('content')
 
-<h1>{{ $exercicio->titulo }}</h1>
+<h1>{{ $exercicio->name }}</h1>
     <div class="jumbotron">
-        <p>{{ $exercicio->enunciado }}</p>
+        <p>{{ $exercicio->decription }}</p>
     </div>
 
     <!-- todo: form pra enviar exercicio -->

@@ -19,7 +19,7 @@
             <td>
                 <a href={{"/exercicio/".$value->id}}>
                 <div style="height:100%;width:100%">
-                    {{ $value->titulo }}
+                    {{ $value->name }}
                 </div>
                 </a>
             </td>
