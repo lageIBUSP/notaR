@@ -35,6 +35,10 @@
 		    @enderror
 		</div>
 
+        <h2>Testes</h2>
+        <div class="alert alert-info">
+            Arraste os testes para reodenar!
+        </div>
         <table class="table table-striped table-bordered sortable">
             <thead>
                 <tr>
