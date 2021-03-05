@@ -5,7 +5,7 @@
     <h1>{{ $user->name }}</h1>
 
     <p>{{ $user->email }}</p>
-    <p>{{ $user->isAdmin() ? "Admin" : "Dicente" }}</p>
+    <p>{{ $user->isAdmin() ? "Professor" : "Aluno" }}</p>
     <a class="btn btn-edit" href="{{ URL::to('user/' . $user->id . '/edit') }}">Editar</a>
 </div>
     

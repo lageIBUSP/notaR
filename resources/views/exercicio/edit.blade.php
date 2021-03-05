@@ -34,10 +34,9 @@
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 		</div>
-        <div class="row">
             <h2>Testes</h2>
             <div class="alert alert-info">
-                Arraste os testes para reodenar!
+                Arraste os testes para reordenar!
             </div>
             <table class="table table-striped table-bordered sortable">
                 <thead>
@@ -98,7 +97,6 @@
                     @endforeach
                 </tbody>
             </table>
-        </div>
 
 		<button type="submit" class="btn btn-primary">Salvar</button>
 	    </form>

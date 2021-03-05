@@ -37,7 +37,7 @@
 
         <h2>Testes</h2>
         <div class="alert alert-info">
-            Arraste os testes para reodenar!
+            Arraste os testes para reordenar!
         </div>
         <table class="table table-striped table-bordered sortable">
             <thead>
@@ -97,5 +97,5 @@
 		<button type="submit" class="btn btn-primary">Criar</button>
 	    </form>
 	</div>
-    </div>
-    @endsection
+</div>
+@endsection

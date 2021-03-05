@@ -57,20 +57,21 @@ class ExercicioController extends Controller
 		$data = $request->validate($rules);
 
 		// store
-		DB::transaction(function() use ($data) {
-			$exercicio = tap(new Exercicio($data))->save();
+		$exercicio = tap(new Exercicio($data));
+		DB::transaction(function() use ($data, $exercicio) {
+			$exercicio->save();
 
 			$n = count($data['dicas']);
 			for ($i = 0; $i < $n; $i++) {
-				$teste = Teste::create(['condicao' => $data['condicoes'][$i],
-										'dica' => $data['dicas'][$i],
-										'peso' => $data['pesos'][$i],
-										'exercicio_id' => $exercicio->id
-										]);
+				Teste::create(['condicao' => $data['condicoes'][$i],
+								'dica' => $data['dicas'][$i],
+								'peso' => $data['pesos'][$i],
+								'exercicio_id' => $exercicio->id
+								]);
 			}
 		});
 
-		return redirect('/exercicio/'.$exercicio->id);
+		return redirect('/exercicio/' . $exercicio->id);
 	}
 
 	/**
