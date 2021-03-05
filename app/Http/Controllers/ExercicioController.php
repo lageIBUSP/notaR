@@ -98,12 +98,24 @@ class ExercicioController extends Controller
 		$data = $request->validate($rules);
 
 		// mock de resposta do R
-		$respostaR = [
-			'status' => 'sucesso',
-			'mensagem' => "Parabéns! Você submeteu uma resposta! <br /> Toca aqui!" 
-		];
+		try {
+			$cnx = new \Sentiweb\Rserve\Connection('r');
+			$r = $cnx->evalString($data['codigo']);
+
+			$respostaR = [
+				'status' => 'success',
+				'mensagem' => $r 
+			];
+		}
+		catch (\Sentiweb\Rserve\Exception $e){
+			$respostaR = [
+				'status' => 'fail',
+				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' 
+			];
+		}
 		
-		return View('exercicio.show')->with('exercicio',$exercicio)->with('respostaR',$respostaR);
+		return View('exercicio.show')->with('exercicio',$exercicio)->
+					with('respostaR',$respostaR)->with('codigo',$data['codigo']);
 	}
 
 	/**

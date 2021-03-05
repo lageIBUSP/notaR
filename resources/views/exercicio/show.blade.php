@@ -16,7 +16,7 @@
             <label for="código"><h3>Resposta</h3></label>
             <textarea type="text" class="form-control @error('codigo') is-invalid @enderror"
                     id="codigo" name="codigo" placeholder="Escreva seu código aqui"
-                    >{{ old('codigo') }}</textarea>
+                    >{{ old('codigo',$codigo ?? '') }}</textarea>
             @error('codigo')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -26,7 +26,7 @@
     </form>
     @if ($respostaR ?? "")
         <div class="row">
-            <div class="alert {{$respostaR['status'] == 'sucesso' ? 'alert-success' : ''}} retorno">
+            <div class="alert {{$respostaR['status'] == 'success' ? 'alert-success' : 'alert-danger'}} retorno">
                 {!!$respostaR['mensagem']!!}
             </div>
         </div>
