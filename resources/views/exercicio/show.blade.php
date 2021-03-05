@@ -1,18 +1,37 @@
 @extends('layouts.base')
 @section('content')
 
-<h1>{{ $exercicio->name }}</h1>
+<div class="container">
+    <h1>{{ $exercicio->name }}</h1>
     <div class="jumbotron">
         <p>{{ $exercicio->description }}</p>
     </div>
 
-    <!-- todo: form pra enviar exercicio -->
+    <!-- form pra enviar exercicio -->
+    <form action="{{route('exercicio.submit',$exercicio)}}" method="POST">
+    @csrf
+    @include ('includes.error_alert')
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazos" role="button" aria-expanded="true" aria-controls="collapsePrazos">
-        <h2>Prazos</h2>
-    </a>
-    <div class="collapse show" id="collapsePrazos">
-        @include('prazo.table',['prazos' => $exercicio->prazos, ])
-    </div>
+        <div class="row">
+            <label for="código"><h3>Resposta</h3></label>
+            <textarea type="text" class="form-control @error('codigo') is-invalid @enderror"
+                    id="codigo" name="codigo" placeholder="Escreva seu código aqui"
+                    >{{ old('codigo') }}</textarea>
+            @error('codigo')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
 
+        <input type="submit" class="btn btn-primary" value="Enviar">
+        </div>
+    </form>
+    @if ($respostaR ?? "")
+        <div class="row">
+            <div class="alert {{$respostaR['status'] == 'sucesso' ? 'alert-success' : ''}} retorno">
+                {!!$respostaR['mensagem']!!}
+            </div>
+        </div>
+    @endif
+
+
+</div>
 @endsection

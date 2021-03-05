@@ -80,8 +80,30 @@ class ExercicioController extends Controller
 	 */
 	public function show(Exercicio $exercicio)
 	{
-		$this->authorize('view', $exercicio);
 		return View('exercicio.show')->with('exercicio',$exercicio);
+	}
+
+	/**
+	 * Ação de fazer exercício usando o form
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Exercicio  $exercicio
+	 * @return \Illuminate\View\View
+	 */
+	public function submit(Request $request, Exercicio $exercicio)
+	{
+		$rules = array(
+			'codigo' => 'required'
+		);
+		$data = $request->validate($rules);
+
+		// mock de resposta do R
+		$respostaR = [
+			'status' => 'sucesso',
+			'mensagem' => "Parabéns! Você submeteu uma resposta! <br /> Toca aqui!" 
+		];
+		
+		return View('exercicio.show')->with('exercicio',$exercicio)->with('respostaR',$respostaR);
 	}
 
 	/**
@@ -93,7 +115,7 @@ class ExercicioController extends Controller
 	public function edit(Exercicio $exercicio)
 	{
 		$this->authorize('edit', $exercicio);
-		return View('exercicio.edit')->with('exercicio',$exercicio);
+		return View('exercicio.edit')->with('exercicio',$exercicio)->with('exercicio.testes',$exercicio->testes);
 	}
 
     /**

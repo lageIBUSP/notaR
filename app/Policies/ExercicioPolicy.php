@@ -10,17 +10,6 @@ class ExercicioPolicy
 {
     use HandlesAuthorization;
 
-    /**
-     * Determine whether the user can view the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Exercicio  $exercicio
-     * @return mixed
-     */
-    public function view(User $user, Exercicio $exercicio)
-    {
-        return true;
-    }
 
     /**
      * Determine whether the user can create models.

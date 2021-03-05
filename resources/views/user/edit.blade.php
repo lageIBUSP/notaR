@@ -25,10 +25,10 @@
 		</div>
 		@if(Auth::user()->isAdmin())
 		<div class="form-group">
-		    <label for="is_admin">
-		    	<input type="checkbox" id="is_admin" name="is_admin" value="1" {{$user->isAdmin()?"checked":""}}>
-				Dar poderes de administrador/professor?
-			</label>
+		    <select id="is_admin" name="is_admin">
+				<option value="1" {{$user->isAdmin()?"selected":""}}>Professor</option>
+				<option value="0" {{$user->isAdmin()?"":"selected"}}>Aluno</option>
+			</select>
 		    @error('is_admin')
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror

@@ -1,11 +1,15 @@
 @extends('layouts.base')
 @section('content')
 
-<h1>{{ $user->name }}</h1>
-        <p>{{ $user->email }}</p>
+<div class="container">
+    <h1>{{ $user->name }}</h1>
+
+    <p>{{ $user->email }}</p>
+    <p>{{ $user->isAdmin() ? "Admin" : "Dicente" }}</p>
     <a class="btn btn-edit" href="{{ URL::to('user/' . $user->id . '/edit') }}">Editar</a>
+</div>
     
-    
+<div class="container">
     <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
         <h2>Prazos Futuros</h2>
     </a>
@@ -37,4 +41,5 @@
         </div>
         @include('nota.table',['notas' => $user->notas])
     </div>
+</div>
 @endsection

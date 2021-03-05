@@ -30,8 +30,10 @@
 		    @enderror
 		</div>
 		<div class="form-group">
-		    <label for="is_admin">Dar poderes de administrador/professor?</label>
-		    <input type="checkbox" id="is_admin" name="is_admin" value="1">
+		    <select id="is_admin" name="is_admin">
+				<option value="1" >Professor</option>
+				<option value="0" selected>Aluno</option>
+			</select>
 		    @error('is_admin')
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
