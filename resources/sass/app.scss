@@ -25,6 +25,10 @@ body {
     color: $text-color!important;
 }
 
+.table tr:first-child td i.remove-row {
+    display:none;
+}
+
 a {
     color: $text-color;
     &:hover {
