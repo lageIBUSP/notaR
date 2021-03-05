@@ -4,7 +4,7 @@ connect <- function (dbuser, dbpass, dbname) {
 		require(RMySQL)
 		# Conexao com o banco de dados
 		try(dbDisconnect(con), silent=TRUE)
-		con<- dbConnect(MySQL(), user=dbuser, password=dbpass, dbname=dbname)
+		con<- dbConnect(MySQL(), user=dbuser, password=dbpass, dbname=dbname, host='mysql')
 		return (con);
 }
 # Construida na chamada PHP como 
@@ -23,20 +23,20 @@ no.results <- function(object) {
 corretoR <- function (id.exerc, texto) {
 		# Definicoes iniciais
 		corrEnv <- new.env()
-    # copia todos os arquivos de dados para que possam ser usados pelo corretor
-    file.copy(dir(path=paste0(PATH, "/files"), full.names=T), ".")
+    	# copia todos os arquivos de dados para que possam ser usados pelo corretor
+    	# file.copy(dir(path=paste0(PATH, "/files"), full.names=T), ".") TODO 
 		# Funcoes dsiponiveis dentro do ambiente de correcao
-		eval(parse(file=paste0(PATH,"/acessorias.R")), envir=corrEnv)
+		# eval(parse(file=paste0(PATH,"/acessorias.R")), envir=corrEnv)
 		# TO DO: mover eq para acessorias
 		assign("eq", function(a, b) isTRUE(all.equal(a,b, tol=1e-7, check.attributes=FALSE)), envir=corrEnv)
 
 		testes <- dbGetQuery(con,
-							 paste("SELECT condicao FROM teste
-								   WHERE id_exercicio=", id.exerc,
-								   " ORDER BY ordem ASC", sep=""));
+							 paste("SELECT condicao FROM testes
+								   WHERE exercicio_id=", id.exerc,
+								   " ORDER BY id ASC", sep=""));
 		precondi <- dbGetQuery(con, 
-							   paste("SELECT precondicoes FROM exercicio 
-									 WHERE id_exercicio=", id.exerc, sep=""));
+							   paste("SELECT precondicoes FROM exercicios 
+									 WHERE id=", id.exerc, sep=""));
 
 		# Executa as precondicoes
 		if(!no.results(precondi)) eval(parse(text=precondi), envir=corrEnv);
@@ -65,13 +65,13 @@ corretoR <- function (id.exerc, texto) {
 relatorioNota <- function (id.exerc, nota, texto) {
 		# Definicoes iniciais
 		dica <- dbGetQuery (con,
-							paste("SELECT dica FROM teste
-								  WHERE id_exercicio = ", id.exerc,
-								  " ORDER BY ordem ASC ", sep=""));
+							paste("SELECT dica FROM testes
+								  WHERE exercicio_id = ", id.exerc,
+								  " ORDER BY id ASC ", sep=""));
 		peso <- dbGetQuery (con,
-							paste("SELECT peso FROM teste
-								  WHERE id_exercicio = ", id.exerc,
-								  " ORDER BY ordem ASC ", sep=""));
+							paste("SELECT peso FROM testes
+								  WHERE exercicio_id = ", id.exerc,
+								  " ORDER BY id ASC ", sep=""));
 		notaMax <-dim(dica)[1]
 		Rel <- "";
 		if (! is.null(nota) && sum(nota) != notaMax) { 
@@ -90,57 +90,37 @@ relatorioNota <- function (id.exerc, nota, texto) {
 }
 
 # gravarNota recebe
-# nome.aluno (pode ser NULL, no caso de ouvintes)
+# id.aluno (pode ser NULL, no caso de ouvintes)
 # numero.aula, numero.exercicio
 # nota: logical vector contendo o resultado da correcao
 # texto: resposta dada pelo aluno
 # Valor de retorno: char, especificando mensagem de sucesso ou erro 
 # na insercao da nota
-gravarNota <- function (nome.aluno, id.exerc, texto, nota = corretoR(id.exerc, texto), ignore=F) {
+gravarNota <- function (id.aluno="", id.exerc, texto, nota = corretoR(id.exerc, texto)) {
+		if (id.aluno =="") {
+			return ("<p>Fa&ccedil;a login para gravar a sua nota.</p>");
+		}
 		# Definicoes iniciais
-		id.aluno <- dbGetQuery(con, paste("SELECT id_aluno FROM aluno 
-						   WHERE nome_aluno ='", nome.aluno,"'", sep=""));
 		Date <- format(Sys.time(), "%F %R");
 
-		if (no.results(id.aluno)) { 
-			id.aluno <- "NULL";
-		}
-		else {
-			prazo <- dbGetQuery(con,
-				paste("SELECT prazo FROM prazo
-				JOIN turma USING (id_turma) JOIN aluno USING (id_turma)
-				WHERE id_exercicio=", id.exerc, " AND id_aluno=", id.aluno));
-			if(no.results(prazo)) 
-			  prazo = "Inf"
-			# Condicoes para gravar a nota
-			if (prazo != "Inf" & Date > prazo & ! ignore) return ("<p><font color='#8c2618'>O prazo para entrega j&aacute; expirou!</font> A nota n&atilde;o foi gravada.</p>")
-		}
-
 		peso <- dbGetQuery (con,
-				paste("SELECT peso FROM teste
-				WHERE id_exercicio = ", id.exerc,
-				" ORDER BY ordem ASC ", sep=""));
+				paste("SELECT peso FROM testes
+				WHERE exercicio_id = ", id.exerc,
+				" ORDER BY id ASC ", sep=""));
 
 		# Escapa os single quotes do texto
-		texto <- gsub("'", '"', texto)
 		if (is.null(nota)) nota <-rep(0, length(t(peso)));
-		res <- dbSendQuery(con,paste("INSERT INTO nota (id_aluno, id_exercicio, data, nota, texto) 
-					VALUES (",id.aluno,",",id.exerc,",'",Date,"',",
-					round(100*weighted.mean(nota, t(peso))), ",'",paste(texto, collapse="\n"),"')",sep=""))
-		melhorNota <- dbGetQuery(con,
-					 paste("SELECT max(nota) FROM nota
-					 WHERE id_aluno = ",id.aluno, " AND id_exercicio=",
-					 id.exerc, sep=""));
-
-		if (id.aluno =="NULL") return ("<p><font color='#8c2618'>Voc&ecirc; n&atilde;o est&aacute; logado.</font> A nota n&atilde;o foi gravada.</p>")
-		Rel <- paste("<p>Nota cadastrada! Sua melhor nota nesse exerc&iacute;cio &eacute; <b>", melhorNota, 
-					  "%</b>.", sep="")
-		if (prazo != "Inf") Rel <- paste (Rel, "<br>O prazo para enviar novas tentativas &eacute; ", prazo, ".", sep="");
+		valornota = round(100*weighted.mean(nota, t(peso)))
+		insert = paste0("INSERT INTO notas (user_id, exercicio_id, created_at, nota) 
+					VALUES (",id.aluno,",",id.exerc,",'",Date,"',",valornota, ")");
+		res <- dbSendQuery(con, insert);
+		Rel <- paste("<p>Nota cadastrada!</b>.", sep="");
+		
 		return (paste(Rel, "</p>"));
 }
 
 # Recebe o exercicio, corrige, grava a nota e gera um output formatado em HTML
-notaR <- function (nome.aluno, id.exerc, arquivo, ignore=F) {
+notaR <- function (id.aluno, id.exerc, arquivo) {
 		texto <- readLines(arquivo, encoding="utf8");
 		nota <- corretoR (id.exerc, texto);
 		# Tenta de novo com charset latin1:
@@ -149,7 +129,7 @@ notaR <- function (nome.aluno, id.exerc, arquivo, ignore=F) {
 			nota <- corretoR (id.exerc, texto);
 		}
 		# Grava a nota no banco:
-		notaGravada <- gravarNota(nome.aluno, id.exerc, texto, nota, ignore)
+		notaGravada <- gravarNota(id.aluno, id.exerc, texto, nota)
 		# Gera o relatorio de notas:
 		Rel <- relatorioNota(id.exerc, nota, texto);
 		return(paste(Rel, notaGravada,sep=""))
@@ -157,4 +137,4 @@ notaR <- function (nome.aluno, id.exerc, arquivo, ignore=F) {
 # Exemplos: 
 # con <- connect('notaR', 'notaRPW', 'notaR')
 # PATH <- '/var/www/notaR/'
-# notaR('chalom', 2,"xpto.R")
+# notaR(1, 1,"xpto.R")

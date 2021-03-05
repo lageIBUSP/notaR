@@ -57,7 +57,7 @@ class ExercicioController extends Controller
 		$data = $request->validate($rules);
 
 		// store
-		$exercicio = tap(new Exercicio($data));
+		$exercicio = new Exercicio($data);
 		DB::transaction(function() use ($data, $exercicio) {
 			$exercicio->save();
 
