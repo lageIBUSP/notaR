@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -100,7 +101,9 @@ class ExercicioController extends Controller
 		// mock de resposta do R
 		try {
 			$cnx = new \Sentiweb\Rserve\Connection('r');
-			$r = $cnx->evalString($data['codigo']);
+
+			Storage::put('file.R', $data['codigo']);
+			$r = $cnx->evalString('1+1');
 
 			$respostaR = [
 				'status' => 'success',
@@ -108,6 +111,7 @@ class ExercicioController extends Controller
 			];
 		}
 		catch (\Sentiweb\Rserve\Exception $e){
+			throw($e);
 			$respostaR = [
 				'status' => 'fail',
 				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' 
