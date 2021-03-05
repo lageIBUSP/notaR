@@ -25,6 +25,7 @@
 		</div>
 		@if(Auth::user()->isAdmin())
 		<div class="form-group">
+		    <label for="is_admin">Tipo de usuário</label>
 		    <select id="is_admin" name="is_admin">
 				<option value="1" {{$user->isAdmin()?"selected":""}}>Professor</option>
 				<option value="0" {{$user->isAdmin()?"":"selected"}}>Aluno</option>

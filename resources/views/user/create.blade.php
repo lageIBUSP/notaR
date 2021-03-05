@@ -30,6 +30,7 @@
 		    @enderror
 		</div>
 		<div class="form-group">
+		    <label for="is_admin">Tipo de usuário</label>
 		    <select id="is_admin" name="is_admin">
 				<option value="1" >Professor</option>
 				<option value="0" selected>Aluno</option>
