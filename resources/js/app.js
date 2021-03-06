@@ -35,7 +35,7 @@ $(document).ready(() => {
         }
     });
 
-    $('.datetimepicker-input').datetimepicker();
+    $('.datetimepicker-input').datetimepicker({format: 'YYYY-MM-DD HH:mm'});
 
     $('.clear-input').click(function() {
         $(this).closest('td').find('input').val('');
