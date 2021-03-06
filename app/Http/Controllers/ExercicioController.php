@@ -104,11 +104,17 @@ class ExercicioController extends Controller
 			$cnx = new \Sentiweb\Rserve\Connection('r');
 
 			Storage::put('file.R', $data['codigo']);
-			$r = $cnx->evalString('1+1');
+			$rcode = 'source("/usr/local/src/notar/corretor.R");'
+					.'source("/arquivos/file.R");'
+					.'ls()';
+			$r = $cnx->evalString($rcode);
 
 			$respostaR = [
 				'status' => 'success',
-				'mensagem' => $r 
+				'mensagem' => 'Parabéns! Você enviou seu exercício ao notaR! <br>'
+							. 'Toca aqui!'
+							   //.'Estes são os objetos que existem no seu workspace: <br>'
+							   //.print_r($r,TRUE) 
 			];
 		}
 		catch (\Sentiweb\Rserve\Exception $e){
