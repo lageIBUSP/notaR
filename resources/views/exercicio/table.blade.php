@@ -28,7 +28,7 @@
 
                 <!-- edit -->
                 @can ('edit', $value)
-                <a class="btn btn-small btn-info" href="{{ URL::to('exercicio/' . $value->id . '/edit') }}">Editar</a>
+                <a class="btn btn-small btn-edit" href="{{ URL::to('exercicio/' . $value->id . '/edit') }}">Editar</a>
                 @endcan
 
             </td>
@@ -36,4 +36,3 @@
     @endforeach
     </tbody>
 </table>
-
