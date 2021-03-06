@@ -15,6 +15,10 @@ class Turma extends Model
         return $this->users->isNotEmpty();
     }
 
+    public function temPrazo() {
+        return $this->prazos->isNotEmpty();
+    }
+
     // relationships
     public function users()
     {

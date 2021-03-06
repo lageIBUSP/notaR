@@ -42,6 +42,8 @@ services:
             - '6311'
         networks:
             - sail
+        volumes:
+            - './storage/app:/arquivos'
 networks:
     sail:
         driver: bridge

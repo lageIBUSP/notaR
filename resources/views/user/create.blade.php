@@ -7,11 +7,7 @@
 	<div class="row">
 	    <form action="/user" method="POST">
 		@csrf
-		@if ($errors->any())
-		    <div class="alert alert-danger" role="alert">
-			    Please fix the following errors
-		    </div>
-		@endif
+		@include ('includes.error_alert')
 		<div class="form-group">
 		    <label for="name">Nome</label>
 		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Nome" value="{{old('name')}}">
@@ -34,8 +30,11 @@
 		    @enderror
 		</div>
 		<div class="form-group">
-		    <label for="is_admin">Dar poderes de administrador/professor?</label>
-		    <input type="checkbox" id="is_admin" name="is_admin" value="1">
+		    <label for="is_admin">Tipo de usuário</label>
+		    <select id="is_admin" name="is_admin">
+				<option value="1" >Professor</option>
+				<option value="0" selected>Aluno</option>
+			</select>
 		    @error('is_admin')
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror

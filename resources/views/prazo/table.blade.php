@@ -25,7 +25,7 @@
                 <td>
                     <a href={{"/exercicio/".$value->exercicio->id}}>
                     <div style="height:100%;width:100%">
-                        {{ $value->exercicio->titulo }}
+                        {{ $value->exercicio->name }}
                     </div>
                     </a>
                 </td>
@@ -51,14 +51,8 @@
             @can ('edit', $turma)
                 <td>
 
-                    <!-- edit  -->
-                    @if ($editButton ?? '')
-                        <a class="btn btn-small btn-edit" href="{{ URL::to('prazo/' . $value->id . '/edit') }}">Editar</a>
-                    @endif
-
                     <!-- remove -->
                     @if ($removeButton ?? '')
-                    @can ('delete', $value)
                      <form method="POST" action="/prazo/{{$value->id}}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
@@ -67,7 +61,6 @@
                             <input type="submit" class="btn btn-remove" value="Remover">
                         </div>
                     </form>
-                    @endcan
                     @endif
 
                 </td>

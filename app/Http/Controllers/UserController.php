@@ -45,10 +45,9 @@ class UserController extends Controller
             'is_admin'  => 'sometimes|boolean'
 		);
 		$data = $request->validate($rules);
-        if($data->is_admin ?? "") {
+        if(isset($data->is_admin)) {
             $this->authorize('makeAdmin',$user);
         }
-
 
 		// store
 		$user = tap(new User($data))->save();
@@ -95,7 +94,7 @@ class UserController extends Controller
             'is_admin'  => 'sometimes|boolean'
 		);
 		$data = $request->validate($rules);
-        if($data->is_admin ?? "") {
+        if(isset($data->is_admin)) {
             $this->authorize('makeAdmin',$user);
         }
 

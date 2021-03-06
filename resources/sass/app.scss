@@ -5,8 +5,10 @@
 // Variables
 @import 'variables';
 
-// Bootstrap
+// Libraries
 @import '~bootstrap/scss/bootstrap';
+@import '~tempusdominus-bootstrap-4/build/css/tempusdominus-bootstrap-4.min.css';
+@import '~font-awesome/scss/font-awesome.scss';
 
 html, body {
     height: 100%;
@@ -16,6 +18,37 @@ body {
     font-family: 'Roboto', sans-serif;
     display: flex;
     flex-direction: column;
+    color: $text-color;
+}
+
+.table {
+    color: $text-color!important;
+}
+
+.table tr:first-child td i.remove-row {
+    display:none;
+}
+
+a {
+    color: $text-color;
+    &:hover {
+        $color: $secondary;
+        text-decoration: none;
+    }
+    &:active {
+        $color: $secondary;
+        text-decoration: none;
+    }
+}
+
+p {
+    a {
+        color: $primary;
+    }
+}
+
+.jumbotron {
+    background-color: $body-secondary;
 }
 
 h1, h2, h3 {
@@ -29,8 +62,9 @@ h1, h2, h3 {
 img.logo {
     width: 1.5em;
 }
+
 span.R {
-    color: $yellow;
+    color: $alert;
 }
 
 div.container-flex-center {
@@ -44,8 +78,8 @@ div.container-flex-center {
 header.topbar{
     width: 100%;
     padding: 20px;
-    background-color: $blue;
-    color: $offwhite;
+    background-color: $primary;
+    color: $body-bg;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -54,9 +88,9 @@ header.topbar{
         padding: 10px;
     }
     a {
-        color: $offwhite;
+        color: $body-bg;
         &:hover {
-            color: scale-color($offwhite, $lightness: -10%);
+            color: scale-color($body-bg, $lightness: -10%);
             text-decoration: none;
         }
     }
@@ -68,8 +102,70 @@ div.container {
 }
 
 footer {
-    border-top: #3d3d3d 1px solid;
-    background-color: scale-color($offwhite, $lightness: -10%);
+    border-top: $text-color 1px solid;
+    background-color: $body-secondary;
     padding: 20px;
     flex-shrink: 0;
+}
+
+.btn {
+    transition: background-color 400ms ease-in-out, border-color 400ms ease-in-out, color 400ms ease-in-out;
+}
+
+.btn.btn-edit, .btn.btn-primary {
+    color: $body-bg;
+    background-color: $primary;
+    border-color: $primary;
+    &:hover {
+        background-color: scale-color($primary, $lightness: -20%);
+        border-color: scale-color($primary, $lightness: -20%);
+    }
+}
+
+.btn.btn-remove {
+    color: $text-color;
+    background-color: $alert;
+    border-color: $alert;
+    &:hover {
+        background-color: scale-color($alert, $lightness: -20%);
+        border-color: scale-color($alert, $lightness: -20%);
+    }
+    transition: background-color 400ms ease-in-out, border-color 400ms ease-in-out, color 400ms ease-in-out;
+}
+
+.btn.btn-delete {
+    color: $body-bg;
+    background-color: $danger;
+    border-color: $danger;
+    &:hover {
+        background-color: scale-color($danger, $lightness: -20%);
+        border-color: scale-color($danger, $lightness: -20%);
+    }
+    transition: background-color 400ms ease-in-out, border-color 400ms ease-in-out, color 400ms ease-in-out;
+}
+
+// Styles forms but only inside the main area of the site:
+.container-main {
+    form {
+        width: 100%;
+    }
+
+    .row {
+        padding: 10px;
+    }
+    
+    .form-group {
+        width: 75%;
+        max-width: 400px;
+        min-width: 170px;
+    }
+
+    .form-inline {
+        max-width: 200px;
+        display: inline;
+    }
+
+    input.small {
+        max-width: 45px;
+    }
 }

@@ -16,10 +16,9 @@ class CreateExerciciosTable extends Migration
         Schema::create('exercicios', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('titulo')->unique();
-            $table->text('enunciado');
-            $table->text('precondicoes');
-            $table->text('impedimentos');
+            $table->string('name')->unique();
+            $table->text('description');
+            $table->text('precondicoes')->nullable();
         });
     }
 

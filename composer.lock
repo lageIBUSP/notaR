@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e0eabfce7a8d6e0c2cc4427bb51926e4",
+    "content-hash": "728a338b4bb221fa97c2c2eca38fec95",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -117,6 +117,56 @@
                 }
             ],
             "time": "2021-01-20T22:51:39+00:00"
+        },
+        {
+            "name": "cturbelin/rserve-php",
+            "version": "2.0.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/cturbelin/rserve-php.git",
+                "reference": "6396557908bbbd0116a0c9c618300ca84465a6f2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/cturbelin/rserve-php/zipball/6396557908bbbd0116a0c9c618300ca84465a6f2",
+                "reference": "6396557908bbbd0116a0c9c618300ca84465a6f2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "require-dev": {
+                "jakub-onderka/php-parallel-lint": "^0.9",
+                "phpunit/phpunit": "*"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/lib/helpers.php"
+                ],
+                "psr-4": {
+                    "Sentiweb\\Rserve\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "ClÃ©ment Turbelin",
+                    "email": "clement.turbelin@gmail.com"
+                }
+            ],
+            "description": "Rserve client library for PHP",
+            "homepage": "https://github.com/cturbelin/rserve-php",
+            "keywords": [
+                "Rserve",
+                "r",
+                "stats"
+            ],
+            "support": {
+                "issues": "https://github.com/cturbelin/rserve-php/issues",
+                "source": "https://github.com/cturbelin/rserve-php/tree/master"
+            },
+            "time": "2018-06-28T12:23:05+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -7461,7 +7511,9 @@
     ],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": [],
+    "stability-flags": {
+        "cturbelin/rserve-php": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {
