@@ -118,7 +118,6 @@ class ExercicioController extends Controller
 			];
 		}
 		catch (\Sentiweb\Rserve\Exception $e){
-			throw($e);
 			$respostaR = [
 				'status' => 'fail',
 				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' 
