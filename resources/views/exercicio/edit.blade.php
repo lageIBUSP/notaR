@@ -3,7 +3,7 @@
 
 <div class="container">
 	<div class="row">
-	    <h1>Criar novo exercício</h1>
+	    <h1>Alterar exercício</h1>
 	</div>
 	<div class="row">
 	    <form action="{{'/exercicio/'.$exercicio->id}}" method="POST">
