@@ -155,9 +155,12 @@ footer {
     }
     
     .form-group {
-        width: 75%;
-        max-width: 400px;
+        width: 95%;
         min-width: 170px;
+    }
+
+    textarea#editor {
+        min-height: 200px;
     }
 
     .form-inline {

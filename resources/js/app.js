@@ -45,6 +45,15 @@ $(document).ready(() => {
     $('.sortable tbody').sortable();
 
     updaterows();
+
+    // Attaches CKeditor classic on #editor elements
+    if ($('textarea#editor').length) {
+        ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );    
+    }
 });
 
 function updaterows () {

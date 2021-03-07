@@ -4,7 +4,7 @@
 <div class="container">
     <h1>{{ $exercicio->name }}</h1>
     <div class="jumbotron">
-        <p>{{ $exercicio->description }}</p>
+        <p>{!! $exercicio->description !!}</p>
     </div>
 
     <!-- form pra enviar exercicio -->

@@ -21,7 +21,7 @@
 
 		<div class="form-group">
 		    <label for="description">Enunciado</label>
-		    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="Salve o resultado da estatística xyz na variável abc">{{ old('description', $exercicio->description) }}</textarea>
+		    <textarea class="form-control @error('description') is-invalid @enderror" id="editor" name="description" placeholder="Salve o resultado da estatística xyz na variável abc">{{ old('description', $exercicio->description) }}</textarea>
 		    @error('description')
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
