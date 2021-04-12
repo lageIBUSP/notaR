@@ -105,9 +105,16 @@ class ExercicioController extends Controller
 
 			Storage::put('file.R', $data['codigo']);
 			$rcode = 'source("/usr/local/src/notar/corretor.R");'
-					.'source("/arquivos/file.R");'
-					.'outputNotaR<-1';
+					. 'dbusr <- "'. env('DB_USERNAME') . '";'
+					. 'dbpass <- NULL;'
+					. 'dbname <- "'. env('DB_DATABASE') . '";'
+
+					. 'con <- connect(dbusr, dbpass, dbname);'
+					. 'corretoR('. $exercicio->id .',"'.$data['codigo'].'");'
+					;
 			$r = $cnx->evalString($rcode);
+
+			
 
 			$respostaR = [
 				'status' => 'success',
@@ -121,6 +128,7 @@ class ExercicioController extends Controller
 				'status' => 'fail',
 				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' 
 			];
+			throw $e;
 		}
 		
 		return View('exercicio.show')->with('exercicio',$exercicio)->
