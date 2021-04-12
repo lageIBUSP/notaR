@@ -14,6 +14,9 @@ class Nota extends Model
     use HasFactory;
     protected $table = 'notas';
     protected $guarded = [];
+    protected $casts = [
+        'testes' => 'array'
+    ];
 
     // relationships
     public function user()

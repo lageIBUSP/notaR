@@ -117,7 +117,6 @@ class ExercicioController extends Controller
 			];
 		}
 		
-
 		// syntax error
 		if ($r === null) {
 			return [
@@ -127,6 +126,11 @@ class ExercicioController extends Controller
 				'resultado' => $r,
 				'nota' => 0
 			];
+		}
+
+		// garantee that $r is an array ffs
+		if(is_bool($r)) {
+			$r = [$r];
 		}
 
 		// 100%
@@ -187,8 +191,9 @@ class ExercicioController extends Controller
 		// salvar no banco de dados
 		$exercicio->notas()->create([
 			'nota' => $respostaR['nota'],
-			'user_id'=>Auth::user()->id
-			
+			'user_id' => Auth::user()->id,
+			'testes' => $respostaR['resultado'],
+			'codigo' => $respostaR['codigo']
 		]);
 		
 		return View('exercicio.show')->with('exercicio',$exercicio)->
