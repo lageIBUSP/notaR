@@ -86,6 +86,86 @@ class ExercicioController extends Controller
 	}
 
 	/**
+	 * Roda o corretoR usando o código
+	 *
+	 * @param  App/Model/Exercicio $exercicio
+     * @param  string $codigo
+	 * @return Array
+	 */
+	private function corretoR (Exercicio $exercicio, string $codigo) {
+		// resposta do R
+		try {
+			$cnx = new \Sentiweb\Rserve\Connection('r');
+
+			$rcode = 'source("/usr/local/src/notar/corretor.R");'
+					. 'dbusr <- "'. env('DB_USERNAME') . '";'
+					. 'dbpass <- NULL;'
+					. 'dbname <- "'. env('DB_DATABASE') . '";'
+
+					. 'con <- connect(dbusr, dbpass, dbname);'
+					. 'corretoR('. $exercicio->id .',"'.$codigo.'");'
+					;
+			$r = $cnx->evalString($rcode);
+		}
+		catch (\Sentiweb\Rserve\Exception $e){
+			return [
+				'status' => 'fail',
+				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' 
+			];
+		}
+		
+
+		// syntax error
+		if ($r === null) {
+			return [
+				'status' => 'fail',
+				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' ,
+				'codigo' => $codigo,
+				'resultado' => $r,
+				'nota' => 0
+			];
+		}
+
+		// 100%
+		if(in_array(false, $r, true) === false) {
+			return [
+				'status' => 'success',
+				'mensagem' => 'Parabéns! Seu código passou em todos os testes! <br>'
+							. 'Toca aqui!',
+				'codigo' => $codigo,
+				'resultado' => $r,
+				'nota' => 100
+			];
+		}
+
+		// pega lista de testes
+		$testes = $exercicio->testes;
+		// calcula nota
+		$nota = 0;
+		$firstmistake = -1;
+		for($i = 0; $i<length($testes); $i++) {
+			if($r[$i]) {
+				$nota += $testes[$i]->peso;
+			}
+			else if ($firstmistake == -1) {
+				$firstmistake = $i;
+			} 
+		}
+		$dica <- $testes[$firstmistake]->dica;
+		$notamax = $testes->sum('peso');
+		$notanormalizada = $nota/$notamax;
+
+		return [
+			'status' => 'normal',
+			'mensagem' => $dica,
+			'codigo' => $codigo,
+			'resultado' => $r,
+			'nota' => $notanormalizada
+		];
+
+	}
+
+	/**
 	 * Ação de fazer exercício usando o form
 	 *
 	 * @param  \Illuminate\Http\Request  $request
@@ -99,40 +179,13 @@ class ExercicioController extends Controller
 		);
 		$data = $request->validate($rules);
 
-		// mock de resposta do R
-		try {
-			$cnx = new \Sentiweb\Rserve\Connection('r');
+		$respostaR = $this->corretoR($exercicio,$data['codigo']);
 
-			Storage::put('file.R', $data['codigo']);
-			$rcode = 'source("/usr/local/src/notar/corretor.R");'
-					. 'dbusr <- "'. env('DB_USERNAME') . '";'
-					. 'dbpass <- NULL;'
-					. 'dbname <- "'. env('DB_DATABASE') . '";'
+		// salvar no banco de dados
 
-					. 'con <- connect(dbusr, dbpass, dbname);'
-					. 'corretoR('. $exercicio->id .',"'.$data['codigo'].'");'
-					;
-			$r = $cnx->evalString($rcode);
-
-			
-
-			$respostaR = [
-				'status' => 'success',
-				'mensagem' => 'Parabéns! Você enviou seu exercício ao notaR! <br>'
-							. 'Toca aqui! <br>'
-							. print_r($r,TRUE) 
-			];
-		}
-		catch (\Sentiweb\Rserve\Exception $e){
-			$respostaR = [
-				'status' => 'fail',
-				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' 
-			];
-			throw $e;
-		}
 		
 		return View('exercicio.show')->with('exercicio',$exercicio)->
-					with('respostaR',$respostaR)->with('codigo',$data['codigo']);
+					with('respostaR',$respostaR);
 	}
 
 	/**
