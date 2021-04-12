@@ -94,6 +94,8 @@ class ExercicioController extends Controller
 	 * @return Array
 	 */
 	private function corretoR (Exercicio $exercicio, string $codigo) {
+		// corrigir EOL
+		$codigo = str_replace("\r\n","\n",$codigo);
 		// resposta do R
 		try {
 			$cnx = new \Sentiweb\Rserve\Connection('r');
@@ -154,7 +156,7 @@ class ExercicioController extends Controller
 		}
 		$dica = $testes[$firstmistake]->dica;
 		$notamax = $testes->sum('peso');
-		$notanormalizada = $nota/$notamax;
+		$notanormalizada = 100*$nota/$notamax;
 
 		return [
 			'status' => 'normal',

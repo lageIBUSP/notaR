@@ -16,7 +16,7 @@
             <label for="código"><h3>Resposta</h3></label>
             <textarea type="text" class="form-control @error('codigo') is-invalid @enderror"
                     id="codigo" name="codigo" placeholder="Escreva seu código aqui"
-                    >{{ old('codigo',$codigo ?? '') }}</textarea>
+                    >{{ old('codigo',$respostaR['codigo'] ?? '') }}</textarea>
             @error('codigo')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -26,8 +26,11 @@
     </form>
     @if ($respostaR ?? "")
         <div class="row">
-            <div class="alert {{$respostaR['status'] == 'success' || $respostaR['status'] == 'normal'  ? 'alert-success' : 'alert-danger'}} retorno">
-                {!!$respostaR['mensagem']!!}
+            <div class="alert {{$respostaR['status'] == 'success' ? 'alert-success' : ($respostaR['status'] == 'normal'  ? 'alert-info' : 'alert-danger') }} retorno">
+                <p>{!!$respostaR['mensagem']!!}</p>
+                <p><b>Sua nota: {{$respostaR['nota']}}%</b></p>
+                <p><b>Seu código: </b> <br></p>
+                {!! nl2br(e($respostaR['codigo'])) !!}
             </div>
         </div>
     @endif
