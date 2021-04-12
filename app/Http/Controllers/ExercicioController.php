@@ -10,6 +10,7 @@ use App\Models\Exercicio;
 use App\Models\User;
 use App\Models\Teste;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ExercicioController extends Controller
 {
@@ -110,7 +111,7 @@ class ExercicioController extends Controller
 		catch (\Sentiweb\Rserve\Exception $e){
 			return [
 				'status' => 'fail',
-				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' 
+				'mensagem' => 'Ocorreu um erro na correção do exercício! Por favor contate um administrador.' 
 			];
 		}
 		
@@ -182,7 +183,11 @@ class ExercicioController extends Controller
 		$respostaR = $this->corretoR($exercicio,$data['codigo']);
 
 		// salvar no banco de dados
-
+		$exercicio->notas()->create([
+			'nota' => $respostaR['nota'],
+			'user_id'=>Auth::user()->id
+			
+		]);
 		
 		return View('exercicio.show')->with('exercicio',$exercicio)->
 					with('respostaR',$respostaR);

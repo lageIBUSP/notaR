@@ -26,7 +26,7 @@
     </form>
     @if ($respostaR ?? "")
         <div class="row">
-            <div class="alert {{$respostaR['status'] == 'success' ? 'alert-success' : 'alert-danger'}} retorno">
+            <div class="alert {{$respostaR['status'] == 'success' || $respostaR['status'] == 'normal'  ? 'alert-success' : 'alert-danger'}} retorno">
                 {!!$respostaR['mensagem']!!}
             </div>
         </div>
