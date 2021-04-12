@@ -60,3 +60,8 @@ corretoR <- function (id.exerc, texto) {
 		notas[is.na(notas)] <- FALSE
 		return(notas);
 }
+
+# Exemplos: 
+# con <- connect('notaR', 'notaRPW', 'notaR')
+# PATH <- '/var/www/notaR/'
+# corretoR(1, "y<-1;x<-2")
