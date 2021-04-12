@@ -88,7 +88,7 @@ class ExercicioController extends Controller
 	/**
 	 * Roda o corretoR usando o código
 	 *
-	 * @param  App/Model/Exercicio $exercicio
+	 * @param  Exercicio $exercicio
      * @param  string $codigo
 	 * @return Array
 	 */
@@ -143,7 +143,7 @@ class ExercicioController extends Controller
 		// calcula nota
 		$nota = 0;
 		$firstmistake = -1;
-		for($i = 0; $i<length($testes); $i++) {
+		for($i = 0; $i<count($testes); $i++) {
 			if($r[$i]) {
 				$nota += $testes[$i]->peso;
 			}
@@ -151,7 +151,7 @@ class ExercicioController extends Controller
 				$firstmistake = $i;
 			} 
 		}
-		$dica <- $testes[$firstmistake]->dica;
+		$dica = $testes[$firstmistake]->dica;
 		$notamax = $testes->sum('peso');
 		$notanormalizada = $nota/$notamax;
 
