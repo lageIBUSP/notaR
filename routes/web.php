@@ -7,6 +7,7 @@ use App\Http\Controllers\NotaController;
 use App\Http\Controllers\PrazoController;
 use App\Http\Controllers\ExercicioController;
 use App\Http\Controllers\TesteController;
+use App\Http\Controllers\ArquivoController;
 
 // Use APP_URL by default
 URL::forceRootUrl(env('APP_URL'));
@@ -34,6 +35,7 @@ Route::resources([
     'exercicio' => ExercicioController::class,
     'prazo' => PrazoController::class,
     'nota' => NotaController::class,
+    'arquivo' => ArquivoController::class,
 ]);
 
 Route::get('/turma/{turma}/remove/{user}', [TurmaController::class, 'remove']);
