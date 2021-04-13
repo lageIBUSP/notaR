@@ -98,4 +98,17 @@
 	    </form>
 	</div>
 </div>
+<script defer>
+// Attaches CKeditor classic on #editor elements
+$(() => {
+    ClassicEditor
+    .create(document.querySelector('#editor'), {
+        filebrowserUploadUrl: "{{route('image.upload', ['_token' => csrf_token() ])}}",
+        filebrowserUploadMethod: 'form'
+    })
+    .catch(error => {
+        console.error( error );
+    });
+});
+</script>
 @endsection

@@ -42,3 +42,5 @@ Route::put('/turma/{turma}/prazos', [TurmaController::class, 'updateprazos']);
 Route::post('/exercicio/{exercicio}', [ExercicioController::class, 'submit'])->name('exercicio.submit');
 
 require __DIR__.'/auth.php';
+
+Route::post('/image/upload', 'ImageController@upload')->name('image.upload');

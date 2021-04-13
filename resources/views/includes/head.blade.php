@@ -7,8 +7,8 @@
     <title>notaR</title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    <script src="https://cdn.ckeditor.com/ckeditor5/26.0.0/classic/ckeditor.js" defer></script>
+    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/26.0.0/classic/ckeditor.js"></script>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
