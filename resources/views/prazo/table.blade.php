@@ -19,7 +19,7 @@
         </tr>
     </thead>
     <tbody>
-    @foreach($prazos as $key => $value)
+    @foreach($prazos->sortBy('prazo') as $key => $value)
         <tr>
             @unless ($exercicio ?? "")
                 <td>

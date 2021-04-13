@@ -3,7 +3,7 @@
 
 <h1>{{ $turma->name }}</h1>
     <div class="jumbotron">
-        <p>{{ $turma->description }}</p>
+        <p>{!! nl2br($turma->description) !!}</p>
     </div>
     <a class="collapse-button" data-toggle="collapse" href="#collapseMembros" role="button" aria-expanded="true" aria-controls="collapseMembros">
         <h2>Membros</h2>
