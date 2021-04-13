@@ -101,19 +101,26 @@ class ExercicioController extends Controller
 			$cnx = new \Sentiweb\Rserve\Connection('r');
 
 			$rcode = 'source("/usr/local/src/notar/corretor.R");'
+					// database auth
 					. 'dbusr <- "'. env('DB_USERNAME') . '";'
 					. 'dbpass <- NULL;'
 					. 'dbname <- "'. env('DB_DATABASE') . '";'
-
 					. 'con <- connect(dbusr, dbpass, dbname);'
+					// import files
+					. 'file.copy(list.files("/arquivos/",recursive=TRUE,full.names=TRUE),".");'
+					// run corretoR
 					. 'corretoR('. $exercicio->id .',"'.$codigo.'");'
 					;
 			$r = $cnx->evalString($rcode);
+			dd($r);
 		}
 		catch (\Sentiweb\Rserve\Exception $e){
 			return [
 				'status' => 'fail',
-				'mensagem' => 'Ocorreu um erro na correção do exercício! Por favor contate um administrador.' 
+				'mensagem' => 'Ocorreu um erro na correção do exercício! Por favor verifique seu código ou contate um administrador.' ,
+				'codigo' => $codigo,
+				'resultado' => null,
+				'nota' => 0
 			];
 		}
 		
