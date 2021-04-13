@@ -24,4 +24,12 @@
         <li><a href="{{ URL::to('exercicio/create') }}">Cadastrar exercicio</a></li>
         @endcan
     </ul>
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ URL::to('arquivo') }}">Arquivos</a>
+    </div>
+    <ul class="nav navbar-nav">
+        @can ('create', App\Model\Arquivo::class)
+        <li><a href="{{ URL::to('arquivo/create') }}">Upload de arquivo</a></li>
+        @endcan
+    </ul>
 </nav>

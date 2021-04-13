@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Arquivo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class ArquivoController extends Controller
 {
@@ -62,7 +63,7 @@ class ArquivoController extends Controller
      */
     public function show(Arquivo $arquivo)
     {
-        //
+        return redirect(URL::to(Storage::url($arquivo->path)));
     }
 
     /**
