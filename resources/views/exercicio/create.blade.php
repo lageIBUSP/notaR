@@ -6,7 +6,7 @@
 	    <h1>Criar novo exercício</h1>
 	</div>
 	<div class="row">
-	    <form action="/exercicio" method="POST">
+	    <form action="{{URL::to("/exercicio")}}" method="POST">
 		@csrf
         @method (isset($exercicio) ? 'put' : 'post')
 		@include ('includes.error_alert')

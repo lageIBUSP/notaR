@@ -40,7 +40,7 @@
 	    </form>
 
 		@can ('delete', $user)
-		<form method="POST" action="/user/{{$user->id}}">
+		<form method="POST" action="{{URL::to("/user/".$user->id)}}">
 			{{ csrf_field() }}
 			{{ method_field('DELETE') }}
 

@@ -32,7 +32,7 @@
         <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/prazos') }}">Alterar prazos</a>
     @endcan
     @can ('delete', $turma)
-     <form method="POST" action="/turma/{{$turma->id}}">
+     <form method="POST" action="{{URL::to("/turma/".$turma->id)}}">
         {{ csrf_field() }}
         {{ method_field('DELETE') }}
 

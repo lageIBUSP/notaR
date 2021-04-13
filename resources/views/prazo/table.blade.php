@@ -53,7 +53,7 @@
 
                     <!-- remove -->
                     @if ($removeButton ?? '')
-                     <form method="POST" action="/prazo/{{$value->id}}">
+                     <form method="POST" action="{{URL::to("/prazo/".$value->id)}}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 

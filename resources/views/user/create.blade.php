@@ -5,7 +5,7 @@
 	    <h1>Criar novo usuário</h1>
 	</div>
 	<div class="row">
-	    <form action="/user" method="POST">
+	    <form action="{{URL::to("/user")}}" method="POST">
 		@csrf
 		@include ('includes.error_alert')
 		<div class="form-group">

@@ -112,7 +112,6 @@ class ExercicioController extends Controller
 					. 'corretoR('. $exercicio->id .',"'.$codigo.'");'
 					;
 			$r = $cnx->evalString($rcode);
-			dd($r);
 		}
 		catch (\Sentiweb\Rserve\Exception $e){
 			return [

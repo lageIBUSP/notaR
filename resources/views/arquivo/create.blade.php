@@ -5,7 +5,7 @@
 			<h1>Carregar arquivo</h1>
 		</div>
 		<div class="row">
-			<form action="/arquivo" method="POST" enctype="multipart/form-data">
+			<form action="{{URL::to("/arquivo")}}" method="POST" enctype="multipart/form-data">
 			@csrf
 			@include ('includes.error_alert')
 			<input type="file" id="file" name="file">

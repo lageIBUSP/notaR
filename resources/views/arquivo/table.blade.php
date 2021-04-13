@@ -20,7 +20,7 @@
                 <!-- remove -->
                 @if ($removeButton ?? '')
                 @can ('delete', $value)
-                    <form method="POST" action="/arquivo/{{$value->id}}">
+                    <form method="POST" action="{{URL::to("/arquivo/".$value->id})}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 
