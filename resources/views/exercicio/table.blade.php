@@ -10,14 +10,14 @@
     @foreach($exercicios->sortBy('name') as $key => $value)
         <tr>
             <td>
-                <a href={{"/exercicio/".$value->id}}>
+                <a href={{URL::to("/exercicio/".$value->id)}}>
                 <div style="height:100%;width:100%">
                     {{ $value->id }}
                 </div>
                 </a>
             </td>
             <td>
-                <a href={{"/exercicio/".$value->id}}>
+                <a href={{URL::to("/exercicio/".$value->id)}}>
                 <div style="height:100%;width:100%">
                     {{ $value->name }}
                 </div>

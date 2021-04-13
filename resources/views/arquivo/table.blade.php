@@ -9,7 +9,7 @@
     @foreach($arquivos as $key => $value)
         <tr>
             <td>
-                <a href={{"/arquivo/".$value->id}}>
+                <a href={{URL::to("/arquivo/".$value->id)}}>
                 <div style="height:100%;width:100%">
                     {{ $value->name }}
                 </div>
@@ -20,7 +20,7 @@
                 <!-- remove -->
                 @if ($removeButton ?? '')
                 @can ('delete', $value)
-                    <form method="POST" action="{{URL::to("/arquivo/".$value->id})}">
+                    <form method="POST" action="{{URL::to("/arquivo/".$value->id)}}">
                         {{ csrf_field() }}
                         {{ method_field('DELETE') }}
 

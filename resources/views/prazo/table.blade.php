@@ -23,7 +23,7 @@
         <tr>
             @unless ($exercicio ?? "")
                 <td>
-                    <a href={{"/exercicio/".$value->exercicio->id}}>
+                    <a href={{URL::to("/exercicio/".$value->exercicio->id)}}>
                     <div style="height:100%;width:100%">
                         {{ $value->exercicio->name }}
                     </div>
@@ -33,7 +33,7 @@
 
             @unless ($turma ?? "")
                 <td>
-                <a href={{"/turma/".$value->turma->id}}>
+                <a href={{URL::to("/turma/".$value->turma->id)}}>
                 <div style="height:100%;width:100%">
                     {{ $value->turma->name }}
                 </div>

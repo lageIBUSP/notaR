@@ -16,7 +16,7 @@
         <tr>
             @unless ($user ?? '')
                 <td>
-                <a href={{"/user/".$value->user->id}}>
+                <a href={{ URL::to("/user/".$value->user->id) }}>
                 <div style="height:100%;width:100%">
                     {{ $value->user->name }}
                 </div>
@@ -25,7 +25,7 @@
             @endif
             @unless ($exercicio ?? '')
                 <td>
-                <a href={{"/exercicio/".$value->exercicio->id}}>
+                <a href={{ URL::to("/exercicio/".$value->exercicio->id) }}>
                 <div style="height:100%;width:100%">
                     {{ $value->exercicio->name }}
                 </div>

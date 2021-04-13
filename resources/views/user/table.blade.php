@@ -11,21 +11,21 @@
     @foreach($users as $key => $value)
         <tr>
             <td>
-                <a href={{"/user/".$value->id}}>
+                <a href={{URL::to("/user/".$value->id)}}>
                 <div style="height:100%;width:100%">
                     {{ $value->name }}
                 </div>
                 </a>
             </td>
             <td>
-                <a href={{"/user/".$value->id}}>
+                <a href={{URL::to("/user/".$value->id)}}>
                 <div style="height:100%;width:100%">
                     {{ $value->email }}
                 </div>
                 </a>
             </td>
             <td>
-                <a href={{"/user/".$value->id}}>
+                <a href={{URL::to("/user/".$value->id)}}>
                 <div style="height:100%;width:100%">
                     {{ $value->is_admin ? "SIM" : ""}}
                 </div>
