@@ -7,7 +7,7 @@
         </tr>
     </thead>
     <tbody>
-    @foreach($exercicios as $key => $value)
+    @foreach($exercicios->sortBy('name') as $key => $value)
         <tr>
             <td>
                 <a href={{"/exercicio/".$value->id}}>
