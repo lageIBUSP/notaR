@@ -51,7 +51,7 @@ class UserController extends Controller
 
 		// store
 		$user = tap(new User($data))->save();
-		return redirect('user');
+		return $this->show($user);
 	}
 
 	/**
@@ -112,7 +112,6 @@ class UserController extends Controller
 	{
 		$this->authorize('delete', $user);
         $user->delete();
-        return redirect('user');
-		//
+		return $this->index();
 	}
 }

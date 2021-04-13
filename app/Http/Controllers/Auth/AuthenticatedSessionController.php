@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect('/user/'.Auth::user()->id);
+        return redirect()->action([UserController::class, 'show'],['user'=>Auth::user()]);
     }
 
     /**

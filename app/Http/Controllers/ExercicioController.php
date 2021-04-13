@@ -72,7 +72,7 @@ class ExercicioController extends Controller
 			}
 		});
 
-		return redirect('/exercicio/' . $exercicio->id);
+		return $this->show($exercicio);
 	}
 
 	/**
@@ -256,7 +256,7 @@ class ExercicioController extends Controller
 			}
 		});
 
-		return redirect('/exercicio/'.$exercicio->id);
+		return $this->show($exercicio);
     }
 
     /**
@@ -269,7 +269,6 @@ class ExercicioController extends Controller
     {
 		$this->authorize('delete', $exercicio);
         $exercicio->delete();
-        return redirect('exercicio');
-        //...
+		return $this->index();
     }
 }

@@ -52,7 +52,7 @@ class ArquivoController extends Controller
             'path' => $filePath
         ]);
 
-        return redirect('/arquivo');
+		return $this->index();
     }
 
     /**
@@ -102,6 +102,6 @@ class ArquivoController extends Controller
             Storage::delete(public_path($arquivo->path));
         } 
         $arquivo->delete();
-        return redirect('arquivo');
+		return $this->index();
     }
 }

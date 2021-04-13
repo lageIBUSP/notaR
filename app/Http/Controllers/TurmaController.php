@@ -125,7 +125,7 @@ class TurmaController extends Controller
             }
         }
 
-		return redirect('/turma/'.$turma->id);
+		return $this->show($turma);
 	}
 
 
@@ -160,7 +160,8 @@ class TurmaController extends Controller
             }
         }
 
-		return redirect('/turma/'.$turma->id);
+		return $this->show($turma);
+
     }
 
 	/**
@@ -174,7 +175,7 @@ class TurmaController extends Controller
 	{
 		$this->authorize('edit', $turma);
         $turma->users()->detach($user->id);
-		return redirect('/turma/'.$turma->id);
+		return $this->show($turma);
 	}
     /**
      * Remove the specified resource from storage.
@@ -186,6 +187,6 @@ class TurmaController extends Controller
     {
 		$this->authorize('delete', $turma);
         $turma->delete();
-        return redirect('turma');
+		return $this->index();
     }
 }
