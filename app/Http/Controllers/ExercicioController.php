@@ -142,6 +142,8 @@ class ExercicioController extends Controller
 				'status' => 'success',
 				'mensagem' => 'Parabéns! Seu código passou em todos os testes! <br>'
 							. 'Toca aqui!',
+				'resultado' => $r,
+				'nota' => 100
 			];
 		}
 

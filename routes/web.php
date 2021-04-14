@@ -8,6 +8,7 @@ use App\Http\Controllers\PrazoController;
 use App\Http\Controllers\ExercicioController;
 use App\Http\Controllers\TesteController;
 use App\Http\Controllers\ArquivoController;
+use App\Http\Controllers\RelatorioController;
 
 // Use APP_URL by default
 URL::forceRootUrl(env('APP_URL'));
@@ -42,5 +43,7 @@ Route::get('/turma/{turma}/remove/{user}', [TurmaController::class, 'remove']);
 Route::get('/turma/{turma}/prazos', [TurmaController::class, 'editprazos']);
 Route::put('/turma/{turma}/prazos', [TurmaController::class, 'updateprazos']);
 Route::post('/exercicio/{exercicio}', [ExercicioController::class, 'submit'])->name('exercicio.submit');
+
+Route::get('/relatorio/notas/{turma}', [RelatorioController::class, 'relatorioNotas']);
 
 require __DIR__.'/auth.php';
