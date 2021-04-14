@@ -189,9 +189,8 @@ class ExercicioController extends Controller
 		$codigo = str_replace("\r\n","\n",$data['codigo']);
 
 		// salva um arquivo com o codigo
-		$tempfile = '_'.time().md5($codigo);
-		$tempfile_path ='/public/arquivos/'.$tempfile;
-		Storage::put($tempfile_path, $codigo);
+		$tempfile = '/temp/_'.time().md5($codigo);
+		Storage::put($tempfile, $codigo);
 		// corrige
 		$respostaR = $this->corretoR($exercicio,$tempfile);
 		// deleta arquivo temporário

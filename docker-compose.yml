@@ -44,6 +44,7 @@ services:
             - sail
         volumes:
             - './storage/app/public/arquivos:/arquivos'
+            - './storage/app/temp:/temp'
 networks:
     sail:
         driver: bridge
