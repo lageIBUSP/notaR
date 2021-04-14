@@ -61,6 +61,18 @@ corretoR <- function (id.exerc, texto) {
 		return(notas);
 }
 
+# Recebe o exercicio, transforma o texto em string, corrige, e retorna o vetor de true/false para os testes passados
+notaR <- function (id.exerc, arquivo) {
+	texto <- readLines(arquivo, encoding="utf8");
+	nota <- corretoR (id.exerc, texto);
+	# Tenta de novo com charset latin1:
+	if (is.null(nota)) {
+		texto <- readLines(arquivo, encoding="latin1");
+		nota <- corretoR (id.exerc, texto);
+	}
+	return (nota);
+}
+
 # Exemplos: 
 # con <- connect('notaR', 'notaRPW', 'notaR')
 # PATH <- '/var/www/notaR/'

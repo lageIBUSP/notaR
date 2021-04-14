@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\Teste;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class ExercicioController extends Controller
 {
@@ -93,9 +94,7 @@ class ExercicioController extends Controller
      * @param  string $codigo
 	 * @return Array
 	 */
-	private function corretoR (Exercicio $exercicio, string $codigo) {
-		// corrigir EOL
-		$codigo = str_replace("\r\n","\n",$codigo);
+	private function corretoR (Exercicio $exercicio, string $file) {
 		// resposta do R
 		try {
 			$cnx = new \Sentiweb\Rserve\Connection('r');
@@ -109,7 +108,7 @@ class ExercicioController extends Controller
 					// import files
 					. 'file.copy(list.files("/arquivos/",recursive=TRUE,full.names=TRUE),".");'
 					// run corretoR
-					. 'corretoR('. $exercicio->id .',"'.$codigo.'");'
+					. 'notaR('. $exercicio->id .',"'.$file.'");'
 					;
 			$r = $cnx->evalString($rcode);
 		}
@@ -117,7 +116,6 @@ class ExercicioController extends Controller
 			return [
 				'status' => 'fail',
 				'mensagem' => 'Ocorreu um erro na correção do exercício! Por favor verifique seu código ou contate um administrador.' ,
-				'codigo' => $codigo,
 				'resultado' => null,
 				'nota' => 0
 			];
@@ -128,7 +126,6 @@ class ExercicioController extends Controller
 			return [
 				'status' => 'fail',
 				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' ,
-				'codigo' => $codigo,
 				'resultado' => $r,
 				'nota' => 0
 			];
@@ -145,9 +142,6 @@ class ExercicioController extends Controller
 				'status' => 'success',
 				'mensagem' => 'Parabéns! Seu código passou em todos os testes! <br>'
 							. 'Toca aqui!',
-				'codigo' => $codigo,
-				'resultado' => $r,
-				'nota' => 100
 			];
 		}
 
@@ -171,7 +165,6 @@ class ExercicioController extends Controller
 		return [
 			'status' => 'normal',
 			'mensagem' => $dica,
-			'codigo' => $codigo,
 			'resultado' => $r,
 			'nota' => $notanormalizada
 		];
@@ -192,18 +185,31 @@ class ExercicioController extends Controller
 		);
 		$data = $request->validate($rules);
 
-		$respostaR = $this->corretoR($exercicio,$data['codigo']);
+		// corrigir EOL
+		$codigo = str_replace("\r\n","\n",$data['codigo']);
 
-		// salvar no banco de dados
-		$exercicio->notas()->create([
-			'nota' => $respostaR['nota'],
-			'user_id' => Auth::user()->id,
-			'testes' => $respostaR['resultado'],
-			'codigo' => $respostaR['codigo']
-		]);
+		// salva um arquivo com o codigo
+		$tempfile = '_'.time().md5($codigo);
+		$tempfile_path ='/public/arquivos/'.$tempfile;
+		Storage::put($tempfile_path, $codigo);
+		// corrige
+		$respostaR = $this->corretoR($exercicio,$tempfile);
+		// deleta arquivo temporário
+		Storage::delete($tempfile);
+
+		// salvar nota no banco de dados
+		if(Auth::user()) {
+			$exercicio->notas()->create([
+				'nota' => $respostaR['nota'],
+				'user_id' => Auth::user()->id,
+				'testes' => $respostaR['resultado'],
+				'codigo' => $codigo
+			]);
+		}
 		
-		return View('exercicio.show')->with('exercicio',$exercicio)->
-					with('respostaR',$respostaR);
+		return View('exercicio.show')->with('exercicio', $exercicio)->
+					with('respostaR', $respostaR)->
+					with('codigo', $codigo);
 	}
 
 	/**
