@@ -63,13 +63,13 @@ class RelatorioController extends Controller
                 ]);
             }
 
-            $tentaram = $arr->only('tentou')->count()/$nusers;
+            $tentaram = $arr->where('tentou',true)->count();
             $prazo->resumo = [
-                'tentaram' => $tentaram,
-                'notamaxima' => $arr->only('nota','100')->count()/$nusers,
+                'tentaram' => 100*$tentaram/$nusers . "%",
+                'notamaxima' => $tentaram ? 100*$arr->where('nota','100')->count()/$tentaram ."%" : '',
                 'tentativas' => $arr->average('tentativas'),
                 'media' => $arr->average('nota'),
-                'primeiroerro' => $tentaram ? $arr->mode('primeiroerro')[0] : ''
+                //'primeiroerro' => $tentaram ? $arr->where('tentou')->mode('primeiroerro')[0] : ''
             ];
         }
 

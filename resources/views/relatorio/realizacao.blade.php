@@ -17,16 +17,13 @@
                         Tentaram
                     </td>
                     <td>
-                        100%
+                        Nota máxima
                     </td>
                     <td>
-                        Tentativas
+                        Média de tentativas
                     </td>
                     <td>
-                        Média
-                    </td>
-                    <td>
-                        Primeiro erro
+                        Média de notas
                     </td>
             </tr>
         </thead>
@@ -44,15 +41,15 @@
                     </td>
                     <td>
                         <!--100%-->
+                        {{$prazo->resumo['notamaxima']}}
                     </td>
                     <td>
                         <!--Tentativas-->
+                        {{$prazo->resumo['tentativas']}}
                     </td>
                     <td>
                         <!--Média-->
-                    </td>
-                    <td>
-                        <!--Primeiro erro-->
+                        {{$prazo->resumo['media']}}
                     </td>
             </tr>
         @endforeach

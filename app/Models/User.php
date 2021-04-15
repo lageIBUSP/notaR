@@ -84,7 +84,7 @@ class User extends Authenticatable
      * @return float
      */
     public function notaFinal(Prazo $prazo) {
-        return $this->notasValidas()->max('nota'); //maior nota
+        return $this->notasValidas($prazo)->max('nota'); //maior nota
     }
 
     /**
