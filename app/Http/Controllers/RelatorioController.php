@@ -7,6 +7,28 @@ use App\Models\Turma;
 
 class RelatorioController extends Controller
 {
+    
+    /**
+	 * Selecionar relatorio
+	 *
+	 * @param Illuminate\Http\Request $request;
+	 * @return \Illuminate\View\View
+	 */
+	public function index(Request $request)
+	{
+		$rules = array(
+			'turma' => 'sometimes|int|exists:turmas,id'
+        );
+        $data = $request->validate($rules);
+        if(array_key_exists('turma',$data)) {
+            return $this->relatorioNotas($data['turma']);
+        } else {
+            return View('relatorio.notas')
+                ->with('turmas',Turma::all());
+            ;
+        }
+    }
+
     /**
 	 * Relatório de nota
 	 *
@@ -20,6 +42,7 @@ class RelatorioController extends Controller
 
         return View('relatorio.notas')
                 ->with('turma',$turma)
+                ->with('turmas',Turma::all());
             ;
 	}
 }

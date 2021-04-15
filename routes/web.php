@@ -44,6 +44,7 @@ Route::get('/turma/{turma}/prazos', [TurmaController::class, 'editprazos']);
 Route::put('/turma/{turma}/prazos', [TurmaController::class, 'updateprazos']);
 Route::post('/exercicio/{exercicio}', [ExercicioController::class, 'submit'])->name('exercicio.submit');
 
+Route::get('/relatorio', [RelatorioController::class, 'index']);
 Route::get('/relatorio/notas/{turma}', [RelatorioController::class, 'relatorioNotas']);
 
 require __DIR__.'/auth.php';
