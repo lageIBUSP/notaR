@@ -32,4 +32,10 @@
         <li><a href="{{ URL::to('arquivo/create') }}">Upload de arquivo</a></li>
         @endcan
     </ul>
+    @can ('view', App\Model\Relatorio::class)
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ URL::to('relatorio') }}">Relatórios</a>
+    </div>
+    @endcan
+    </ul>
 </nav>
