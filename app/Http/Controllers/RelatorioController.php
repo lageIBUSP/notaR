@@ -16,6 +16,7 @@ class RelatorioController extends Controller
 	 */
 	public function index(Request $request)
 	{
+		$this->authorize('view', Relatorio::class);
 		$rules = array(
 			'turma' => 'sometimes|int|exists:turmas,id'
         );
@@ -37,6 +38,7 @@ class RelatorioController extends Controller
 	 */
 	public function relatorioNotas(int $turma)
 	{
+		$this->authorize('view', Relatorio::class);
         $turma = Turma::with(['users', 'prazos', 'prazos.exercicio', 'users.notas'])
             ->find($turma);
 
