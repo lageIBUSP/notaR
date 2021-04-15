@@ -24,7 +24,7 @@ class NotaFactory extends Factory
         return [
             'nota' => $this->faker->numberBetween($min = 0, $max = 100),
             'codigo' => "x<-0",
-            'testes' => null
+            'testes' => [true,false]
         ];
     }
 }

@@ -6,11 +6,10 @@
                 <option value="{{$value->id}}" {{$value->id == (($turma ?? "") ? $turma->id : -1 ) ? "selected" : ""}}>{{$value->name}}</option>
             @endforeach
         </select>
-        <div class="form-group">
-            <input type="radio" id="notas" name="tipo" value="notas">
-            <label for="notas">Relatório de Notas</label><br>
-            <input type="radio" id="realizacao" name="tipo" value="realizacao">
-            <label for="realizacao">Relatório de Realização</label><br>
-        </div>
+        <label for="turma">Tipo de relatório:</label>
+        <select id="tipo" name="tipo">
+            <option value="notas" {{($tipo ?? '') == 'notas' ? "selected" : ""}}>Notas</option>
+            <option value="realizacao" {{($tipo ?? '') == 'realizacao' ? "selected" : ""}}>Realização</option>
+        </select>
         <input type="submit">
     </form>
