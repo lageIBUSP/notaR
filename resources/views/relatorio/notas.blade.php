@@ -4,15 +4,7 @@
 <div class="container">
     <h1>Relatório de notas</h1>
 
-    <form action="{{URL::to('/relatorio')}}" method='GET'>
-        <label for="turma">Turma:</label>
-        <select id="turma" name="turma">
-            @foreach ($turmas as $key => $value)
-                <option value="{{$value->id}}" {{$value->id == (($turma ?? "") ? $turma->id : -1 ) ? "selected" : ""}}>{{$value->name}}</option>
-            @endforeach
-        </select>
-        <input type="submit">
-    </form>
+    @include('relatorio.select', ['turmas' => $turmas])
 
     @if ($turma ?? "")
     <table class="table table-striped table-bordered">
