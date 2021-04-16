@@ -29,7 +29,7 @@
         </thead>
         <tbody>
         <!-- rownames: exercicio names -->
-        @foreach($turma->prazos as $key => $prazo)
+        @foreach($turma->prazos->sortBy('exercicio.name') as $key => $prazo)
             <tr>
                 <td>
                     {{$prazo->exercicio->name}}

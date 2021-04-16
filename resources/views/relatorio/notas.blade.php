@@ -13,7 +13,7 @@
                 <td>
                 </td>
                 <!-- thead: nomes dos exercícios -->
-                @foreach($turma->prazos as $key => $prazo)
+                @foreach($turma->prazos->sortBy('exercicio.name') as $key => $prazo)
                     <td>
                         {{$prazo->exercicio->name}}
                     </td>
@@ -21,16 +21,15 @@
             </tr>
         </thead>
         <tbody>
-        @foreach($turma->users as $key => $user)
+        @foreach($turma->users->sortBy(['name','email']) as $key => $user)
             <tr>
                 <!-- rownames: user names -->
                 <td>
                     {{$user->name ? $user->name : $user->email}}
                 </td>
                 <!-- table body: notas válidas -->
-                @foreach($turma->prazos as $key => $prazo)
+                @foreach($turma->prazos->sortBy('exercicio.name') as $key => $prazo)
                     <td>
-                        <!-- TODO: evitar olhar o banco de dados para cada nota!!! -->
                         {{$user->notaFinal($prazo)}}
                     </td>
                 @endforeach 
