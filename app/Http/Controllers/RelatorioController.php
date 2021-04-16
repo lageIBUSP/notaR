@@ -50,33 +50,36 @@ class RelatorioController extends Controller
             foreach($turma->users as $user) {
                 $notas = $user->notasValidas($prazo);
                 $tentou = $notas->isNotEmpty();
-                $notaFinal = $tentou ? $notas->max('nota') : 0;
-                $notaFinalObj = $tentou? $notas->where('nota',$notaFinal)->first() : null;
-                $tentativas = $tentou ? count($notas->where('created_at','<=',$notaFinalObj->created_at)) : 0;
-                $primeiroerro = $tentou ? ($notaFinalObj->testes !== null ? array_keys(array_filter($notaFinalObj->testes)) : -1 ) : null;
 
-                $arr->push([
-                    'tentou' => $tentou,
-                    'nota' =>  $notaFinal,
-                    'tentativas' => $tentativas,
-                    'primeiroerro' => $primeiroerro
-                ]);
+                if ($tentou) {
+                    $notaFinal = $notas->max('nota');
+                    $notaFinalObj = $notas->where('nota',$notaFinal)->first();
+                    $tentativas = count($notas->where('created_at','<=',$notaFinalObj->created_at));
+                    $primeiroerro = $notaFinalObj->testes !== null ? array_keys(array_filter($notaFinalObj->testes)) : -1;
+
+                    $arr->push([
+                        'tentou' => $tentou,
+                        'nota' =>  $notaFinal,
+                        'tentativas' => $tentativas,
+                        'primeiroerro' => $primeiroerro
+                    ]);
+                }
             }
 
-            $tentaram = $arr->where('tentou',true)->count();
+            $tentaram = $arr->count();
             $prazo->resumo = [
                 'tentaram' => 100*$tentaram/$nusers . "%",
                 'notamaxima' => $tentaram ? 100*$arr->where('nota','100')->count()/$tentaram ."%" : '',
                 'tentativas' => $arr->average('tentativas'),
-                'media' => $arr->average('nota'),
-                //'primeiroerro' => $tentaram ? $arr->where('tentou')->mode('primeiroerro')[0] : ''
+                'media' => $tentaram ? $arr->average('nota') ."%" : "",
+//                'primeiroerro' => $tentaram ? $arr->mode('primeiroerro')[0] : ''
             ];
         }
 
         return View('relatorio.'.$tipo)
                 ->with('turma', $turma)
                 ->with('tipo', $tipo)
-                ->with('turmas', Turma::all());
+                ->with('turmas', Turma::has('users')->get());
             ;
 	}
 
