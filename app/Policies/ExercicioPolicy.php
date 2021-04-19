@@ -31,7 +31,6 @@ class ExercicioPolicy
      */
     public function edit(User $user, Exercicio $exercicio)
     {
-        //
         return $user->isAdmin();
     }
 

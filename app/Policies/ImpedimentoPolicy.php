@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Models\Impedimento;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ImpedimentoPolicy
@@ -39,7 +40,6 @@ class ImpedimentoPolicy
      */
     public function edit(User $user, Impedimento $impedimento)
     {
-        //
         return $user->isAdmin();
     }
 
