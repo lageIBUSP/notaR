@@ -6,6 +6,7 @@ use App\Models\Arquivo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
 
 class ArquivoController extends Controller
 {
@@ -37,14 +38,15 @@ class ArquivoController extends Controller
      */
     public function store(Request $request)
     {
-		$this->authorize('create', Arquivo::class);
+        $this->authorize('create', Arquivo::class);
         $request->validate([
-            'file' => 'required'
+            'file' => 'required',
+            'filename' => 'required|string|unique:arquivos,name'
         ]);
 
 
         // get file name
-        $fileName = $request->file->getClientOriginalName();
+        $fileName = $request->filename;
         $filePath = $request->file('file')->storeAs('arquivos', $fileName, 'public');
 
         Arquivo::create([
