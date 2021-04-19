@@ -123,7 +123,7 @@ class ExercicioController extends Controller
 		}
 		catch (\Sentiweb\Rserve\Exception $e){
 			return [
-				'status' => 'fail',
+				'status' => 'danger',
 				'mensagem' => 'Ocorreu um erro na correção do exercício! Por favor verifique seu código ou contate um administrador.' ,
 				'resultado' => null,
 				'nota' => 0
@@ -133,7 +133,7 @@ class ExercicioController extends Controller
 		// syntax error
 		if ($r === null) {
 			return [
-				'status' => 'fail',
+				'status' => 'danger',
 				'mensagem' => 'Ocorreu um erro na execução do seu código! Corrija e tente novamente.' ,
 				'resultado' => $r,
 				'nota' => 0
@@ -174,7 +174,7 @@ class ExercicioController extends Controller
 		$notanormalizada = 100*$nota/$notamax;
 
 		return [
-			'status' => 'normal',
+			'status' => 'warning',
 			'mensagem' => $dica,
 			'resultado' => $r,
 			'nota' => $notanormalizada
@@ -225,7 +225,7 @@ class ExercicioController extends Controller
 		Storage::delete($tempfile);
 
 		// salvar nota no banco de dados
-		if(Auth::user()) {
+		if(Auth::user() && !$exercicio->draft) {
 			$exercicio->notas()->create([
 				'nota' => $respostaR['nota'],
 				'user_id' => Auth::user()->id,

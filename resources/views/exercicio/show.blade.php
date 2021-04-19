@@ -12,6 +12,12 @@
         <p>{!! nl2br($exercicio->description) !!}</p>
     </div>
 
+    @if (!Auth::user())
+    <div class="alert alert-warning">
+        ATENÇÃO: você não está logado. Sua nota não será gravada.
+    </div>
+    @endif
+
     <!-- form pra enviar exercicio -->
     <form action="{{route('exercicio.submit',$exercicio)}}" method="POST">
     @csrf
@@ -31,7 +37,7 @@
     </form>
     @if ($respostaR ?? "")
         <div class="row">
-            <div class="alert {{$respostaR['status'] == 'success' ? 'alert-success' : ($respostaR['status'] == 'normal'  ? 'alert-info' : 'alert-danger') }} retorno">
+            <div class="alert alert-{{$respostaR['status']}} retorno">
                 <p>{!!$respostaR['mensagem']!!}</p>
                 <p><b>Sua nota: {{$respostaR['nota']}}%</b></p>
                 <p><b>Seu código: </b> <br></p>
