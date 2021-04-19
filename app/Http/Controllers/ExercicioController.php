@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Validation\Validator;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Exercicio;
 use App\Models\User;
 use App\Models\Teste;
+use App\Models\Impedimento;
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\URL;
+use Illuminate\Support\Facades\Validator;
+//use Illuminate\Validation\Validator;
 
 class ExercicioController extends Controller
 {
@@ -186,6 +190,23 @@ class ExercicioController extends Controller
 			'codigo' => 'required'
 		);
 		$data = $request->validate($rules);
+
+		$validator = Validator::make($request->all(), $rules);
+
+		$validator->after(function ($validator) use($data) {
+			foreach(Impedimento::all()->pluck('palavra') as $palavra) {
+				if (Str::contains($data['codigo'],$palavra)) {
+					$validator->errors()->add(
+						'codigo', 'Código não pode conter a palavra: '.$palavra
+					);
+				}
+			}
+		});
+        if ($validator->fails()) {
+            return redirect(URL::to('exercicio/'.$exercicio->id))
+                        ->withErrors($validator)
+                        ->withInput();
+        }
 
 		// corrigir EOL
 		$codigo = str_replace("\r\n","\n",$data['codigo']);

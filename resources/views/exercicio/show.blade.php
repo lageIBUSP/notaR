@@ -13,7 +13,7 @@
     @include ('includes.error_alert')
 
         <div class="row">
-            <label for="código"><h3>Resposta</h3></label>
+            <label for="codigo"><h3>Resposta</h3></label>
             <textarea type="text" class="form-control @error('codigo') is-invalid @enderror"
                     id="codigo" name="codigo" placeholder="Escreva seu código aqui"
                     >{{ old('codigo',$codigo ?? '') }}</textarea>
