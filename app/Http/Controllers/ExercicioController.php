@@ -25,7 +25,11 @@ class ExercicioController extends Controller
 	 */
 	public function index()
 	{
-		return View('exercicio.index')->with('exercicios',Exercicio::all());
+		$exercicios = Exercicio::orderBy('name');
+		if(!(Auth::user() && Auth::user()->isAdmin())) {
+			$exercicios = $exercicios->published();
+		}
+		return View('exercicio.index')->with('exercicios',$exercicios->get());
 	}
 
 	/**
@@ -57,7 +61,8 @@ class ExercicioController extends Controller
 			'pesos' => 'array',
 			'dicas.*'	=> 'required',
 			'condicoes.*' => 'required',
-			'pesos.*' => 'required|numeric|min:0'
+			'pesos.*' => 'required|numeric|min:0',
+			'draft' => 'required|boolean',
 		);
 		$data = $request->validate($rules);
 
@@ -87,6 +92,7 @@ class ExercicioController extends Controller
 	 */
 	public function show(Exercicio $exercicio)
 	{
+		$this->authorize('view', $exercicio);
 		return View('exercicio.show')->with('exercicio',$exercicio);
 	}
 
@@ -264,7 +270,8 @@ class ExercicioController extends Controller
 			'pesos' => 'array',
 			'dicas.*'	=> 'required',
 			'condicoes.*' => 'required',
-			'pesos.*' => 'required|numeric|min:-1'
+			'pesos.*' => 'required|numeric|min:-1',
+			'draft' => 'required|boolean',
 		);
 		$data = $request->validate($rules);
 

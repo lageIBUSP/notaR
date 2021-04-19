@@ -94,6 +94,11 @@
             </tbody>
         </table>
 
+        <select name="draft" id="draft">
+            <option value="0" selected>Publicar</option>
+            <option value="1" >Salvar como rascunho</option>
+        </select>
+
 		<button type="submit" class="btn btn-primary">Criar</button>
 	    </form>
 	</div>

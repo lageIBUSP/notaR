@@ -12,8 +12,20 @@ class Exercicio extends Model
     protected $fillable = [
         'name',
         'description',
-        'precondicoes'
+        'precondicoes',
+        'draft'
     ];
+
+    /**
+    * Scope a query to only include active users.
+    *
+    * @param  \Illuminate\Database\Eloquent\Builder  $query
+    * @return \Illuminate\Database\Eloquent\Builder
+    */
+    public function scopePublished($query)
+    {
+        return $query->where('draft', false);
+    }
 
     public function temNota()
     {
