@@ -111,7 +111,7 @@ class ExercicioController extends Controller
 			$rcode = 'source("/usr/local/src/notar/corretor.R");'
 					// database auth
 					. 'dbusr <- "'. env('DB_USERNAME') . '";'
-					. 'dbpass <- NULL;'
+					. 'dbpass <- "'. env('DB_PASSWORD') . '";'
 					. 'dbname <- "'. env('DB_DATABASE') . '";'
 					. 'con <- connect(dbusr, dbpass, dbname);'
 					// import files
