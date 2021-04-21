@@ -25,8 +25,9 @@ class ExercicioController extends Controller
 	 */
 	public function index()
 	{
-		$exercicios = Exercicio::orderBy('name');
-		if(!(Auth::user() && Auth::user()->isAdmin())) {
+        $exercicios = Exercicio::orderBy('name');
+        $user = Auth::user();
+		if(!$user || !$user->isAdmin()) {
 			$exercicios = $exercicios->published();
 		}
 		return View('exercicio.index')->with('exercicios',$exercicios->get());
@@ -131,7 +132,7 @@ class ExercicioController extends Controller
 				'nota' => 0
 			];
 		}
-		
+
 		// syntax error
 		if ($r === null) {
 			return [
@@ -169,7 +170,7 @@ class ExercicioController extends Controller
 			}
 			else if ($firstmistake == -1) {
 				$firstmistake = $i;
-			} 
+			}
 		}
 		$dica = $testes[$firstmistake]->dica;
 		$notamax = $testes->sum('peso');
@@ -235,7 +236,7 @@ class ExercicioController extends Controller
 				'codigo' => $codigo
 			]);
 		}
-		
+
 		return View('exercicio.show')->with('exercicio', $exercicio)->
 					with('respostaR', $respostaR)->
 					with('codigo', $codigo);

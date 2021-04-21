@@ -45,12 +45,13 @@ class UserController extends Controller
             'is_admin'  => 'sometimes|boolean'
 		);
 		$data = $request->validate($rules);
-        if(isset($data->is_admin)) {
+        $user = new User($data);
+        if(array_key_exists('is_admin', $data)) {
             $this->authorize('makeAdmin',$user);
         }
 
 		// store
-		$user = tap(new User($data))->save();
+        $user->save();
 		return redirect()->action([get_class($this),'show'],['user' => $user]);
 	}
 
