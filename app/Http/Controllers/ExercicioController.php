@@ -26,6 +26,7 @@ class ExercicioController extends Controller
 	public function index()
 	{
         $exercicios = Exercicio::orderBy('name');
+        /** @var App\Models\User */
         $user = Auth::user();
 		if(!$user || !$user->isAdmin()) {
 			$exercicios = $exercicios->published();
