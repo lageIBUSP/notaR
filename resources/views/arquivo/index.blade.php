@@ -6,6 +6,11 @@
 @if (Session::has('message'))
     <div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
+@if ($errors->any())
+    <div class="alert alert-danger" role="alert">
+		{{ $errors->first() }}
+    </div>
+@endif
 
 @include('arquivo.table',['removeButton'=>true])
 </div>

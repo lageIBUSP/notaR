@@ -100,9 +100,12 @@ class ArquivoController extends Controller
     public function destroy(Arquivo $arquivo)
     {
         $this->authorize('delete', $arquivo);
-        if(Storage::exists(public_path($arquivo->path))){
-            Storage::delete(public_path($arquivo->path));
-        } 
+        if( !Storage::disk('public')->exists($arquivo->path) ){
+            $arquivo->delete();
+            return back()->withErrors(['Aviso: inconsistëncia: o arquivo '.$arquivo->name. ' não existia no filesystem.']);
+        }
+
+        Storage::disk('public')->delete($arquivo->path);
         $arquivo->delete();
 		return redirect()->action([ArquivoController::class,'index']);
     }
