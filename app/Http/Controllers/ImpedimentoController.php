@@ -15,6 +15,7 @@ class ImpedimentoController extends Controller
      */
     public function index()
     {
+		$this->authorize('view', Impedimento::class);
 		return View('impedimento.index')->with('impedimentos',Impedimento::all());
 	}
 
