@@ -81,7 +81,7 @@ class ExercicioController extends Controller
 			}
 		});
 
-		return $this->show($exercicio);
+		return redirect()->action([ExercicioController::class,'show'],['exercicio' => $exercicio]);
 	}
 
 	/**
@@ -291,7 +291,7 @@ class ExercicioController extends Controller
 			}
 		});
 
-		return $this->show($exercicio);
+		return redirect()->action([ExercicioController::class,'show'],['exercicio' => $exercicio]);
     }
 
     /**
@@ -304,6 +304,6 @@ class ExercicioController extends Controller
     {
 		$this->authorize('delete', $exercicio);
         $exercicio->delete();
-		return $this->index();
+		return redirect()->action([ExercicioController::class,'index']);
     }
 }

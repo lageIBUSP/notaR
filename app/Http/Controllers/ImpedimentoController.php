@@ -44,7 +44,7 @@ class ImpedimentoController extends Controller
 		$data = $request->validate($rules);
 		// store
 		$impedimento = tap(new Impedimento($data))->save();
-		return $this->show($impedimento);
+		return redirect()->action([ImpedimentoController::class,'index']);
 	}
 
 	/**

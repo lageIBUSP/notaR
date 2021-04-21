@@ -54,7 +54,7 @@ class ArquivoController extends Controller
             'path' => $filePath
         ]);
 
-		return $this->index();
+		return redirect()->action([ArquivoController::class,'index']);
     }
 
     /**
@@ -104,6 +104,6 @@ class ArquivoController extends Controller
             Storage::delete(public_path($arquivo->path));
         } 
         $arquivo->delete();
-		return $this->index();
+		return redirect()->action([ArquivoController::class,'index']);
     }
 }

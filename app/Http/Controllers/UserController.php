@@ -51,7 +51,7 @@ class UserController extends Controller
 
 		// store
 		$user = tap(new User($data))->save();
-		return $this->show($user);
+		return redirect()->action([get_class($this),'show'],['user' => $user]);
 	}
 
 	/**
@@ -108,7 +108,7 @@ class UserController extends Controller
 			$user->turmas()->save($turma);
         }
         $user->update($data);
-		return View('user.show')->with('user',$user);
+		return redirect()->action([get_class($this),'show'],['user' => $user]);
 	}
 
 	/**
@@ -121,6 +121,6 @@ class UserController extends Controller
 	{
 		$this->authorize('delete', $user);
         $user->delete();
-		return $this->index();
+		return redirect()->action([get_class($this),'index']);
 	}
 }
