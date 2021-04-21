@@ -39,7 +39,7 @@ class ImpedimentoController extends Controller
 	{
 		$this->authorize('create', Impedimento::class);
 		$rules = array(
-			'palavra'      => 'required,string',
+			'palavra'      => 'required|string',
 		);
 		$data = $request->validate($rules);
 		// store
