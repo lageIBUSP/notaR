@@ -110,14 +110,16 @@ class ExercicioController extends Controller
 
 			$rcode = 'source("/usr/local/src/notar/corretor.R");'
 					// database auth
-					. 'dbusr <- "'. env('DB_USERNAME') . '";'
+					. 'dbusr  <- "'. env('DB_USERNAME') . '";'
 					. 'dbpass <- "'. env('DB_PASSWORD') . '";'
 					. 'dbname <- "'. env('DB_DATABASE') . '";'
 					. 'con <- connect(dbusr, dbpass, dbname);'
 					// import files
 					. 'file.copy(list.files("/arquivos/",recursive=TRUE,full.names=TRUE),".");'
 					// run corretoR
-					. 'notaR('. $exercicio->id .',"'.$file.'");'
+					. 'res <- notaR('. $exercicio->id .',"'.$file.'");'
+					. 'unlink("*",recursive=TRUE);'
+					. 'res;'
 					;
 			$r = $cnx->evalString($rcode);
 		}
