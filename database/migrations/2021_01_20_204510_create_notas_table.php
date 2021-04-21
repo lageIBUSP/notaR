@@ -19,6 +19,8 @@ class CreateNotasTable extends Migration
             $table->float('nota');
             $table->foreignId('user_id')->constrained();
             $table->foreignId('exercicio_id')->constrained();
+            $table->text('codigo');
+            $table->json('testes')->nullable();
         });
     }
 

@@ -45,6 +45,10 @@ $(document).ready(() => {
     $('.sortable tbody').sortable();
 
     updaterows();
+
+    $('input[type="file"]').change(function(e){
+        filename.value = e.target.files[0].name;
+    });
 });
 
 function updaterows () {

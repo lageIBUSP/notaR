@@ -43,7 +43,8 @@ services:
         networks:
             - sail
         volumes:
-            - './storage/app:/arquivos'
+            - './storage/app/public/arquivos:/arquivos'
+            - './storage/app/temp:/temp'
 networks:
     sail:
         driver: bridge

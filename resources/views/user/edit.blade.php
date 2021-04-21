@@ -24,23 +24,36 @@
 		    @enderror
 		</div>
 		@if(Auth::user()->isAdmin())
-		<div class="form-group">
-		    <label for="is_admin">Tipo de usuário</label>
-		    <select id="is_admin" name="is_admin">
-				<option value="1" {{$user->isAdmin()?"selected":""}}>Professor</option>
-				<option value="0" {{$user->isAdmin()?"":"selected"}}>Aluno</option>
-			</select>
-		    @error('is_admin')
-			    <div class="invalid-feedback">{{ $message }}</div>
-		    @enderror
-		</div>
+			<div class="form-group">
+				<label for="is_admin">Tipo de usuário</label>
+				<select id="is_admin" name="is_admin">
+					<option value="1" {{$user->isAdmin()?"selected":""}}>Professor</option>
+					<option value="0" {{$user->isAdmin()?"":"selected"}}>Aluno</option>
+				</select>
+				@error('is_admin')
+					<div class="invalid-feedback">{{ $message }}</div>
+				@enderror
+			</div>
+				
+			<div class="form-group">
+				<label for="addturma">Adicionar a uma turma</label>
+				<select id="addturma" name="addturma" >
+					<option value="" selected></option>
+					@foreach ($turmas as $value)
+						<option value="{{$value->id}}" >{{$value->name}}</option>
+					@endforeach
+				</select>
+				@error('is_admin')
+					<div class="invalid-feedback">{{ $message }}</div>
+				@enderror
+			</div>
         @endif
 		<button type="submit" class="btn btn-primary">Salvar</button>
 
 	    </form>
 
 		@can ('delete', $user)
-		<form method="POST" action="/user/{{$user->id}}">
+		<form method="POST" action="{{URL::to("/user/".$user->id)}}">
 			{{ csrf_field() }}
 			{{ method_field('DELETE') }}
 

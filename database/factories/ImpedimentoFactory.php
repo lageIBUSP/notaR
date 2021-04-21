@@ -2,17 +2,17 @@
 
 namespace Database\Factories;
 
-use App\Models\Nota;
+use App\Models\Impedimento;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
-class NotaFactory extends Factory
+class ImpedimentoFactory extends Factory
 {
     /**
      * The name of the factory's corresponding model.
      *
      * @var string
      */
-    protected $model = Nota::class;
+    protected $model = Impedimento::class;
 
     /**
      * Define the model's default state.
@@ -22,9 +22,7 @@ class NotaFactory extends Factory
     public function definition()
     {
         return [
-            'nota' => $this->faker->numberBetween($min = 0, $max = 100),
-            'codigo' => "x<-0",
-            'testes' => [true,false]
+            //
         ];
     }
 }

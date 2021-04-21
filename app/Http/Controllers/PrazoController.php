@@ -83,6 +83,6 @@ class PrazoController extends Controller
 		$this->authorize('delete', $prazo);
         $turma = $prazo->turma;
         $prazo->delete();
-		return redirect('/turma/'.$turma->id);
+		return redirect()->action([TurmaController::class,'show'],['turma' => $turma]);
     }
 }

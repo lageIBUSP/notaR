@@ -1,7 +1,6 @@
 <table class="table table-striped table-bordered">
     <thead>
         <tr>
-            <td>Id</td>
             <td>Título</td>
             <td>Ações</td>
         </tr>
@@ -10,16 +9,9 @@
     @foreach($exercicios as $key => $value)
         <tr>
             <td>
-                <a href={{"/exercicio/".$value->id}}>
+                <a href={{URL::to("/exercicio/".$value->id)}}>
                 <div style="height:100%;width:100%">
-                    {{ $value->id }}
-                </div>
-                </a>
-            </td>
-            <td>
-                <a href={{"/exercicio/".$value->id}}>
-                <div style="height:100%;width:100%">
-                    {{ $value->name }}
+                    {{ $value->name }} {{$value->draft ? '!!RASCUNHO!!' :''}}
                 </div>
                 </a>
             </td>

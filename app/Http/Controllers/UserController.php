@@ -45,13 +45,14 @@ class UserController extends Controller
             'is_admin'  => 'sometimes|boolean'
 		);
 		$data = $request->validate($rules);
-        if(isset($data->is_admin)) {
+        $user = new User($data);
+        if(array_key_exists('is_admin', $data)) {
             $this->authorize('makeAdmin',$user);
         }
 
 		// store
-		$user = tap(new User($data))->save();
-		return redirect('user');
+        $user->save();
+		return redirect()->action([get_class($this),'show'],['user' => $user]);
 	}
 
 	/**
@@ -75,7 +76,10 @@ class UserController extends Controller
 	public function edit(User $user)
 	{
 		$this->authorize('edit', $user);
-		return View('user.edit')->with('user',$user);
+		return View('user.edit')
+				->with('user',$user)
+				->with('turmas', \App\Models\Turma::all())
+				;
 	}
 
 	/**
@@ -88,18 +92,24 @@ class UserController extends Controller
 	public function update(Request $request, User $user)
 	{
 		$this->authorize('edit', $user);
-		$rules = array(
+		$rules = [
 			'name'       => 'required',
 			'email'      => 'required',
-            'is_admin'  => 'sometimes|boolean'
-		);
+            'is_admin'  => 'sometimes|boolean',
+            'addturma'  => 'sometimes|int|exists:turmas,id|nullable',
+		];
 		$data = $request->validate($rules);
-        if(isset($data->is_admin)) {
+        if(isset($data['is_admin'])) {
             $this->authorize('makeAdmin',$user);
         }
 
+        if(isset($data['addturma']) && $data['addturma']) {
+			$turma = \App\Models\Turma::find($data['addturma']);
+			$this->authorize('edit',$turma);
+			$user->turmas()->save($turma);
+        }
         $user->update($data);
-		return View('user.show')->with('user',$user);
+		return redirect()->action([get_class($this),'show'],['user' => $user]);
 	}
 
 	/**
@@ -112,7 +122,6 @@ class UserController extends Controller
 	{
 		$this->authorize('delete', $user);
         $user->delete();
-        return redirect('user');
-		//
+		return redirect()->action([get_class($this),'index']);
 	}
 }

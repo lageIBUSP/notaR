@@ -10,14 +10,14 @@
     @foreach($turmas as $key => $value)
         <tr>
             <td>
-                <a href={{"/turma/".$value->id}}>
+                <a href={{URL::to("/turma/".$value->id)}}>
                 <div style="height:100%;width:100%">
                     {{ $value->name }}
                 </div>
                 </a>
             </td>
             <td>
-                <a href={{"/turma/".$value->id}}>
+                <a href={{URL::to("/turma/".$value->id)}}>
                 <div style="height:100%;width:100%">
                     {{ $value->description }}
                 </div>

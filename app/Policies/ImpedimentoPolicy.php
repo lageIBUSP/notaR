@@ -2,29 +2,26 @@
 
 namespace App\Policies;
 
-use App\Models\Exercicio;
 use App\Models\User;
+use App\Models\Impedimento;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ExercicioPolicy
+class ImpedimentoPolicy
 {
     use HandlesAuthorization;
-
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Exercicio  $exercicio
      * @return mixed
      */
-    public function view(?User $user, Exercicio $exercicio)
+    public function view(User $user)
     {
-        return $exercicio->draft ? optional($user)->isAdmin() : true;
+        return true;
     }
 
-
     /**
-     * Determine whether the user can create models.
+     * Determine whether the user can create
      *
      * @param  \App\Models\User  $user
      * @return mixed
@@ -38,10 +35,10 @@ class ExercicioPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Exercicio  $exercicio
+     * @param  \App\Models\Impedimento  $impedimento
      * @return mixed
      */
-    public function edit(User $user, Exercicio $exercicio)
+    public function edit(User $user, Impedimento $impedimento)
     {
         return $user->isAdmin();
     }
@@ -50,13 +47,11 @@ class ExercicioPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Exercicio  $exercicio
+     * @param  \App\Models\Impedimento  $impedimento
      * @return mixed
      */
-    public function delete(User $user, Exercicio $exercicio)
+    public function delete(User $user, Impedimento $impedimento)
     {
-        return $exercicio->temNota() || $exercicio->temPrazo() ?
-                false // proibido deletar exercício com nota ou prazo
-                : $user->isAdmin();
+        return  $user->isAdmin();
     }
 }

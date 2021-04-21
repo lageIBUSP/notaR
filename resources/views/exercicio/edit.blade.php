@@ -6,7 +6,7 @@
 	    <h1>Alterar exercício</h1>
 	</div>
 	<div class="row">
-	    <form action="{{'/exercicio/'.$exercicio->id}}" method="POST">
+	    <form action="{{URL::to('/exercicio/'.$exercicio->id)}}" method="POST">
 		@csrf
         @method ('put')
 		@include ('includes.error_alert')
@@ -97,6 +97,11 @@
                     @endforeach
                 </tbody>
             </table>
+
+        <select name="draft" id="draft">
+            <option value="0" selected>Publicar</option>
+            <option value="1" >Salvar como rascunho</option>
+        </select>
 
 		<button type="submit" class="btn btn-primary">Salvar</button>
 	    </form>

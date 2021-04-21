@@ -3,9 +3,20 @@
 
 <div class="container">
     <h1>{{ $exercicio->name }}</h1>
+    @if ($exercicio->draft)
+        <div class="alert alert-warning">
+            ATENÇÃO: este exercício é um rascunho, e não pode ser visto por alunos.
+        </div>
+    @endif
     <div class="jumbotron">
-        <p>{{ $exercicio->description }}</p>
+        <p>{!! nl2br($exercicio->description) !!}</p>
     </div>
+
+    @if (!Auth::user())
+    <div class="alert alert-warning">
+        ATENÇÃO: você não está logado. Sua nota não será gravada.
+    </div>
+    @endif
 
     <!-- form pra enviar exercicio -->
     <form action="{{route('exercicio.submit',$exercicio)}}" method="POST">
@@ -13,7 +24,7 @@
     @include ('includes.error_alert')
 
         <div class="row">
-            <label for="código"><h3>Resposta</h3></label>
+            <label for="codigo"><h3>Resposta</h3></label>
             <textarea type="text" class="form-control @error('codigo') is-invalid @enderror"
                     id="codigo" name="codigo" placeholder="Escreva seu código aqui"
                     >{{ old('codigo',$codigo ?? '') }}</textarea>
@@ -26,8 +37,11 @@
     </form>
     @if ($respostaR ?? "")
         <div class="row">
-            <div class="alert {{$respostaR['status'] == 'success' ? 'alert-success' : 'alert-danger'}} retorno">
-                {!!$respostaR['mensagem']!!}
+            <div class="alert alert-{{$respostaR['status']}} retorno">
+                <p>{!!$respostaR['mensagem']!!}</p>
+                <p><b>Sua nota: {{$respostaR['nota']}}%</b></p>
+                <p><b>Seu código: </b> <br></p>
+                {!! nl2br(e($codigo)) !!}
             </div>
         </div>
     @endif

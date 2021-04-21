@@ -49,7 +49,7 @@ class TurmaController extends Controller
 
 		// store
 		$turma = tap(new Turma($data))->save();
-		return View('turma.show')->with('turma',$turma);
+		return redirect()->action([get_class($this),'show'], ['turma' => $turma]);
 	}
 
 	/**
@@ -125,7 +125,7 @@ class TurmaController extends Controller
             }
         }
 
-		return redirect('/turma/'.$turma->id);
+		return redirect()->action([get_class($this),'show'], ['turma' => $turma]);
 	}
 
 
@@ -160,7 +160,8 @@ class TurmaController extends Controller
             }
         }
 
-		return redirect('/turma/'.$turma->id);
+		return redirect()->action([get_class($this),'show'], ['turma' => $turma]);
+
     }
 
 	/**
@@ -174,7 +175,7 @@ class TurmaController extends Controller
 	{
 		$this->authorize('edit', $turma);
         $turma->users()->detach($user->id);
-		return redirect('/turma/'.$turma->id);
+		return redirect()->action([get_class($this),'show'], ['turma' => $turma]);
 	}
     /**
      * Remove the specified resource from storage.
@@ -186,6 +187,6 @@ class TurmaController extends Controller
     {
 		$this->authorize('delete', $turma);
         $turma->delete();
-        return redirect('turma');
+		return redirect()->action([get_class($this),'index']);
     }
 }

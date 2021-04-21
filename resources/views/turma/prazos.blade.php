@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
 
-        <form action={{'/turma/'.$turma->id.'/prazos'}} method="POST">
+        <form action={{URL::to('/turma/'.$turma->id.'/prazos')}} method="POST">
             @csrf
             @method('PUT')
             @include ('includes.error_alert')

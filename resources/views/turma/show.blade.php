@@ -3,7 +3,7 @@
 
 <h1>{{ $turma->name }}</h1>
     <div class="jumbotron">
-        <p>{{ $turma->description }}</p>
+        <p>{!! nl2br($turma->description) !!}</p>
     </div>
     <a class="collapse-button" data-toggle="collapse" href="#collapseMembros" role="button" aria-expanded="true" aria-controls="collapseMembros">
         <h2>Membros</h2>
@@ -32,7 +32,7 @@
         <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/prazos') }}">Alterar prazos</a>
     @endcan
     @can ('delete', $turma)
-     <form method="POST" action="/turma/{{$turma->id}}">
+     <form method="POST" action="{{URL::to("/turma/".$turma->id)}}">
         {{ csrf_field() }}
         {{ method_field('DELETE') }}
 

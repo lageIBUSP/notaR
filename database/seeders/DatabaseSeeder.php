@@ -65,5 +65,6 @@ class DatabaseSeeder extends Seeder
             ->for($alunos[2])
             ->for($exercicios[2])
             ->create();
+            
     }
 }

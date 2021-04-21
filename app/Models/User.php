@@ -65,16 +65,39 @@ class User extends Authenticatable
     }
 
     /**
+     * Nota final (atual) dentro do prazo (get from DB)
+     *
+     * @var App\Model\Prazo $prazo
+     * @return float
+     */
+    public function getNotaFinal(Prazo $prazo) {
+        return $this->notas()->
+                where('exercicio_id',$prazo->exercicio_id)-> //exercicio correto
+                where('created_at','<',$prazo->prazo)-> //dentro do prazo
+                get()->max('nota'); //maior nota
+    }
+
+    /**
      * Nota final (atual) dentro do prazo
      *
      * @var App\Model\Prazo $prazo
      * @return float
      */
     public function notaFinal(Prazo $prazo) {
-        return $this->notas()->
-                where('exercicio_id',$prazo->exercicio_id)-> //exercicio correto
-                where('created_at','<',$prazo->prazo)-> //dentro do prazo
-                get()->max('nota'); //maior nota
+        return $this->notasValidas($prazo)->max('nota'); //maior nota
+    }
+
+    /**
+     * Notas dentro do prazo
+     *
+     * @var App\Model\Prazo $prazo
+     * @return float
+     */
+    public function notasValidas(Prazo $prazo) {
+        return $this->notas
+                ->where('exercicio_id',$prazo->exercicio_id) //exercicio correto
+                ->where('created_at','<',$prazo->prazo) //dentro do prazo
+                ; 
     }
 
     public function temNota() {

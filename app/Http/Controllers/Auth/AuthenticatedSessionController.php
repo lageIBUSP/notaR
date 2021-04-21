@@ -7,6 +7,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\UserController;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -32,7 +33,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect('/user/'.Auth::user()->id);
+        return redirect()->action([UserController::class, 'show'],['user'=>Auth::user()]);
     }
 
     /**
