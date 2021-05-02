@@ -26,7 +26,12 @@
 
                 <!-- delete -->
                 @can ('delete', $value)
-                <a class="btn btn-small btn-delete" href="{{ URL::to('impedimento/' . $value->id . '/delete') }}">Deletar</a>
+                    <form method="POST" action="{{URL::to("/impedimento/".$value->id)}}" style="display: inline">
+                        {{ csrf_field() }}
+                        {{ method_field('DELETE') }}
+
+                        <input type="submit" class="btn btn-danger delete" value="Deletar">
+                    </form>
                 @endcan
             </td>
             @endif

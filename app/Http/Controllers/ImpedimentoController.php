@@ -86,7 +86,7 @@ class ImpedimentoController extends Controller
 		$data = $request->validate($rules);
 
         $impedimento->update($data);
-		return $this->index();
+		return redirect()->action([get_class($this),'index']);
 	}
 
 	/**
@@ -99,6 +99,6 @@ class ImpedimentoController extends Controller
 	{
 		$this->authorize('delete', $impedimento);
         $impedimento->delete();
-		return $this->index();
+		return redirect()->action([get_class($this),'index']);
 	}
 }
