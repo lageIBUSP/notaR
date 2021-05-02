@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Arquivo extends Model
 {
@@ -11,4 +12,14 @@ class Arquivo extends Model
         'name',
         'path',
     ];
+
+    public function getUrlAttribute() {
+        return Storage::url($this->path);
+    }
+
+    public function getDownloadPathAttribute() {
+        return Storage::url($this->path);
+    }
+
+
 }
