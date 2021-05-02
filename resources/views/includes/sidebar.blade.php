@@ -37,6 +37,7 @@
         <a class="navbar-brand" href="{{ URL::to('relatorio') }}">Relatórios</a>
     </div>
     @endcan
+    @can ('view', App\Models\Impedimento::class)
     <div class="navbar-header">
         <a class="navbar-brand" href="{{ URL::to('impedimento') }}">Impedimentos</a>
     </div>
@@ -45,4 +46,5 @@
         <li><a href="{{ URL::to('impedimento/create') }}">Cadastrar impedimento</a></li>
         @endcan
     </ul>
+    @endcan
 </nav>

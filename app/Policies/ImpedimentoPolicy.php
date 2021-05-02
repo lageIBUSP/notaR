@@ -17,7 +17,7 @@ class ImpedimentoPolicy
      */
     public function view(User $user)
     {
-        return true;
+        return $user->isAdmin();
     }
 
     /**
