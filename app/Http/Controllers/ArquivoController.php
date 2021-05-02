@@ -65,7 +65,7 @@ class ArquivoController extends Controller
      */
     public function show(Arquivo $arquivo)
     {
-        return redirect(URL::to(Storage::url($arquivo->path)));
+        return redirect(asset($arquivo->url));
     }
 
     /**

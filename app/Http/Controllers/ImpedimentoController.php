@@ -56,6 +56,7 @@ class ImpedimentoController extends Controller
 	 */
 	public function show(Impedimento $impedimento)
 	{
+		return redirect()->action([ImpedimentoController::class,'index']);
 	}
 
 	/**
