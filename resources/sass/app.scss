@@ -49,6 +49,17 @@ p {
 
 .jumbotron {
     background-color: $body-secondary;
+    a {
+        color: $primary;
+        &:hover {
+            $color: $secondary;
+            text-decoration: none;
+        }
+        &:active {
+            $color: $secondary;
+            text-decoration: none;
+        }
+    }
 }
 
 h1, h2, h3 {
@@ -153,7 +164,7 @@ footer {
     .row {
         padding: 10px;
     }
-    
+
     .form-group {
         width: 75%;
         max-width: 400px;
