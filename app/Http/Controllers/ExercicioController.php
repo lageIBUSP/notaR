@@ -279,6 +279,7 @@ class ExercicioController extends Controller
 		);
 		$data = $request->validate($rules);
 
+		$data['precondicoes'] = str_replace("\r\n","\n",$data['precondicoes']);
 		// store
 		DB::transaction(function() use ($data, $exercicio) {
 			$n = count($data['dicas']);
