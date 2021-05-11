@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container">
-    <h1>{{ $exercicio->name }}</h1>
+    <h1>{!! nl2br($exercicio->name) !!}</h1>
     @if ($exercicio->draft)
         <div class="alert alert-warning">
             ATENÇÃO: este exercício é um rascunho, e não pode ser visto por alunos.
