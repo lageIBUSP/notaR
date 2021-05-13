@@ -22,6 +22,7 @@
     <ul class="nav navbar-nav">
         @can ('create', App\Models\Exercicio::class)
         <li><a href="{{ URL::to('exercicio/create') }}">Cadastrar exercicio</a></li>
+        <li><a href="{{ URL::to('exercicio/import') }}">Importar exercicio</a></li>
         @endcan
     </ul>
     <div class="navbar-header">

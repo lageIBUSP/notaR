@@ -389,6 +389,42 @@ class ExercicioController extends Controller
 		return response()->json($exercicio,200,[],JSON_PRETTY_PRINT);
 	}
 
+	/**
+	 * SHows the form to upload json import
+	 *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function import (Request $request)
+	{
+        $this->authorize('create', Exercicio::class );
+        $request->validate([
+            'file' => 'required|mimetypes:json',
+        ]);
+
+
+        $data = $request->file('file')->get();
+
+        $exercicio = new Exercicio(json_decode($data));
+
+        dd($exercicio);
+
+
+
+
+        return redirect()->action([ExercicioController::class,'edit'],['exercicio',$exercicio]);
+    }
+
+	/**
+	 * Stores the imported model
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function importForm ()
+	{
+        $this->authorize('create', Exercicio::class );
+        return View('exercicio.import');
+    }
 
     /**
      * Remove the specified resource from storage.

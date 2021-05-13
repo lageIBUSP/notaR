@@ -19,6 +19,13 @@
     </div>
     @endif
 
+    @can ('edit', $exercicio)
+    <div class="row">
+        <a class="btn btn-edit inline" href="{{ URL::to('exercicio/' . $exercicio->id . '/edit') }}">Editar este exercício</a>
+        <a class="btn btn-edit inline" href="{{ URL::to('exercicio/' . $exercicio->id . '/export') }}">Exportar este exercício</a>
+    </div>
+    @endcan
+
     <!-- form pra enviar exercicio -->
     <form action="{{ route('exercicio.upload', $exercicio) }}" method='POST' enctype="multipart/form-data">
         @csrf
@@ -58,4 +65,5 @@
 
 
 </div>
+
 @endsection

@@ -28,6 +28,19 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/relatorio', [RelatorioController::class, 'index']);
+
+Route::post('/exercicio/import', [ExercicioController::class, 'import'])->name('exercicio.import');
+Route::get('/exercicio/import', [ExercicioController::class, 'importForm'])->name('exercicio.importForm');
+
+Route::get('/turma/{turma}/remove/{user}', [TurmaController::class, 'remove']);
+Route::get('/turma/{turma}/prazos', [TurmaController::class, 'editprazos']);
+Route::put('/turma/{turma}/prazos', [TurmaController::class, 'updateprazos']);
+
+Route::post('/exercicio/{exercicio}', [ExercicioController::class, 'submit'])->name('exercicio.submit');
+Route::post('/exercicio/{exercicio}/upload', [ExercicioController::class, 'upload'])->name('exercicio.upload');
+Route::get('/exercicio/{exercicio}/export', [ExercicioController::class, 'export'])->name('exercicio.export');
+
 Route::resources([
     'user' => UserController::class,
     'turma' => TurmaController::class,
@@ -36,14 +49,4 @@ Route::resources([
     'arquivo' => ArquivoController::class,
     'impedimento' => ImpedimentoController::class,
 ]);
-
-Route::get('/turma/{turma}/remove/{user}', [TurmaController::class, 'remove']);
-Route::get('/turma/{turma}/prazos', [TurmaController::class, 'editprazos']);
-Route::put('/turma/{turma}/prazos', [TurmaController::class, 'updateprazos']);
-
-Route::post('/exercicio/{exercicio}', [ExercicioController::class, 'submit'])->name('exercicio.submit');
-Route::post('/exercicio/{exercicio}/upload', [ExercicioController::class, 'upload'])->name('exercicio.upload');
-
-Route::get('/relatorio', [RelatorioController::class, 'index']);
-
 require __DIR__.'/auth.php';

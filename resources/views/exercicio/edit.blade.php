@@ -56,7 +56,7 @@
                     @foreach ($dicas as $i => $dica)
                     <tr>
                         <td>
-                            <input type='text' 
+                            <input type='text'
                                 class="form-control form-inline @error('condicoes.'.$i) is-invalid @enderror"
                                 id="condicoes[]"
                                 name="condicoes[]"
@@ -65,10 +65,10 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                         </td>
-                        
+
 
                         <td>
-                            <input type='text' 
+                            <input type='text'
                                 class="form-control form-inline @error('dicas.'.$i) is-invalid @enderror"
                                 id="dicas[]"
                                 name="dicas[]"
@@ -77,9 +77,9 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                         </td>
-                        
+
                         <td>
-                            <input type='text' 
+                            <input type='text'
                                 class="form-control form-inline small @error('pesos.'.$i) is-invalid @enderror"
                                 id="pesos[]"
                                 name="pesos[]"
@@ -88,7 +88,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                         </td>
-                        
+
                         <td>
                             <i type="button" class='btn fa fa-minus-circle remove-row' ></i>
                             <i type="button" class='btn fa fa-plus-circle add-row' ></i>
