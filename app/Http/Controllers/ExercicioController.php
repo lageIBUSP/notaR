@@ -244,6 +244,64 @@ class ExercicioController extends Controller
 	}
 
 	/**
+	 * Ação de fazer exercício usando file upload
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Exercicio  $exercicio
+	 * @return \Illuminate\View\View
+	 */
+	public function upload(Request $request, Exercicio $exercicio)
+	{
+		$rules = array(
+			'file' => 'required'
+		);
+		$data = $request->validate($rules);
+
+		$validator = Validator::make($request->all(), $rules);
+
+        $codigo = $request->file('file')->get();
+		$validator->after(function ($validator) use($codigo) {
+			foreach(Impedimento::all()->pluck('palavra') as $palavra) {
+				if (Str::contains($codigo,$palavra)) {
+					$validator->errors()->add(
+						'codigo', 'Código não pode conter a palavra: '.$palavra
+					);
+				}
+			}
+		});
+        if ($validator->fails()) {
+            return redirect(URL::to('exercicio/'.$exercicio->id))
+                        ->withErrors($validator)
+                        ->withInput();
+        }
+
+		// corrigir EOL
+		$codigo = str_replace("\r\n","\n",$codigo);
+
+		// salva um arquivo com o codigo
+		$tempfile = '/temp/_'.time().md5($codigo);
+		Storage::put($tempfile, $codigo);
+		// corrige
+		$respostaR = $this->corretoR($exercicio,$tempfile);
+		// deleta arquivo temporário
+		Storage::delete($tempfile);
+
+		// salvar nota no banco de dados
+		if(Auth::user() && !$exercicio->draft) {
+			$exercicio->notas()->create([
+				'nota' => $respostaR['nota'],
+				'user_id' => Auth::user()->id,
+				'testes' => $respostaR['resultado'],
+				'codigo' => $codigo
+			]);
+		}
+
+		return View('exercicio.show')->with('exercicio', $exercicio)->
+					with('respostaR', $respostaR)->
+					with('codigo', $codigo);
+	}
+
+	/**
 	 * Show the form for editing the specified resource.
 	 *
      * @param  \App\Models\Exercicio  $exercicio

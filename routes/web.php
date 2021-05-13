@@ -42,6 +42,7 @@ Route::get('/turma/{turma}/prazos', [TurmaController::class, 'editprazos']);
 Route::put('/turma/{turma}/prazos', [TurmaController::class, 'updateprazos']);
 
 Route::post('/exercicio/{exercicio}', [ExercicioController::class, 'submit'])->name('exercicio.submit');
+Route::post('/exercicio/{exercicio}/upload', [ExercicioController::class, 'upload'])->name('exercicio.upload');
 
 Route::get('/relatorio', [RelatorioController::class, 'index']);
 
