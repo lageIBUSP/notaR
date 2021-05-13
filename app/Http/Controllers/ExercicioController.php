@@ -68,6 +68,8 @@ class ExercicioController extends Controller
 		);
 		$data = $request->validate($rules);
 
+		// corrigir EOL
+		$data['precondicoes'] = str_replace("\r\n","\n",$data['precondicoes']);
 		// store
 		$exercicio = new Exercicio($data);
 		DB::transaction(function() use ($data, $exercicio) {
@@ -81,7 +83,13 @@ class ExercicioController extends Controller
 								'exercicio_id' => $exercicio->id
 								]);
 			}
-		});
+        });
+
+        $test = $this->corretoR($exercicio, '/temp/testFile.R');
+        if ($test['status']=='danger') {
+            return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
+                ->withErrors(['precondicoes' => 'Ocorreu um erro ao testar as precondições.']);
+        }
 
 		return redirect()->action([ExercicioController::class,'show'],['exercicio' => $exercicio]);
 	}
@@ -337,6 +345,7 @@ class ExercicioController extends Controller
 		);
 		$data = $request->validate($rules);
 
+        // corrige EOL
 		$data['precondicoes'] = str_replace("\r\n","\n",$data['precondicoes']);
 		// store
 		DB::transaction(function() use ($data, $exercicio) {
@@ -351,6 +360,13 @@ class ExercicioController extends Controller
 										]);
 			}
 		});
+
+        // testa as preconds
+        $test = $this->corretoR($exercicio, '/temp/testFile.R');
+        if ($test['status']=='danger') {
+            return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
+                ->withErrors(['precondicoes' => 'Ocorreu um erro ao testar as precondições.']);
+        }
 
 		return redirect()->action([ExercicioController::class,'show'],['exercicio' => $exercicio]);
     }
