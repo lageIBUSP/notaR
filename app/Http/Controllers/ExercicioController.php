@@ -85,7 +85,7 @@ class ExercicioController extends Controller
 			}
         });
 
-        $test = $this->corretoR($exercicio, '/temp/testFile.R');
+        $test = $this->corretoR($exercicio, "/usr/local/src/notar/runtest.R");
         if ($test['status']=='danger') {
             return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
                 ->withErrors(['precondicoes' => 'Ocorreu um erro ao testar as precondições.']);
@@ -362,7 +362,7 @@ class ExercicioController extends Controller
 		});
 
         // testa as preconds
-        $test = $this->corretoR($exercicio, '/temp/testFile.R');
+        $test = $this->corretoR($exercicio, "/usr/local/src/notar/runtest.R");
         if ($test['status']=='danger') {
             return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
                 ->withErrors(['precondicoes' => 'Ocorreu um erro ao testar as precondições.']);
@@ -370,6 +370,25 @@ class ExercicioController extends Controller
 
 		return redirect()->action([ExercicioController::class,'show'],['exercicio' => $exercicio]);
     }
+
+	/**
+	 * Export to text file
+	 *
+     * @param  int $id
+	 * @return \Illuminate\Http\Response
+	 */
+	public function export(int $id)
+	{
+        $exercicio = Exercicio::with('testes')->find($id);
+        $this->authorize('edit', $exercicio);
+
+        $exercicio->makeHidden(['created_at','updated_at','draft','id']);
+        foreach ($exercicio->testes as $t) {
+            $t->makeHidden(['created_at','updated_at','id']);
+        }
+		return response()->json($exercicio,200,[],JSON_PRETTY_PRINT);
+	}
+
 
     /**
      * Remove the specified resource from storage.
