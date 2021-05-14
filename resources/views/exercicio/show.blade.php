@@ -2,7 +2,8 @@
 @section('content')
 
 <div class="container">
-    <h1>{{ $exercicio->name }}</h1>
+    <h1>{!! nl2br($exercicio->name) !!}</h1>
+    @include ('includes.error_alert')
     @if ($exercicio->draft)
         <div class="alert alert-warning">
             ATENÇÃO: este exercício é um rascunho, e não pode ser visto por alunos.
@@ -18,10 +19,26 @@
     </div>
     @endif
 
+    @can ('edit', $exercicio)
+    <div class="row">
+        <a class="btn btn-edit inline" href="{{ URL::to('exercicio/' . $exercicio->id . '/edit') }}">Editar este exercício</a>
+        <a class="btn btn-edit inline" href="{{ URL::to('exercicio/' . $exercicio->id . '/export') }}">Exportar este exercício</a>
+    </div>
+    @endcan
+
     <!-- form pra enviar exercicio -->
-    <form action="{{route('exercicio.submit',$exercicio)}}" method="POST">
+    <form action="{{ route('exercicio.upload', $exercicio) }}" method='POST' enctype="multipart/form-data">
+        @csrf
+        <label for="codigo"><h3>Enviar arquivo</h3></label><br>
+        <input type="file" id="file" name="file" class="@error('filename') is-invalid @enderror" >
+        @error('file')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+        <button type="submit" class="btn btn-primary">Enviar</button>
+    </form>
+
+    <form action="{{ route('exercicio.submit',$exercicio) }}" method="POST">
     @csrf
-    @include ('includes.error_alert')
 
         <div class="row">
             <label for="codigo"><h3>Resposta</h3></label>
@@ -48,4 +65,5 @@
 
 
 </div>
+
 @endsection

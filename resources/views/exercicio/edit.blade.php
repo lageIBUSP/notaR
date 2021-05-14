@@ -6,10 +6,25 @@
 	    <h1>Alterar exercício</h1>
 	</div>
 	<div class="row">
+        @include ('includes.error_alert')
+        <form action="{{ URL::to('exercicio/'.$exercicio->id.'/import') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method ('put')
+        <label for='file'>Importar dados de arquivo</label>
+        <input type="file" id="file" name="file" class="@error('file') is-invalid @enderror" >
+        @error('file')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+	</div>
+    @if (old('from_import',false))
+        <div class="alert alert-info">Arquivo carregado. Verifique os campos antes de salvar!</div>
+    @endif
+	<div class="row">
 	    <form action="{{URL::to('/exercicio/'.$exercicio->id)}}" method="POST">
 		@csrf
         @method ('put')
-		@include ('includes.error_alert')
 
 		<div class="form-group">
 		    <label for="name">Título</label>
@@ -56,7 +71,7 @@
                     @foreach ($dicas as $i => $dica)
                     <tr>
                         <td>
-                            <input type='text' 
+                            <input type='text'
                                 class="form-control form-inline @error('condicoes.'.$i) is-invalid @enderror"
                                 id="condicoes[]"
                                 name="condicoes[]"
@@ -65,10 +80,10 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                         </td>
-                        
+
 
                         <td>
-                            <input type='text' 
+                            <input type='text'
                                 class="form-control form-inline @error('dicas.'.$i) is-invalid @enderror"
                                 id="dicas[]"
                                 name="dicas[]"
@@ -77,9 +92,9 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                         </td>
-                        
+
                         <td>
-                            <input type='text' 
+                            <input type='text'
                                 class="form-control form-inline small @error('pesos.'.$i) is-invalid @enderror"
                                 id="pesos[]"
                                 name="pesos[]"
@@ -88,7 +103,7 @@
                                     <div class="invalid-feedback">{{ $message }}</div>
                                 @enderror
                         </td>
-                        
+
                         <td>
                             <i type="button" class='btn fa fa-minus-circle remove-row' ></i>
                             <i type="button" class='btn fa fa-plus-circle add-row' ></i>

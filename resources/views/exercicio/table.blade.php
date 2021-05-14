@@ -11,7 +11,7 @@
             <td>
                 <a href={{URL::to("/exercicio/".$value->id)}}>
                 <div style="height:100%;width:100%">
-                    {{ $value->name }} {{$value->draft ? '!!RASCUNHO!!' :''}}
+                    {!! $value->name !!} {{$value->draft ? '!!RASCUNHO!!' :''}}
                 </div>
                 </a>
             </td>

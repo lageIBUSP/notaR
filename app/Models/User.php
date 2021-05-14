@@ -91,7 +91,6 @@ class User extends Authenticatable
      * Notas dentro do prazo
      *
      * @var App\Model\Prazo $prazo
-     * @return float
      */
     public function notasValidas(Prazo $prazo) {
         return $this->notas
