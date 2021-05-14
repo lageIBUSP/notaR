@@ -30,13 +30,12 @@ Route::get('/', function () {
 
 Route::get('/relatorio', [RelatorioController::class, 'index']);
 
-Route::put('/exercicio/import', [ExercicioController::class, 'import'])->name('exercicio.import');
-Route::get('/exercicio/import', [ExercicioController::class, 'importForm'])->name('exercicio.importForm');
 
 Route::get('/turma/{turma}/remove/{user}', [TurmaController::class, 'remove']);
 Route::get('/turma/{turma}/prazos', [TurmaController::class, 'editprazos']);
 Route::put('/turma/{turma}/prazos', [TurmaController::class, 'updateprazos']);
 
+Route::put('/exercicio/import', [ExercicioController::class, 'import'])->name('exercicio.import');
 Route::post('/exercicio/{exercicio}', [ExercicioController::class, 'submit'])->name('exercicio.submit');
 Route::post('/exercicio/{exercicio}/upload', [ExercicioController::class, 'upload'])->name('exercicio.upload');
 Route::get('/exercicio/{exercicio}/export', [ExercicioController::class, 'export'])->name('exercicio.export');
