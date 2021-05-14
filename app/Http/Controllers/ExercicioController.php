@@ -384,7 +384,7 @@ class ExercicioController extends Controller
 
         $exercicio->makeHidden(['created_at','updated_at','draft','id']);
         foreach ($exercicio->testes as $t) {
-            $t->makeHidden(['created_at','updated_at','id']);
+            $t->makeHidden(['created_at','updated_at','id', 'exercicio_id']);
         }
 		return response()->json($exercicio,200,[],JSON_PRETTY_PRINT);
     }
@@ -468,17 +468,6 @@ class ExercicioController extends Controller
             ->withInput($this->importInput($data));
     }
 
-
-	/**
-	 * Stores the imported model
-	 *
-	 * @return \Illuminate\Http\Response
-	 */
-	public function importForm ()
-	{
-        $this->authorize('create', Exercicio::class );
-        return View('exercicio.import');
-    }
 
     /**
      * Remove the specified resource from storage.
