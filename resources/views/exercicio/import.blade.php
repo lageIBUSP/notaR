@@ -8,7 +8,7 @@
 			<form action="{{ route('exercicio.import') }}" method="POST" enctype="multipart/form-data">
 			@csrf
 			@include ('includes.error_alert')
-			<input type="file" id="file" name="file" class="@error('filename') is-invalid @enderror" >
+			<input type="file" id="file" name="file" class="@error('file') is-invalid @enderror" >
 		    @error('file')
 				<div class="invalid-feedback">{{ $message }}</div>
 		    @enderror

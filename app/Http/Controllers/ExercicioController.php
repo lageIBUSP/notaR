@@ -390,7 +390,57 @@ class ExercicioController extends Controller
 	}
 
 	/**
-	 * SHows the form to upload json import
+	 * Import from json file
+	 *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Exercicio  $exercicio
+     * @return \Illuminate\Http\Response
+     */
+    public function importEdit (Request $request, Exercicio $exercicio)
+	{
+        $this->authorize('edit', $exercicio);
+        $request->validate([
+            'file' => 'required',
+        ]);
+
+        $j = $request->file('file')->get();
+
+        $data = json_decode($j);
+        if( is_null($data)) {
+            return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
+                ->withErrors(['file' => 'O arquivo enviado não é um json válido']);
+        }
+
+        $input = ['from_import' => true];
+        if (property_exists($data,'testes')) {
+            $testes = collect($data->testes);
+            $input = [
+                'dicas' => $testes->pluck('dica'),
+                'condicoes' => $testes->pluck('condicao'),
+                'pesos' => $testes->pluck('peso'),
+                'from_import' => true
+            ];
+        }
+
+        if (property_exists($data, 'name')) {
+            $input['name'] = $data->name;
+        }
+
+        if (property_exists($data, 'description')) {
+            $input['description'] = $data->description;
+        }
+
+        if (property_exists($data, 'precondicoes')) {
+            $input['precondicoes'] = $data->precondicoes;
+        }
+
+        return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
+            ->withInput($input);
+    }
+
+
+	/**
+	 * Import from json file
 	 *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -399,20 +449,26 @@ class ExercicioController extends Controller
 	{
         $this->authorize('create', Exercicio::class );
         $request->validate([
-            'file' => 'required|mimetypes:json',
+            'file' => 'required',
         ]);
 
+        $j = $request->file('file')->get();
+        $data = json_decode($j);
 
-        $data = $request->file('file')->get();
+        $exercicio = new Exercicio( (array) $data );
+        $testes = collect();
+        foreach ($data->testes as $teste) {
+            $testes->push(new Teste( (array) $teste ));
+        }
 
-        $exercicio = new Exercicio(json_decode($data));
+		DB::transaction(function() use ($exercicio, $testes) {
+            $exercicio->save();
+            foreach ($testes as $teste) {
+                $exercicio->testes()->save($teste);
+            }
+        });
 
-        dd($exercicio);
-
-
-
-
-        return redirect()->action([ExercicioController::class,'edit'],['exercicio',$exercicio]);
+		return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio]);
     }
 
 	/**
