@@ -30,7 +30,7 @@ Route::get('/', function () {
 
 Route::get('/relatorio', [RelatorioController::class, 'index']);
 
-Route::post('/exercicio/import', [ExercicioController::class, 'import'])->name('exercicio.import');
+Route::put('/exercicio/import', [ExercicioController::class, 'import'])->name('exercicio.import');
 Route::get('/exercicio/import', [ExercicioController::class, 'importForm'])->name('exercicio.importForm');
 
 Route::get('/turma/{turma}/remove/{user}', [TurmaController::class, 'remove']);

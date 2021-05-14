@@ -387,30 +387,9 @@ class ExercicioController extends Controller
             $t->makeHidden(['created_at','updated_at','id']);
         }
 		return response()->json($exercicio,200,[],JSON_PRETTY_PRINT);
-	}
+    }
 
-	/**
-	 * Import from json file
-	 *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Exercicio  $exercicio
-     * @return \Illuminate\Http\Response
-     */
-    public function importEdit (Request $request, Exercicio $exercicio)
-	{
-        $this->authorize('edit', $exercicio);
-        $request->validate([
-            'file' => 'required',
-        ]);
-
-        $j = $request->file('file')->get();
-
-        $data = json_decode($j);
-        if( is_null($data)) {
-            return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
-                ->withErrors(['file' => 'O arquivo enviado não é um json válido']);
-        }
-
+    private function importInput ($data) {
         $input = ['from_import' => true];
         if (property_exists($data,'testes')) {
             $testes = collect($data->testes);
@@ -434,8 +413,33 @@ class ExercicioController extends Controller
             $input['precondicoes'] = $data->precondicoes;
         }
 
+        return $input;
+    }
+
+	/**
+	 * Import from json file
+	 *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Exercicio  $exercicio
+     * @return \Illuminate\Http\Response
+     */
+    public function importEdit (Request $request, Exercicio $exercicio)
+	{
+        $this->authorize('edit', $exercicio);
+        $request->validate([
+            'file' => 'required',
+        ]);
+
+        $j = $request->file('file')->get();
+
+        $data = json_decode($j);
+        if( is_null($data)) {
+            return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
+                ->withErrors(['file' => 'O arquivo enviado não é um json válido']);
+        }
+
         return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
-            ->withInput($input);
+            ->withInput($this->importInput($data));
     }
 
 
@@ -453,23 +457,17 @@ class ExercicioController extends Controller
         ]);
 
         $j = $request->file('file')->get();
-        $data = json_decode($j);
 
-        $exercicio = new Exercicio( (array) $data );
-        $testes = collect();
-        foreach ($data->testes as $teste) {
-            $testes->push(new Teste( (array) $teste ));
+        $data = json_decode($j);
+        if( is_null($data)) {
+            return redirect()->action([ExercicioController::class,'create'])
+                ->withErrors(['file' => 'O arquivo enviado não é um json válido']);
         }
 
-		DB::transaction(function() use ($exercicio, $testes) {
-            $exercicio->save();
-            foreach ($testes as $teste) {
-                $exercicio->testes()->save($teste);
-            }
-        });
-
-		return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio]);
+        return redirect()->action([ExercicioController::class,'create'])
+            ->withInput($this->importInput($data));
     }
+
 
 	/**
 	 * Stores the imported model
