@@ -22,7 +22,14 @@ A documentação do sistema notaR está disponível em um sistema wiki. Clique [
 
 ## Instalando o notaR
 
-Para instalar uma nova plataforma notaR, siga os passos descritos na wiki acima.
+
+Para instalar uma nova plataforma notaR: 
+1. clone o repositório no seu servidor
+2. crie o arquivo ```.env``` a partir do ```.env.example```, com as informações do seu servidor
+3. rode o script ```deploy.sh```
+4. se quiser importar exercícios de um banco de dados de notaR-legacy, rode o comando de artisan ```artisan migrate:legacy```
+5. use o comando de artisan ```artisan migrate:admin novasenha``` para criar um usuário admin com login admin@notar.br.
+
 *NOTE* que a versão atual no Github é uma versão de desenvolvimento (ou seja, warnings e erros são 
 mostrados sem filtros ao usuário), enquanto versões na página 
 de [Releases](https://github.com/lageIBUSP/notaR/releases) são adequadas para produção.
