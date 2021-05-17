@@ -43,17 +43,15 @@ class ExercicioController extends Controller
 	{
 		$this->authorize('create', Exercicio::class);
 		return View('exercicio.create');
-	}
+    }
 
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
+	 * @return mixed
 	 */
-	public function store(Request $request)
-	{
-		$this->authorize('create', Exercicio::class);
+    private function validateExercicio (Request $request) {
 		$rules = array(
 			'name'       => 'required|string|unique:exercicios',
 			'description'=> 'required',
@@ -70,6 +68,21 @@ class ExercicioController extends Controller
 
 		// corrigir EOL
 		$data['precondicoes'] = str_replace("\r\n","\n",$data['precondicoes']);
+
+        return $data;
+    }
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+        $this->authorize('create', Exercicio::class);
+
+        $data = $this->validateExercicio($request);
 		// store
 		$exercicio = new Exercicio($data);
 		DB::transaction(function() use ($data, $exercicio) {
@@ -331,22 +344,8 @@ class ExercicioController extends Controller
     public function update(Request $request, Exercicio $exercicio)
     {
         $this->authorize('edit',$exercicio);
-        $rules = array(
-			'name'       => 'required|string|unique:exercicios,name,'.$exercicio->id,
-			'description'=> 'required',
-			'precondicoes'=>'sometimes',
-			'dicas'	=> 'array',
-			'condicoes' => 'array',
-			'pesos' => 'array',
-			'dicas.*'	=> 'required',
-			'condicoes.*' => 'required',
-			'pesos.*' => 'required|numeric|min:-1',
-			'draft' => 'required|boolean',
-		);
-		$data = $request->validate($rules);
+        $data = $this->validateExercicio($request);
 
-        // corrige EOL
-		$data['precondicoes'] = str_replace("\r\n","\n",$data['precondicoes']);
 		// store
 		DB::transaction(function() use ($data, $exercicio) {
 			$n = count($data['dicas']);
