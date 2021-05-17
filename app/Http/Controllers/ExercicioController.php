@@ -221,48 +221,9 @@ class ExercicioController extends Controller
 		);
 		$data = $request->validate($rules);
 
-		$validator = Validator::make($request->all(), $rules);
-
-		$validator->after(function ($validator) use($data) {
-			foreach(Impedimento::all()->pluck('palavra') as $palavra) {
-				if (Str::contains($data['codigo'],$palavra)) {
-					$validator->errors()->add(
-						'codigo', 'Código não pode conter a palavra: '.$palavra
-					);
-				}
-			}
-		});
-        if ($validator->fails()) {
-            return redirect(URL::to('exercicio/'.$exercicio->id))
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-
-		// corrigir EOL
-		$codigo = str_replace("\r\n","\n",$data['codigo']);
-
-		// salva um arquivo com o codigo
-		$tempfile = '/temp/_'.time().md5($codigo);
-		Storage::put($tempfile, $codigo);
-		// corrige
-		$respostaR = $this->corretoR($exercicio,$tempfile);
-		// deleta arquivo temporário
-		Storage::delete($tempfile);
-
-		// salvar nota no banco de dados
-		if(Auth::user() && !$exercicio->draft) {
-			$exercicio->notas()->create([
-				'nota' => $respostaR['nota'],
-				'user_id' => Auth::user()->id,
-				'testes' => $respostaR['resultado'],
-				'codigo' => $codigo
-			]);
-		}
-
-		return View('exercicio.show')->with('exercicio', $exercicio)->
-					with('respostaR', $respostaR)->
-					with('codigo', $codigo);
-	}
+        $validator = Validator::make($request->all(), $rules);
+        return $this->recebeCodigo($data['codigo'], $exercicio, $validator);
+    }
 
 	/**
 	 * Ação de fazer exercício usando file upload
@@ -276,11 +237,15 @@ class ExercicioController extends Controller
 		$rules = array(
 			'file' => 'required'
 		);
-		$data = $request->validate($rules);
+		$request->validate($rules);
 
 		$validator = Validator::make($request->all(), $rules);
 
         $codigo = $request->file('file')->get();
+        return $this->recebeCodigo($codigo, $exercicio, $validator);
+	}
+
+    private function recebeCodigo (String $codigo, Exercicio $exercicio, \Illuminate\Contracts\Validation\Validator $validator) {
 		$validator->after(function ($validator) use($codigo) {
 			foreach(Impedimento::all()->pluck('palavra') as $palavra) {
 				if (Str::contains($codigo,$palavra)) {
@@ -348,9 +313,9 @@ class ExercicioController extends Controller
 
 		// store
 		DB::transaction(function() use ($data, $exercicio) {
-			$n = count($data['dicas']);
 			$exercicio->update($data);
 			$exercicio->testes()->delete(); // delete all testes because we're lazy
+			$n = count($data['dicas']);
 			for ($i = 0; $i < $n; $i++) {
 				$teste = Teste::create(['condicao' => $data['condicoes'][$i],
 										'dica' => $data['dicas'][$i],
