@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\Null_;
 
 class ExercicioController extends Controller
 {
@@ -51,9 +52,9 @@ class ExercicioController extends Controller
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return mixed
 	 */
-    private function validateExercicio (Request $request) {
+    private function validateExercicio (Request $request, Exercicio|Null $exercicio) {
 		$rules = array(
-			'name'       => 'required|string|unique:exercicios',
+			'name'       => 'required|string|unique:exercicios'.($exercicio ? ',name,'.$exercicio->id : ''),
 			'description'=> 'required',
 			'precondicoes'=>'sometimes',
 			'dicas'	=> 'array',
@@ -82,7 +83,7 @@ class ExercicioController extends Controller
 	{
         $this->authorize('create', Exercicio::class);
 
-        $data = $this->validateExercicio($request);
+        $data = $this->validateExercicio($request, null);
 		// store
 		$exercicio = new Exercicio($data);
 		DB::transaction(function() use ($data, $exercicio) {
@@ -270,7 +271,7 @@ class ExercicioController extends Controller
 		// corrige
 		$respostaR = $this->corretoR($exercicio,$tempfile);
 		// deleta arquivo temporário
-		Storage::delete($tempfile);
+		//Storage::delete($tempfile);
 
 		// salvar nota no banco de dados
 		if(Auth::user() && !$exercicio->draft) {
@@ -309,7 +310,7 @@ class ExercicioController extends Controller
     public function update(Request $request, Exercicio $exercicio)
     {
         $this->authorize('edit',$exercicio);
-        $data = $this->validateExercicio($request);
+        $data = $this->validateExercicio($request, $exercicio);
 
 		// store
 		DB::transaction(function() use ($data, $exercicio) {
