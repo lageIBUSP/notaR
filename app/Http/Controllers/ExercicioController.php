@@ -4,18 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use App\Models\Exercicio;
-use App\Models\User;
 use App\Models\Teste;
 use App\Models\Impedimento;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
-use phpDocumentor\Reflection\Types\Null_;
 
 class ExercicioController extends Controller
 {
@@ -442,7 +438,8 @@ class ExercicioController extends Controller
      */
     public function destroy(Exercicio $exercicio)
     {
-		$this->authorize('delete', $exercicio);
+        $this->authorize('delete', $exercicio);
+        $exercicio->testes()->delete();
         $exercicio->delete();
 		return redirect()->action([ExercicioController::class,'index']);
     }
