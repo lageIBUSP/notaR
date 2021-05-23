@@ -271,7 +271,7 @@ class ExercicioController extends Controller
 		// corrige
 		$respostaR = $this->corretoR($exercicio,$tempfile);
 		// deleta arquivo temporário
-		//Storage::delete($tempfile);
+		Storage::delete($tempfile);
 
 		// salvar nota no banco de dados
 		if(Auth::user() && !$exercicio->draft) {
