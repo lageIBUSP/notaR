@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use phpDocumentor\Reflection\Types\Null_;
 
 class ExercicioController extends Controller
 {
@@ -43,19 +44,17 @@ class ExercicioController extends Controller
 	{
 		$this->authorize('create', Exercicio::class);
 		return View('exercicio.create');
-	}
+    }
 
 	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
+	 * @return mixed
 	 */
-	public function store(Request $request)
-	{
-		$this->authorize('create', Exercicio::class);
+    private function validateExercicio (Request $request, Exercicio|Null $exercicio) {
 		$rules = array(
-			'name'       => 'required|string|unique:exercicios',
+			'name'       => 'required|string|unique:exercicios'.($exercicio ? ',name,'.$exercicio->id : ''),
 			'description'=> 'required',
 			'precondicoes'=>'sometimes',
 			'dicas'	=> 'array',
@@ -70,6 +69,21 @@ class ExercicioController extends Controller
 
 		// corrigir EOL
 		$data['precondicoes'] = str_replace("\r\n","\n",$data['precondicoes']);
+
+        return $data;
+    }
+
+	/**
+	 * Store a newly created resource in storage.
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return \Illuminate\Http\Response
+	 */
+	public function store(Request $request)
+	{
+        $this->authorize('create', Exercicio::class);
+
+        $data = $this->validateExercicio($request, null);
 		// store
 		$exercicio = new Exercicio($data);
 		DB::transaction(function() use ($data, $exercicio) {
@@ -208,48 +222,9 @@ class ExercicioController extends Controller
 		);
 		$data = $request->validate($rules);
 
-		$validator = Validator::make($request->all(), $rules);
-
-		$validator->after(function ($validator) use($data) {
-			foreach(Impedimento::all()->pluck('palavra') as $palavra) {
-				if (Str::contains($data['codigo'],$palavra)) {
-					$validator->errors()->add(
-						'codigo', 'Código não pode conter a palavra: '.$palavra
-					);
-				}
-			}
-		});
-        if ($validator->fails()) {
-            return redirect(URL::to('exercicio/'.$exercicio->id))
-                        ->withErrors($validator)
-                        ->withInput();
-        }
-
-		// corrigir EOL
-		$codigo = str_replace("\r\n","\n",$data['codigo']);
-
-		// salva um arquivo com o codigo
-		$tempfile = '/temp/_'.time().md5($codigo);
-		Storage::put($tempfile, $codigo);
-		// corrige
-		$respostaR = $this->corretoR($exercicio,$tempfile);
-		// deleta arquivo temporário
-		Storage::delete($tempfile);
-
-		// salvar nota no banco de dados
-		if(Auth::user() && !$exercicio->draft) {
-			$exercicio->notas()->create([
-				'nota' => $respostaR['nota'],
-				'user_id' => Auth::user()->id,
-				'testes' => $respostaR['resultado'],
-				'codigo' => $codigo
-			]);
-		}
-
-		return View('exercicio.show')->with('exercicio', $exercicio)->
-					with('respostaR', $respostaR)->
-					with('codigo', $codigo);
-	}
+        $validator = Validator::make($request->all(), $rules);
+        return $this->recebeCodigo($data['codigo'], $exercicio, $validator);
+    }
 
 	/**
 	 * Ação de fazer exercício usando file upload
@@ -263,11 +238,15 @@ class ExercicioController extends Controller
 		$rules = array(
 			'file' => 'required'
 		);
-		$data = $request->validate($rules);
+		$request->validate($rules);
 
 		$validator = Validator::make($request->all(), $rules);
 
         $codigo = $request->file('file')->get();
+        return $this->recebeCodigo($codigo, $exercicio, $validator);
+	}
+
+    private function recebeCodigo (String $codigo, Exercicio $exercicio, \Illuminate\Contracts\Validation\Validator $validator) {
 		$validator->after(function ($validator) use($codigo) {
 			foreach(Impedimento::all()->pluck('palavra') as $palavra) {
 				if (Str::contains($codigo,$palavra)) {
@@ -331,27 +310,13 @@ class ExercicioController extends Controller
     public function update(Request $request, Exercicio $exercicio)
     {
         $this->authorize('edit',$exercicio);
-        $rules = array(
-			'name'       => 'required|string|unique:exercicios,name,'.$exercicio->id,
-			'description'=> 'required',
-			'precondicoes'=>'sometimes',
-			'dicas'	=> 'array',
-			'condicoes' => 'array',
-			'pesos' => 'array',
-			'dicas.*'	=> 'required',
-			'condicoes.*' => 'required',
-			'pesos.*' => 'required|numeric|min:-1',
-			'draft' => 'required|boolean',
-		);
-		$data = $request->validate($rules);
+        $data = $this->validateExercicio($request, $exercicio);
 
-        // corrige EOL
-		$data['precondicoes'] = str_replace("\r\n","\n",$data['precondicoes']);
 		// store
 		DB::transaction(function() use ($data, $exercicio) {
-			$n = count($data['dicas']);
 			$exercicio->update($data);
 			$exercicio->testes()->delete(); // delete all testes because we're lazy
+			$n = count($data['dicas']);
 			for ($i = 0; $i < $n; $i++) {
 				$teste = Teste::create(['condicao' => $data['condicoes'][$i],
 										'dica' => $data['dicas'][$i],

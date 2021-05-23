@@ -27,9 +27,11 @@
     @endcan
 
     <!-- form pra enviar exercicio -->
-    <form action="{{ route('exercicio.upload', $exercicio) }}" method='POST' enctype="multipart/form-data">
+    <form action="{{ route('exercicio.upload', $exercicio) }}#enviar" method='POST' enctype="multipart/form-data">
         @csrf
-        <label for="codigo"><h3>Enviar arquivo</h3></label><br>
+        <a name="enviar">
+            <label for="codigo"><h3>Enviar arquivo</h3></label><br>
+        </a>
         <input type="file" id="file" name="file" class="@error('filename') is-invalid @enderror" >
         @error('file')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -37,7 +39,7 @@
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 
-    <form action="{{ route('exercicio.submit',$exercicio) }}" method="POST">
+    <form action="{{ route('exercicio.submit',$exercicio)}}#enviar" method="POST">
     @csrf
 
         <div class="row">

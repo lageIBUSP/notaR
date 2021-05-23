@@ -2,7 +2,7 @@
 FROM r-base:4.0.3
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
-    libmariadbclient-dev \
+    libmariadb-dev \
     libssl-dev
     
 RUN install.r Rserve \
