@@ -114,8 +114,9 @@
             </table>
 
         <select name="draft" id="draft">
-            <option value="0" selected>Publicar</option>
-            <option value="1" >Salvar como rascunho</option>
+            {{ $is_draft = old('draft',$exercicio->draft)  }}
+            <option value="0" {{ $is_draft ? '' : 'selected' }}>Publicar</option>
+            <option value="1" {{ $is_draft ? 'selected' : '' }}>Salvar como rascunho</option>
         </select>
 
 		<button type="submit" class="btn btn-primary">Salvar</button>
