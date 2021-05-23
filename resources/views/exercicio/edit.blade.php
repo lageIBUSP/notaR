@@ -121,6 +121,19 @@
 
 		<button type="submit" class="btn btn-primary">Salvar</button>
 	    </form>
-	</div>
     </div>
-    @endsection
+
+	<div class="row">
+		@can ('delete', $exercicio)
+		<form method="POST" action="{{URL::to("/exercicio/".$exercicio->id)}}">
+			{{ csrf_field() }}
+			{{ method_field('DELETE') }}
+
+			<div class="form-group">
+				<input type="submit" class="btn btn-delete delete" value="Deletar">
+			</div>
+		</form>
+		@endcan
+    </div>
+</div>
+@endsection

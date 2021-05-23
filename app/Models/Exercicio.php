@@ -31,6 +31,12 @@ class Exercicio extends Model
     {
         return $this->notas->isNotEmpty();
     }
+
+    public function temPrazo()
+    {
+        return $this->prazos->isNotEmpty();
+    }
+
     public function prazoEm(Turma $turma)
     {
         $prazo = $this->prazos()->where('turma_id',$turma->id)->first();
