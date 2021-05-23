@@ -3,6 +3,7 @@
         <h1>
             nota<span class="R">R</span>
             <img src="{{ asset('img/logo.png') }}" title="Logo" class="logo">
+            notas em linguagem R
         </h1>
     </a>
     @if (Auth::check())
