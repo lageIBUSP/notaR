@@ -438,7 +438,8 @@ class ExercicioController extends Controller
      */
     public function destroy(Exercicio $exercicio)
     {
-		$this->authorize('delete', $exercicio);
+        $this->authorize('delete', $exercicio);
+        $exercicio->testes()->delete();
         $exercicio->delete();
 		return redirect()->action([ExercicioController::class,'index']);
     }
