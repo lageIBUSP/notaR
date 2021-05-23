@@ -23,16 +23,14 @@ A documentação do sistema notaR está disponível em um sistema wiki. Clique [
 ## Instalando o notaR
 
 
-Para instalar uma nova plataforma notaR: 
-1. clone o repositório no seu servidor
-2. crie o arquivo ```.env``` a partir do ```.env.example```, com as informações do seu servidor
-3. rode o script ```deploy.sh```
-4. se quiser importar exercícios de um banco de dados de notaR-legacy, rode o comando de artisan ```artisan migrate:legacy```
-5. use o comando de artisan ```artisan migrate:admin novasenha``` para criar um usuário admin com login admin@notar.br.
+Para instalar uma nova plataforma notaR:
 
-*NOTE* que a versão atual no Github é uma versão de desenvolvimento (ou seja, warnings e erros são 
-mostrados sem filtros ao usuário), enquanto versões na página 
-de [Releases](https://github.com/lageIBUSP/notaR/releases) são adequadas para produção.
+0. crie um usuário para o notaR, com id 1337. Faça login com esse usuário antes de tudo.
+1. clone o repositório no seu servidor
+2. crie o arquivo ```.env``` a partir do ```.env.example```, com as informações do seu servidor. Use ```APP_ENV=local``` para desenvolvimento e ```APP_ENV=production``` para produção. 
+3. rode o script ```deploy.sh```
+4. gere uma chave e registre ela no seu ```.env``` com ```sail artisan key:generate```
+5. use  ```sail artisan migrate:admin novasenha``` para criar um usuário admin com login admin@notar.br.
 
 ## Licença de uso
 O código fonte do notaR está disponível sob licença GPLv3.
