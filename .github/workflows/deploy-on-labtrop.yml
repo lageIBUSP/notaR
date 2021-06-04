@@ -2,6 +2,7 @@ name: deploy-on-labtrop
 on: [push]
 jobs:
   deploy:
+    runs-on: ubuntu-latest
     steps:
       - name: Deploys to labtrop server
         uses: appleboy/ssh-action@master
