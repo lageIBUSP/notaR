@@ -5,7 +5,7 @@
 	    <h1>Editando usuário</h1>
 	</div>
 	<div class="row">
-	    <form action={{"/user/".$user->id}} method="POST">
+	    <form action={{ URL::to("/user/".$user->id) }} method="POST">
 		@csrf
         @method ('PUT')
 		@include ('includes.error_alert')
@@ -34,7 +34,7 @@
 					<div class="invalid-feedback">{{ $message }}</div>
 				@enderror
 			</div>
-				
+
 			<div class="form-group">
 				<label for="addturma">Adicionar a uma turma</label>
 				<select id="addturma" name="addturma" >
