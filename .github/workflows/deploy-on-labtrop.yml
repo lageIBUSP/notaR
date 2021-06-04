@@ -1,0 +1,13 @@
+name: deploy-on-labtrop
+on: [push]
+jobs:
+  deploy:
+    steps:
+      - name: Deploys to labtrop server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          port: ${{ secrets.SSH_PORT }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.LABTROP_SSH_KEY }}
+          script: whoami
