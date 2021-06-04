@@ -11,4 +11,6 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.LABTROP_SSH_KEY }}
-          script: whoami
+          script: |
+            cd /mnt/dados/notaR && ls
+            whoami
