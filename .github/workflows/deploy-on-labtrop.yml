@@ -1,5 +1,8 @@
 name: deploy-on-labtrop
-on: [push]
+on: 
+  push:
+    branches:
+      - main
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -12,5 +15,4 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.LABTROP_SSH_KEY }}
           script: |
-            cd /mnt/dados/notaR && ls
-            whoami
+            cd /mnt/dados/notaR && bash deploy.sh
