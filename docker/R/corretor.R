@@ -19,16 +19,11 @@ no.results <- function(object) {
 # texto 
 # E devolve um um vector logico com o resultado dos testes
 # Caso o codigo tenha erros de sintaxe, retorna NULL
-# Usa variavel global PATH (definida no PHP?)  
 corretoR <- function (id.exerc, texto) {
 		# Definicoes iniciais
 		corrEnv <- new.env()
-    	# copia todos os arquivos de dados para que possam ser usados pelo corretor
-    	# file.copy(dir(path=paste0(PATH, "/files"), full.names=T), ".") TODO 
-		# Funcoes dsiponiveis dentro do ambiente de correcao
-		# eval(parse(file=paste0(PATH,"/acessorias.R")), envir=corrEnv)
-		# TO DO: mover eq para acessorias
-		assign("eq", function(a, b) isTRUE(all.equal(a,b, tol=1e-7, check.attributes=FALSE)), envir=corrEnv)
+		# Funcoes disponiveis dentro do ambiente de correcao
+		eval(parse(file=paste0("/usr/local/src/notar/acessorias.R")), envir=corrEnv)
 
 		testes <- dbGetQuery(con,
 							 paste("SELECT condicao FROM testes
@@ -75,5 +70,6 @@ notaR <- function (id.exerc, arquivo) {
 
 # Exemplos: 
 # con <- connect('notaR', 'notaRPW', 'notaR')
-# PATH <- '/var/www/notaR/'
 # corretoR(1, "y<-1;x<-2")
+# ou
+# notaR(1, "/tmp/file.R")
