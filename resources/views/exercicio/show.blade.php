@@ -27,26 +27,41 @@
     @endcan
 
     <!-- form pra enviar exercicio -->
+    <a name="enviar">
+        <h3>Resposta</h3>
+    </a>
     <form action="{{ route('exercicio.upload', $exercicio) }}#enviar" method='POST' enctype="multipart/form-data">
         @csrf
-        <a name="enviar">
-            <label for="codigo"><h3>Enviar arquivo</h3></label><br>
-        </a>
-        <input type="file" id="file" name="file" class="@error('filename') is-invalid @enderror" >
+        <input type="file" id="file" hidden name="file" class="@error('filename') is-invalid @enderror" >
+        <label class= "btn btn-primary" for="file">Envie um arquivo</label>
         @error('file')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
-        <button type="submit" class="btn btn-primary">Enviar</button>
+
     </form>
 
     <form action="{{ route('exercicio.submit',$exercicio)}}#enviar" method="POST">
     @csrf
 
         <div class="row">
-            <label for="codigo"><h3>Resposta</h3></label>
-            <textarea type="text" class="form-control @error('codigo') is-invalid @enderror"
-                    id="codigo" name="codigo" placeholder="Escreva seu código aqui"
-                    >{{ old('codigo',$codigo ?? '') }}</textarea>
+            <label for="codigo">... ou cole seu código aqui:</label>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-GZ1RIgZaSc8rnco/8CXfRdCpDxRCphenIiZ2ztLy3XQfCbQUSCuk8IudvNHxkRA3oUg6q0qejgN/qqyG1duv5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <div id="editor" class="form-control @error('codigo') is-invalid @enderror">{{ old('codigo',$codigo ?? 'Escreva seu código aqui') }}</div>
+            <input type="hidden" id="codigo" name="codigo" value="{{ old('codigo', $codigo ?? '') }}">
+            <script>
+                var codigo = document.getElementById('codigo');
+                var editor = ace.edit("editor", {
+                    theme: "ace/theme/xcode",
+                    mode: "ace/mode/r",
+                    maxLines: 50,
+                    wrap: true,
+                    autoScrollEditorIntoView: true
+                });
+                editor.getSession().on('change', function () {
+                    codigo.value = editor.getSession().getValue();
+                });
+            </script>
+            
             @error('codigo')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
@@ -58,9 +73,7 @@
         <div class="row">
             <div class="alert alert-{{$respostaR['status']}} retorno">
                 <p>{!!$respostaR['mensagem']!!}</p>
-                <p><b>Sua nota: {{$respostaR['nota']}}%</b></p>
-                <p><b>Seu código: </b> <br></p>
-                {!! nl2br(e($codigo)) !!}
+                <p><b>Sua nota: {{ number_format($respostaR['nota'],1) }}%</b></p>
             </div>
         </div>
     @endif

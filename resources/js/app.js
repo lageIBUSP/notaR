@@ -35,6 +35,10 @@ $(document).ready(() => {
         }
     });
 
+    $('.relatorio-select select').on('change', function (e) {
+        $(this).closest('form').submit();
+    });
+
     $('.datetimepicker-input').datetimepicker({format: 'YYYY-MM-DD HH:mm'});
 
     $('.clear-input').click(function() {
@@ -46,9 +50,14 @@ $(document).ready(() => {
 
     updaterows();
 
-    $('input[type="file"]').change(function(e){
+    $('#arquivo').change(function(e){
         filename.value = e.target.files[0].name;
     });
+
+    $('#file').change(function(e) {
+        e.preventDefault();
+        $(e.target).closest('form').submit() // Post the surrounding form
+    })
 });
 
 function updaterows () {

@@ -9,6 +9,7 @@ use App\Models\Turma;
 use App\Models\User;
 use App\Models\Exercicio;
 use App\Models\Prazo;
+use App\Rules\Emails;
 
 class TurmaController extends Controller
 {
@@ -104,7 +105,7 @@ class TurmaController extends Controller
 
         $validator = Validator::make($request->all(), $rules);
         $data = $validator->valid()['prazos'];
-        
+
         foreach($data as $ex => $prazo) {
             $oldprazo = $turma->prazos->where('exercicio_id',$ex)->first();
             if($oldprazo) {
@@ -141,22 +142,30 @@ class TurmaController extends Controller
         $this->authorize('edit',$turma);
         $rules = array(
                 'name'       => 'required',
-                'description'=> 'required'
+                'description'=> 'required',
+                'maillist' => [new Emails],
+                'defaultpassword' => 'required_with:maillist'
                 );
         $data = $request->validate($rules);
-        $turma->update($data);
+        $turma->update(['name' => $data['name'],'description' => $data['description']]);
 
         // bulk add users
         if ($request->maillist ?? "") {
-            $emails = explode("\n",$request->maillist);
+            $emails = array_map('trim', explode("\n", $request->maillist)); //$value
             $pssw = $request->defaultpassword;
             foreach( $emails as $email ) {
                 $newmember = User::where('email',$email)->first();
-                if(!$newmember) {  
+                if($newmember) {
+                    // if user not in turma, add
+                    if ($turma->users()->find($newmember) == null) {
+                        $turma->users()->save($newmember);
+                    }
+                } else {
+                    // if user doesn't exist, create new
                     $newmember = User::create(['email' => $email]);
                     $newmember->password = $pssw;
+                    $turma->users()->save($newmember);
                 }
-                $turma->users()->save($newmember);
             }
         }
 

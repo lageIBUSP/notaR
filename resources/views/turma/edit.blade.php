@@ -26,15 +26,15 @@
 		</div>
 		<div class="form-group">
 		    <label for="maillist">Adicionar alunos por e-mail (um e-mail por linha) </label>
-		    <textarea class="form-control @error('maillist') is-invalid @enderror" id="maillist" name="maillist"></textarea>
-		    @error('description')
+		    <textarea class="form-control @error('maillist') is-invalid @enderror" id="maillist" name="maillist">{{ old('maillist','') }}</textarea>
+		    @error('maillist')
                 <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 		</div>
 		<div class="form-group">
 		    <label for="defaultpassword">Senha padrão para os novos alunos</label>
 		    <input type="text" class="form-control @error('defaultpassword') is-invalid @enderror" id="defaultpassword" name="defaultpassword">
-		    @error('description')
+		    @error('defaultpassword')
                 <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 		</div>
@@ -64,7 +64,7 @@
         @include('prazo.table',['prazos' => $turma->prazos->where('passado')])
     </div>
 
-    
+
     @can ('delete', $turma)
      <form method="POST" action="{{URL::to("/turma/".$turma->id)}}">
         {{ csrf_field() }}
