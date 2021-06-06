@@ -46,16 +46,18 @@
         <div class="row">
             <label for="codigo">... ou cole seu código aqui:</label>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-GZ1RIgZaSc8rnco/8CXfRdCpDxRCphenIiZ2ztLy3XQfCbQUSCuk8IudvNHxkRA3oUg6q0qejgN/qqyG1duv5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-            <div id="editor" class="form-control @error('codigo') is-invalid @enderror">{{ old('codigo',$codigo ?? 'Escreva seu código aqui') }}</div>
+            <div id="editor" class="form-control @error('codigo') is-invalid @enderror">{{ old('codigo',$codigo ?? '') }}</div>
             <input type="hidden" id="codigo" name="codigo" value="{{ old('codigo', $codigo ?? '') }}">
             <script>
                 var codigo = document.getElementById('codigo');
                 var editor = ace.edit("editor", {
                     theme: "ace/theme/xcode",
                     mode: "ace/mode/r",
-                    maxLines: 50,
+                    minLines: 10,
+                    maxLines: 25,
                     wrap: true,
-                    autoScrollEditorIntoView: true
+                    autoScrollEditorIntoView: true,
+                    placeholder: 'Escreva seu código aqui'
                 });
                 editor.getSession().on('change', function () {
                     codigo.value = editor.getSession().getValue();
