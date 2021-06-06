@@ -3,6 +3,9 @@
         <tr>
             <td>Nome</td>
             <td>Email</td>
+            @unless ($turma ?? '')
+                <td>Turmas</td>
+            @endunless
             <td>Admin</td>
             <td>Ações</td>
         </tr>
@@ -24,6 +27,15 @@
                 </div>
                 </a>
             </td>
+            @unless ($turma ?? '')
+                <td>
+                    @foreach ($value->turmas as $t)
+                        <a href={{URL::to("/turma/".$t->id)}}>
+                            {{ $t->name }}
+                        </a>
+                    @endforeach
+                </td>
+            @endunless
             <td>
                 <a href={{URL::to("/user/".$value->id)}}>
                 <div style="height:100%;width:100%">

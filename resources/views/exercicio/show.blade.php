@@ -73,7 +73,7 @@
         <div class="row">
             <div class="alert alert-{{$respostaR['status']}} retorno">
                 <p>{!!$respostaR['mensagem']!!}</p>
-                <p><b>Sua nota: {{$respostaR['nota']}}%</b></p>
+                <p><b>Sua nota: {{ number_format($respostaR['nota'],1) }}%</b></p>
             </div>
         </div>
     @endif
