@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-		return View('user.index')->with('users',User::all());
+		return View('user.index')->with('users',User::with('turmas')->get());
 	}
 
 	/**

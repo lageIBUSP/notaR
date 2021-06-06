@@ -277,7 +277,7 @@ class ExercicioController extends Controller
 				'testes' => $respostaR['resultado'],
 				'codigo' => $codigo
 			]);
-		}
+        }
 
 		return View('exercicio.show')->with('exercicio', $exercicio)->
 					with('respostaR', $respostaR)->
