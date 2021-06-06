@@ -27,15 +27,17 @@
     @endcan
 
     <!-- form pra enviar exercicio -->
+    <a name="enviar">
+        <h3>Resposta</h3>
+    </a>
     <form action="{{ route('exercicio.upload', $exercicio) }}#enviar" method='POST' enctype="multipart/form-data">
         @csrf
-        <a name="enviar">
-            <label for="codigo"><h3>Enviar arquivo</h3></label><br>
-        </a>
-        <input type="file" id="file" name="file" class="@error('filename') is-invalid @enderror" >
+        <input type="file" id="file" hidden name="file" class="@error('filename') is-invalid @enderror" >
+        <label class= "btn btn-primary" for="file">Envie um arquivo</label>
         @error('file')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
+
         <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 
@@ -43,7 +45,7 @@
     @csrf
 
         <div class="row">
-            <label for="codigo"><h3>Resposta</h3></label>
+            <label for="codigo">... ou cole seu código aqui:</label>
             <textarea type="text" class="form-control @error('codigo') is-invalid @enderror"
                     id="codigo" name="codigo" placeholder="Escreva seu código aqui"
                     >{{ old('codigo',$codigo ?? '') }}</textarea>
@@ -59,8 +61,6 @@
             <div class="alert alert-{{$respostaR['status']}} retorno">
                 <p>{!!$respostaR['mensagem']!!}</p>
                 <p><b>Sua nota: {{$respostaR['nota']}}%</b></p>
-                <p><b>Seu código: </b> <br></p>
-                {!! nl2br(e($codigo)) !!}
             </div>
         </div>
     @endif

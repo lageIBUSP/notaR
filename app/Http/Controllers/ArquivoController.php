@@ -40,14 +40,14 @@ class ArquivoController extends Controller
     {
         $this->authorize('create', Arquivo::class);
         $request->validate([
-            'file' => 'required',
+            'arquivo' => 'required',
             'filename' => 'required|string|unique:arquivos,name'
         ]);
 
 
         // get file name
         $fileName = $request->filename;
-        $filePath = $request->file('file')->storeAs('arquivos', $fileName, 'public');
+        $filePath = $request->file('arquivo')->storeAs('arquivos', $fileName, 'public');
 
         Arquivo::create([
             'name' => $fileName,

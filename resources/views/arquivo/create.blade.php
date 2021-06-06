@@ -8,8 +8,8 @@
 			<form action="{{URL::to("/arquivo")}}" method="POST" enctype="multipart/form-data">
 			@csrf
 			@include ('includes.error_alert')
-			<input type="file" id="file" name="file" class="@error('filename') is-invalid @enderror" >
-		    @error('file')
+			<input type="file" id="arquivo" name="file" class="@error('filename') is-invalid @enderror" >
+		    @error('arquivo')
 				<div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 			<input type="text" name="filename" value="" id="filename" class="@error('filename') is-invalid @enderror" >
