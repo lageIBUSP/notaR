@@ -38,7 +38,6 @@
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
 
-        <button type="submit" class="btn btn-primary">Enviar</button>
     </form>
 
     <form action="{{ route('exercicio.submit',$exercicio)}}#enviar" method="POST">
