@@ -17,6 +17,7 @@ class RelatorioController extends Controller
 	public function index(Request $request)
 	{
 		$this->authorize('view', Relatorio::class);
+        $turmas = Turma::orderBy('created_at', 'DESC')->get();
 		$rules = array(
 			'turma' => 'sometimes|int|exists:turmas,id',
 			'tipo' => 'sometimes|in:realizacao,notas'
@@ -25,9 +26,10 @@ class RelatorioController extends Controller
         if(array_key_exists('turma',$data) && array_key_exists('tipo',$data)) {
             return $this->relatorio($data['turma'], $data['tipo']);
         } else {
-            return View('relatorio.notas')
-                ->with('turmas',Turma::all());
-            ;
+            return redirect()->action(
+                [self::class, 'index'],
+                ['turma' => $turmas->first()->id, 'tipo' => 'notas']
+            );
         }
     }
 
@@ -76,11 +78,12 @@ class RelatorioController extends Controller
             ];
         }
 
+        $turmas = Turma::orderBy('created_at', 'DESC')->has('users')->get();
+
         return View('relatorio.'.$tipo)
                 ->with('turma', $turma)
                 ->with('tipo', $tipo)
-                ->with('turmas', Turma::has('users')->get());
-            ;
+                ->with('turmas', $turmas);
 	}
 
 }
