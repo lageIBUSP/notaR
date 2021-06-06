@@ -40,14 +40,13 @@ class ArquivoController extends Controller
     {
         $this->authorize('create', Arquivo::class);
         $request->validate([
-            'arquivo' => 'required',
+            'file' => 'required',
             'filename' => 'required|string|unique:arquivos,name'
         ]);
 
-
         // get file name
         $fileName = $request->filename;
-        $filePath = $request->file('arquivo')->storeAs('arquivos', $fileName, 'public');
+        $filePath = $request->file('file')->storeAs('arquivos', $fileName, 'public');
 
         Arquivo::create([
             'name' => $fileName,
@@ -102,7 +101,7 @@ class ArquivoController extends Controller
         $this->authorize('delete', $arquivo);
         if( !Storage::disk('public')->exists($arquivo->path) ){
             $arquivo->delete();
-            return back()->withErrors(['Aviso: inconsistëncia: o arquivo '.$arquivo->name. ' não existia no filesystem.']);
+            return back()->withErrors(['Aviso: inconsistência: o arquivo '.$arquivo->name. ' não existia no filesystem.']);
         }
 
         Storage::disk('public')->delete($arquivo->path);
