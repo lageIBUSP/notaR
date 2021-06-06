@@ -10,12 +10,12 @@
         <form action="{{ URL::to('exercicio/'.$exercicio->id.'/import') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method ('put')
-        <label for='file'>Importar dados de arquivo</label>
-        <input type="file" id="file" name="file" class="@error('file') is-invalid @enderror" >
+        <input type="file" id="file" hidden name="file" class="@error('filename') is-invalid @enderror" >
+        <label class= "btn btn-primary" for="file">Importar dados de arquivo</label>
         @error('file')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
-        <button type="submit" class="btn btn-primary">Enviar</button>
+
         </form>
 	</div>
     @if (old('from_import',false))
