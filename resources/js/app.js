@@ -35,6 +35,10 @@ $(document).ready(() => {
         }
     });
 
+    $('.relatorio-select select').on('change', function (e) {
+        $(this).closest('form').submit();
+    });
+
     $('.datetimepicker-input').datetimepicker({format: 'YYYY-MM-DD HH:mm'});
 
     $('.clear-input').click(function() {

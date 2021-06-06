@@ -68,10 +68,10 @@ class RelatorioController extends Controller
 
             $tentaram = $arr->count();
             $prazo->resumo = [
-                'tentaram' => 100*$tentaram/$nusers . "%",
-                'notamaxima' => $tentaram ? 100*$arr->where('nota','100')->count()/$tentaram ."%" : '',
-                'tentativas' => $arr->average('tentativas'),
-                'media' => $tentaram ? $arr->average('nota') ."%" : "",
+                'tentaram' => number_format(100*$tentaram/$nusers, 1),
+                'notamaxima' => $tentaram ? number_format(100*$arr->where('nota','100')->count()/$tentaram, 1) : '',
+                'tentativas' => number_format($arr->average('tentativas'), 1),
+                'media' => $tentaram ? number_format($arr->average('nota'), 1) ."%" : "",
 //                'primeiroerro' => $tentaram ? $arr->mode('primeiroerro')[0] : ''
             ];
         }
