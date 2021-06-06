@@ -45,9 +45,23 @@
 
         <div class="row">
             <label for="codigo">... ou cole seu código aqui:</label>
-            <textarea type="text" class="form-control @error('codigo') is-invalid @enderror"
-                    id="codigo" name="codigo" placeholder="Escreva seu código aqui"
-                    >{{ old('codigo',$codigo ?? '') }}</textarea>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.12/ace.js" integrity="sha512-GZ1RIgZaSc8rnco/8CXfRdCpDxRCphenIiZ2ztLy3XQfCbQUSCuk8IudvNHxkRA3oUg6q0qejgN/qqyG1duv5Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+            <div id="editor" class="form-control @error('codigo') is-invalid @enderror">{{ old('codigo',$codigo ?? 'Escreva seu código aqui') }}</div>
+            <input type="hidden" id="codigo" name="codigo" value="{{ old('codigo', $codigo ?? '') }}">
+            <script>
+                var codigo = document.getElementById('codigo');
+                var editor = ace.edit("editor", {
+                    theme: "ace/theme/xcode",
+                    mode: "ace/mode/r",
+                    maxLines: 50,
+                    wrap: true,
+                    autoScrollEditorIntoView: true
+                });
+                editor.getSession().on('change', function () {
+                    codigo.value = editor.getSession().getValue();
+                });
+            </script>
+            
             @error('codigo')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
