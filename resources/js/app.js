@@ -12,6 +12,8 @@ try {
     global.moment = require('moment');
     require('tempusdominus-bootstrap-4');
 
+    require('./jslatex');
+
 } catch (e) {}
 
 import 'jquery-ui/ui/widgets/sortable.js';
@@ -58,6 +60,8 @@ $(document).ready(() => {
         e.preventDefault();
         $(e.target).closest('form').submit() // Post the surrounding form
     })
+
+    $('.latex').latex();
 });
 
 function updaterows () {
