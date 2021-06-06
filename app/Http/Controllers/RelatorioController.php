@@ -17,7 +17,7 @@ class RelatorioController extends Controller
 	public function index(Request $request)
 	{
 		$this->authorize('view', Relatorio::class);
-        $turmas = Turma::orderBy('created_at', 'DESC')->get();
+        $turmas = Turma::orderBy('created_at', 'DESC')->has('users')->get();
 		$rules = array(
 			'turma' => 'sometimes|int|exists:turmas,id',
 			'tipo' => 'sometimes|in:realizacao,notas'
