@@ -22,6 +22,7 @@ A documentação do sistema notaR está disponível em um sistema wiki. Clique [
 
 ## Instalando o notaR
 
+O notaR 4.0 é instalado através do [Docker](https://www.docker.com/). O Docker mantém cada parte do notaR isolada em um contêiner, separada do sistema operacional. Isso permite que o notaR funcione exatamente igual em qualquer sistema, mesmo que o sistema não tenha PHP, MySql ou R. Por isso, a única ferramente necessária para instalar o notaR é o próprio Docker. Instale o Docker no seu sistema antes de começar a instalação (instruções [aqui](https://docs.docker.com/get-docker/)).
 
 Para instalar uma nova plataforma notaR:
 
