@@ -11,6 +11,17 @@ class TurmaPolicy
     use HandlesAuthorization;
 
     /**
+     * Determine whether the user can view the list or index.
+     *
+     * @param  \App\Models\User  $user
+     * @return mixed
+     */
+    public function list(User $user)
+    {
+        return true;
+    }
+
+    /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user

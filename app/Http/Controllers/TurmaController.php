@@ -20,6 +20,7 @@ class TurmaController extends Controller
 	 */
 	public function index()
 	{
+        $this->authorize('list', Turma::class);
 		return View('turma.index')->with('turmas',Turma::all());
 	}
 

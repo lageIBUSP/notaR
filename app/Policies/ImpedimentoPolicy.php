@@ -9,6 +9,19 @@ use Illuminate\Auth\Access\HandlesAuthorization;
 class ImpedimentoPolicy
 {
     use HandlesAuthorization;
+
+    /**
+     * Determine whether the user can view the list or index.
+     *
+     * @param  \App\Models\User  $user
+     * @return mixed
+     */
+    public function list(User $user)
+    {
+        return $user->isAdmin();
+    }
+
+
     /**
      * Determine whether the user can view the model.
      *

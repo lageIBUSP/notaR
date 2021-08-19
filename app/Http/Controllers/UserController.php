@@ -15,6 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('list', User::class);
 		return View('user.index')->with('users',User::with('turmas')->get());
 	}
 
