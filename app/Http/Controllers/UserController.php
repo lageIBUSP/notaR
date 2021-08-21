@@ -122,6 +122,9 @@ class UserController extends Controller
 	public function destroy(User $user)
 	{
 		$this->authorize('delete', $user);
+
+        // remove de todas as turmas
+        $user->turmas()->detach();
         $user->delete();
 		return redirect()->action([get_class($this),'index']);
 	}
