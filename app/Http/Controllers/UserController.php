@@ -15,6 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
+        $this->authorize('list', User::class);
 		return View('user.index')->with('users',User::with('turmas')->get());
 	}
 
@@ -121,6 +122,9 @@ class UserController extends Controller
 	public function destroy(User $user)
 	{
 		$this->authorize('delete', $user);
+
+        // remove de todas as turmas
+        $user->turmas()->detach();
         $user->delete();
 		return redirect()->action([get_class($this),'index']);
 	}
