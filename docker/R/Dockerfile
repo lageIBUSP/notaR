@@ -8,7 +8,8 @@ RUN apt-get update && apt-get install -y \
 RUN install.r Rserve \
     RSclient \
     RMySQL \
-    bbmle
+    bbmle \
+    png
 
 # Copies the required files for notaR
 RUN mkdir -p /usr/local/src/notar
