@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
+use \ForceUTF8\Encoding;
 
 class ExercicioController extends Controller
 {
@@ -239,6 +240,8 @@ class ExercicioController extends Controller
 		$validator = Validator::make($request->all(), $rules);
 
         $codigo = $request->file('file')->get();
+        // convert to </utf-8>
+        $codigo = Encoding::toUTF8($codigo);
         return $this->recebeCodigo($codigo, $exercicio, $validator);
 	}
 
