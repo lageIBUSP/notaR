@@ -24,14 +24,27 @@ A documentação do sistema notaR está disponível em um sistema wiki. Clique [
 
 O notaR 4.0 é instalado através do [Docker](https://www.docker.com/). O Docker mantém cada parte do notaR isolada em um contêiner, separada do sistema operacional. Isso permite que o notaR funcione exatamente igual em qualquer sistema, mesmo que o sistema não tenha PHP, MySql ou R. Por isso, a única ferramente necessária para instalar o notaR é o próprio Docker. Instale o Docker no seu sistema antes de começar a instalação (instruções [aqui](https://docs.docker.com/get-docker/)).
 
-Para instalar uma nova plataforma notaR:
+Para instalar uma nova plataforma notaR, siga os seguintes passos (nota: alguns desses comando só funcionam em linux):
 
-0. crie um usuário para o notaR, com id 1337. Faça login com esse usuário antes de tudo.
-1. clone o repositório no seu servidor
-2. crie o arquivo ```.env``` a partir do ```.env.example```, com as informações do seu servidor. Use ```APP_ENV=local``` para desenvolvimento e ```APP_ENV=production``` para produção. 
-3. rode o script ```deploy.sh```
-4. gere uma chave e registre ela no seu ```.env``` com ```sail artisan key:generate```
-5. use  ```sail artisan migrate:admin novasenha``` para criar um usuário admin com login admin@notar.br.
+0. crie um usuário para o notaR, com id 1337 e pertencente ao grupo `docker` (para facilitar, esse usuário pode se chamar `docker`):
+```
+sudo user add -u 1337 docker
+```
+1. Faça login com esse usuário:
+```
+sudo su docker
+```
+2. clone o repositório no seu servidor
+3. crie o arquivo ```.env``` a partir do ```.env.example```, com as informações do seu servidor. Use ```APP_ENV=local``` para desenvolvimento e ```APP_ENV=production``` para produção. 
+4. rode o script ```deploy.sh```
+5. gere uma chave e registre ela no seu ```.env```:
+```
+docker exec -t notar_app_1 php artisan key:generate
+```
+6. crie um usuário admin com login admin@notar.br:
+```
+docker exec -t notar_app_1 php artisan migrate:admin novasenha
+``` 
 
 ## Licença de uso
 O código fonte do notaR está disponível sob licença GPLv3.
