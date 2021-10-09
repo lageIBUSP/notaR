@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use \ForceUTF8\Encoding;
+use Illuminate\Support\Facades\Log;
 
 class ExercicioController extends Controller
 {
@@ -233,7 +234,7 @@ class ExercicioController extends Controller
 	public function upload(Request $request, Exercicio $exercicio)
 	{
 		$rules = array(
-			'file' => 'required'
+			'file' => 'required|mimetypes:text/plain'
 		);
 		$request->validate($rules);
 
@@ -246,6 +247,9 @@ class ExercicioController extends Controller
 	}
 
     private function recebeCodigo (String $codigo, Exercicio $exercicio, \Illuminate\Contracts\Validation\Validator $validator) {
+
+        Log::info('User '.Auth::user()->id.' submitted an answer to exercise '.$exercicio->id);
+
 		$validator->after(function ($validator) use($codigo) {
 			foreach(Impedimento::all()->pluck('palavra') as $palavra) {
 				if (Str::contains($codigo,$palavra)) {

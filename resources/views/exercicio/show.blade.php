@@ -32,7 +32,7 @@
     </a>
     <form action="{{ route('exercicio.upload', $exercicio) }}#enviar" method='POST' enctype="multipart/form-data">
         @csrf
-        <input type="file" id="file" hidden name="file" class="@error('filename') is-invalid @enderror" >
+        <input type="file" id="file" hidden name="file" class="@error('file') is-invalid @enderror" >
         <label class= "btn btn-primary" for="file">Envie um arquivo</label>
         @error('file')
             <div class="invalid-feedback">{{ $message }}</div>
@@ -63,7 +63,7 @@
                     codigo.value = editor.getSession().getValue();
                 });
             </script>
-            
+
             @error('codigo')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
