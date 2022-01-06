@@ -5,16 +5,17 @@ O notaR é um sistema para correção automática de exercícios em linguagem R,
 visualização das notas resultantes. Ele é um software colaborativo, desenvolvido em linguagens de código aberto.
 
 Se você for usar o notaR, cite como:
-Chalom, A., Salles, M., Prado, P. I. & Adalardo, A. (2012). notaR - Um sistema para notas automatizadas em cursos que utilizam a linguagem R (Version 2.0), from https://github.com/lageIBUSP/notaR.
+Chalom, A., Salles, M., Prado, P. I. & Oliveira, A. Adalardo de (2012). notaR - Um sistema para notas automatizadas em cursos que utilizam a linguagem R (Version 2.0), from https://github.com/lageIBUSP/notaR.
 
 ## Usando o notaR
 
-O notaR é usado hoje em cursos oferecidos pela Universade de São Paulo (USP),
-Instituto Nacional de Pesquisas da Amazônia (INPA) e Universidade Federal do Rio Grande do Norte (UFRN):
+O notaR é usado hoje em cursos oferecidos pela Universade de São Paulo (USP), Universidade Estadual Paulista (UNESP),
+Instituto Nacional de Pesquisas da Amazônia (INPA), Universidade Federal do Rio Grande do Norte (UFRN):
 * [Introdução à Linguagem R](http://www.ecologia.ib.usp.br/bie5782/doku.php)
 * [Modelagem Estatística para Ecologia e Recursos Naturais](http://cmq.esalq.usp.br/BIE5781/doku.php)
 
-Para acessar a plataforma online usada por estes cursos, clique [aqui](http://www.lage.ib.usp.br/rserve/).
+Para acessar a plataforma online usada por estes cursos, clique [aqui](http://notar.ib.usp.br/).
+Caso queira utilizar essa plataforma para um curso com os alunos cadastrados e com registros de nota, encaminhe email para <a href= "mailto:aleadalardo@gmail.com?subject=Cadastro notaR">Alexandre Adalardo de Oliveira</a>.
 
 ## Documentação
 
