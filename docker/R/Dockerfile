@@ -9,7 +9,9 @@ RUN install.r Rserve \
     RSclient \
     RMySQL \
     bbmle \
-    png
+    png \
+    Rsampling \
+    EcoVirtual \
 
 # Copies the required files for notaR
 RUN mkdir -p /usr/local/src/notar
