@@ -46,6 +46,10 @@ docker exec -t notar_app_1 php artisan key:generate
 ```
 docker exec -t notar_app_1 php artisan migrate:admin novasenha
 ``` 
+7. se você tiver um banco de dados do notaR-legacy e quiser importar os exercícios, rode o comando
+```
+docker exec -t notar_app_1 php artisan migrate:legacy
+```
 
 ## Licença de uso
 O código fonte do notaR está disponível sob licença GPLv3.
