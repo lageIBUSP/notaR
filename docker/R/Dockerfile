@@ -11,7 +11,7 @@ RUN install.r Rserve \
     bbmle \
     png \
     Rsampling \
-    EcoVirtual \
+    EcoVirtual
 
 # Copies the required files for notaR
 RUN mkdir -p /usr/local/src/notar
