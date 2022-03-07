@@ -1,4 +1,5 @@
 # notaR
+[![deploy-on-labtrop](https://github.com/lageIBUSP/notaR/actions/workflows/deploy-on-labtrop.yml/badge.svg)](https://github.com/lageIBUSP/notaR/actions/workflows/deploy-on-labtrop.yml)
 Um sistema para notas automatizadas em cursos que utilizam a linguagem R
 
 O notaR é um sistema para correção automática de exercícios em linguagem R, armazenamento e 
