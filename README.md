@@ -30,8 +30,9 @@ Para instalar uma nova plataforma notaR, siga os seguintes passos (nota: alguns 
 
 0. crie um usuário para o notaR, com id 1337 e pertencente ao grupo `docker` (para facilitar, esse usuário pode se chamar `docker`):
 ```
-sudo user add -u 1337 docker
+sudo adduser -u 1337 docker
 ```
+NOTA: se você escolher outro nome de usuário, é preciso criar um grupo `docker` e colocar o usuário nesse grupo.
 1. Faça login com esse usuário:
 ```
 sudo su docker
