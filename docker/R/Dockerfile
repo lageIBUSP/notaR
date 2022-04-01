@@ -8,11 +8,11 @@ RUN apt-get update && apt-get install -y \
 # Structural dependencies for notaR
 RUN install.r Rserve \
     RSclient \
-    RMySQL \
-    bbmle
+    RMySQL
 
 # Packages used in exercises
-RUN install.r png \
+RUN install.r bbmle \
+    png \
     Rsampling \
     EcoVirtual
 
