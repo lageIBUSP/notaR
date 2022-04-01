@@ -5,11 +5,14 @@ RUN apt-get update && apt-get install -y \
     libmariadb-dev \
     libssl-dev
     
+# Structural dependencies for notaR
 RUN install.r Rserve \
     RSclient \
     RMySQL \
-    bbmle \
-    png \
+    bbmle
+
+# Packages used in exercises
+RUN install.r png \
     Rsampling \
     EcoVirtual
 
