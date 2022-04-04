@@ -119,6 +119,23 @@ class ExercicioController extends Controller
 	}
 
 	/**
+	 * Retorna uma lista de pacotes instalados no ambiente R
+	 * 
+	 * @return Array
+	 */
+	private function getInstalledPackages () {
+		$cnx = new \Sentiweb\Rserve\Connection('r');
+
+		$rcode = 'pkgs <- installed.packages();'
+				. 'pkgs[,1];'
+				;
+		// resposta do R
+		$r = $cnx->evalString($rcode);
+		
+		return ($r);
+	}
+
+	/**
 	 * Roda o corretoR usando o código
 	 *
 	 * @param  Exercicio $exercicio
@@ -300,7 +317,7 @@ class ExercicioController extends Controller
 	public function edit(Exercicio $exercicio)
 	{
 		$this->authorize('edit', $exercicio);
-		return View('exercicio.edit')->with('exercicio',$exercicio)->with('exercicio.testes',$exercicio->testes);
+		return View('exercicio.edit')->with('exercicio',$exercicio)->with('exercicio.testes',$exercicio->testes)->with('pacotesR',$this->getInstalledPackages());
 	}
 
     /**
