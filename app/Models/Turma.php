@@ -27,5 +27,17 @@ class Turma extends Model
     public function prazos()
     {
         return $this->hasMany(Prazo::class);
+
+    }
+
+    public function prazosOrdered()
+    {
+        // THIS WILL ALWAYS BE ORDERED BY EX-NAME
+        return $this->prazos()
+            ->select('prazos.*','exercicios.name as ex_name')
+            ->join('exercicios', 'prazos.exercicio_id', '=', 'exercicios.id')
+            ->orderBy('ex_name')
+            ->orderBy('prazo')
+            ;
     }
 }

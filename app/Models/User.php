@@ -116,6 +116,8 @@ class User extends Authenticatable
     // acessors
     public function getPrazosAttribute()
     {
-        return $this->turmas()->with(['prazos','prazos.exercicio','prazos.turma'])->get()->pluck('prazos')->collapse();
+        return $this->turmas()->with(['prazos','prazos.exercicio','prazos.turma'])
+        ->get()->pluck('prazos')->collapse()
+        ->sortBy('exercicio.name')->sortBy('prazo');
     }
 }
