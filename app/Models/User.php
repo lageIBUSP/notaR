@@ -120,4 +120,13 @@ class User extends Authenticatable
         ->get()->pluck('prazos')->collapse()
         ->sortBy('exercicio.name')->sortBy('prazo');
     }
+
+    public function prazo(Exercicio $exercicio)
+    {
+        return $this->turmas()->with('prazos')->get()
+        ->pluck('prazos')->collapse()
+        ->where('exercicio_id',$exercicio->id)
+        ->sortBy('prazo')->last()  
+        ->prazo;
+    }
 }

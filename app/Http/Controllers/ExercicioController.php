@@ -115,7 +115,8 @@ class ExercicioController extends Controller
 	public function show(Exercicio $exercicio)
 	{
 		$this->authorize('view', $exercicio);
-		return View('exercicio.show')->with('exercicio',$exercicio);
+		return View('exercicio.show')->with('exercicio',$exercicio)
+		->with('foraDoPrazo',Auth::user()->prazo($exercicio) <= now());
 	}
 
 	/**

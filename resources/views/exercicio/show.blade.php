@@ -19,6 +19,13 @@
     </div>
     @endif
 
+    @if ($foraDoPrazo)
+    <div class="alert alert-warning">
+        ATENÇÃO: Seu prazo para fazer este exercício passou. Sua nota será gravada, mas pode não ser considerada.
+    </div>
+    @endif
+
+
     @can ('edit', $exercicio)
     <div class="row">
         <a class="btn btn-edit inline" href="{{ URL::to('exercicio/' . $exercicio->id . '/edit') }}">Editar este exercício</a>
