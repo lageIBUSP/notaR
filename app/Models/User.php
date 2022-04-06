@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable;
 
-    /** 
+    /**
     * Sets a hashed password
     */
     public function setPasswordAttribute($value) {
@@ -96,7 +96,7 @@ class User extends Authenticatable
         return $this->notas
                 ->where('exercicio_id',$prazo->exercicio_id) //exercicio correto
                 ->where('created_at','<',$prazo->prazo) //dentro do prazo
-                ; 
+                ;
     }
 
     public function temNota() {
@@ -114,19 +114,31 @@ class User extends Authenticatable
     }
 
     // acessors
+    public function prazos()
+    {
+        return Prazo::join('turmas','prazos.turma_id','=','turmas.id')
+        ->join('turma_user','turmas.id','=','turma_user.turma_id')
+        ->join('users','users.id','=','turma_user.user_id')
+        ->where('user_id','=',$this->id)
+        ->join('exercicios','prazos.exercicio_id','=','exercicios.id')
+        ->orderBy('prazo')
+        ->orderBy('exercicios.name')
+        ;
+    }
+
     public function getPrazosAttribute()
     {
-        return $this->turmas()->with(['prazos','prazos.exercicio','prazos.turma'])
-        ->get()->pluck('prazos')->collapse()
-        ->sortBy('exercicio.name')->sortBy('prazo');
+        return $this->prazos()
+        ->select('prazos.*','exercicios.name as exercicio_name','turmas.name as turma_name')
+        ->get();
     }
 
     public function prazo(Exercicio $exercicio)
     {
-        return $this->turmas()->with('prazos')->get()
-        ->pluck('prazos')->collapse()
-        ->where('exercicio_id',$exercicio->id)
-        ->sortBy('prazo')->last()  
+        return $this->prazos()
+        ->where('exercicio_id','=',$exercicio->id)
+        ->get()
+        ->last()
         ->prazo;
     }
 }

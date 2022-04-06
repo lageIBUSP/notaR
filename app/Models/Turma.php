@@ -34,9 +34,9 @@ class Turma extends Model
     {
         // THIS WILL ALWAYS BE ORDERED BY EX-NAME
         return $this->prazos()
-            ->select('prazos.*','exercicios.name as ex_name')
             ->join('exercicios', 'prazos.exercicio_id', '=', 'exercicios.id')
-            ->orderBy('ex_name')
+            ->select('prazos.*','exercicios.name as exercicio_name')
+            ->orderBy('exercicio_name')
             ->orderBy('prazo')
             ;
     }
