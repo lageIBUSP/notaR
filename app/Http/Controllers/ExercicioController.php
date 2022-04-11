@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use \ForceUTF8\Encoding;
 use Illuminate\Support\Facades\Log;
+use ZipArchive;
 
 class ExercicioController extends Controller
 {
@@ -378,13 +379,20 @@ class ExercicioController extends Controller
      */
     public function exportAll ()
     {
-       $this->authorize('bulk');
+       $this->authorize('bulk', Exercicio::class);
 
        // Create files for each model
-
        // Create a file containing all of that
-
-       return ;
+       $exercicios = Exercicio::with('testes')->get();
+       $filename = 'notaRexercicios'.date('m-d-Y_hia').'.zip';
+       $zip      = new ZipArchive;
+       if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
+           foreach ($exercicios as $key => $value) {
+               $zip->addFromString($key. '.json', $value->export());
+           }
+           $zip->close();
+       }
+       return response()->download(public_path($filename))->deleteFileAfterSend(true);
     }
 
     private function importInput ($data) {
