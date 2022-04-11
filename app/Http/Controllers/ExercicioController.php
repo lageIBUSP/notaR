@@ -121,7 +121,7 @@ class ExercicioController extends Controller
 
 	/**
 	 * Retorna uma lista de pacotes instalados no ambiente R
-	 * 
+	 *
 	 * @return Array
 	 */
 	private function getInstalledPackages () {
@@ -132,7 +132,7 @@ class ExercicioController extends Controller
 				;
 		// resposta do R
 		$r = $cnx->evalString($rcode);
-		
+
 		return ($r);
 	}
 
@@ -369,10 +369,22 @@ class ExercicioController extends Controller
         $this->authorize('edit', $exercicio);
 
         $exercicio->makeHidden(['created_at','updated_at','draft','id']);
-        foreach ($exercicio->testes as $t) {
-            $t->makeHidden(['created_at','updated_at','id', 'exercicio_id']);
-        }
 		return response()->json($exercicio,200,[],JSON_PRETTY_PRINT);
+    }
+
+    /** Export all exercicios
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function exportAll ()
+    {
+       $this->authorize('bulk');
+
+       // Create files for each model
+
+       // Create a file containing all of that
+
+       return ;
     }
 
     private function importInput ($data) {

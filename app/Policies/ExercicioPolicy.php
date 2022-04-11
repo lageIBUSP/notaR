@@ -47,6 +47,16 @@ class ExercicioPolicy
     }
 
     /**
+     * Determine whether the user has full permissions for every model.
+     *
+     * @param  \App\Models\User  $user
+     * @return mixed
+     */
+    public function bulk(User $user)
+    {
+        return $user->isAdmin();
+    }
+    /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user

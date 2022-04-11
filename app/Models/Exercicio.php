@@ -15,6 +15,9 @@ class Exercicio extends Model
         'precondicoes',
         'draft'
     ];
+    protected $hidden = [
+
+    ];
 
     /**
     * Scope a query to only include active users.
@@ -60,5 +63,14 @@ class Exercicio extends Model
     public function notas()
     {
         return $this->hasMany(Nota::class);
+    }
+
+    /** Generate exportable string
+     *
+     * @return String
+     */
+    public function export() {
+
+        return $this->toJson(JSON_PRETTY_PRINT);
     }
 }
