@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 use \ForceUTF8\Encoding;
 use Illuminate\Support\Facades\Log;
 use ZipArchive;
+use Symfony\Component\Yaml\Yaml as Yaml;
 
 class ExercicioController extends Controller
 {
@@ -68,6 +69,7 @@ class ExercicioController extends Controller
 
 		// corrigir EOL
 		$data['precondicoes'] = str_replace("\r\n","\n",$data['precondicoes']);
+		$data['description'] = str_replace("\r\n","\n",$data['description']);
 
         return $data;
     }
@@ -116,8 +118,10 @@ class ExercicioController extends Controller
 	public function show(Exercicio $exercicio)
 	{
 		$this->authorize('view', $exercicio);
+        $prazo = Auth::user()->prazo($exercicio);
+
 		return View('exercicio.show')->with('exercicio',$exercicio)
-		->with('foraDoPrazo',Auth::user()->prazo($exercicio) <= now());
+		->with('foraDoPrazo', $prazo ? $prazo->prazo <= now() : false);
 	}
 
 	/**
@@ -369,8 +373,9 @@ class ExercicioController extends Controller
         $exercicio = Exercicio::with('testes')->find($id);
         $this->authorize('edit', $exercicio);
 
-        $exercicio->makeHidden(['created_at','updated_at','draft','id']);
-		return response()->json($exercicio,200,[],JSON_PRETTY_PRINT);
+        $filename = '/temp/notaR_exercicio'.$id.'_'.date('m-d-Y_hia').'.yaml';
+        Storage::put($filename, $exercicio->export());
+		return response()->download($filename)->deleteFileAfterSend(true);
     }
 
     /** Export all exercicios
@@ -384,11 +389,11 @@ class ExercicioController extends Controller
        // Create files for each model
        // Create a file containing all of that
        $exercicios = Exercicio::with('testes')->get();
-       $filename = 'notaRexercicios'.date('m-d-Y_hia').'.zip';
+       $filename = '/notaRexercicios'.date('m-d-Y_hia').'.zip';
        $zip      = new ZipArchive;
        if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
            foreach ($exercicios as $key => $value) {
-               $zip->addFromString($key. '.json', $value->export());
+               $zip->addFromString($key. '.yaml', $value->export());
            }
            $zip->close();
        }
@@ -423,7 +428,7 @@ class ExercicioController extends Controller
     }
 
 	/**
-	 * Import from json file
+	 * Import from yaml file
 	 *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Exercicio  $exercicio
@@ -438,14 +443,14 @@ class ExercicioController extends Controller
 
         $j = $request->file('file')->get();
 
-        $data = json_decode($j);
+        $data = Yaml::parse($j);
         if( is_null($data)) {
             return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
                 ->withErrors(['file' => 'O arquivo enviado não é um json válido']);
         }
 
         return redirect()->action([ExercicioController::class,'edit'],['exercicio' => $exercicio])
-            ->withInput($this->importInput($data));
+            ->withInput($this->importInput((object)$data));
     }
 
 
@@ -464,14 +469,14 @@ class ExercicioController extends Controller
 
         $j = $request->file('file')->get();
 
-        $data = json_decode($j);
+        $data = Yaml::parse($j);
         if( is_null($data)) {
             return redirect()->action([ExercicioController::class,'create'])
-                ->withErrors(['file' => 'O arquivo enviado não é um json válido']);
+                ->withErrors(['file' => 'O arquivo enviado não é um yaml válido']);
         }
 
         return redirect()->action([ExercicioController::class,'create'])
-            ->withInput($this->importInput($data));
+            ->withInput($this->importInput((object) $data));
     }
 
 

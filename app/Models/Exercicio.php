@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Symfony\Component\Yaml\Yaml as Yaml;
 
 class Exercicio extends Model
 {
@@ -16,7 +17,10 @@ class Exercicio extends Model
         'draft'
     ];
     protected $hidden = [
-
+        'created_at',
+        'updated_at',
+        'draft',
+        'id'
     ];
 
     /**
@@ -71,6 +75,6 @@ class Exercicio extends Model
      */
     public function export() {
 
-        return $this->toJson(JSON_PRETTY_PRINT);
+        return Yaml::dump($this->toArray(),2, 4, Yaml::DUMP_MULTI_LINE_LITERAL_BLOCK);
     }
 }

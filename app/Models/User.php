@@ -138,7 +138,6 @@ class User extends Authenticatable
         return $this->prazos()
         ->where('exercicio_id','=',$exercicio->id)
         ->get()
-        ->last()
-        ->prazo;
+        ->last();
     }
 }

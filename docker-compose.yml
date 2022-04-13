@@ -4,7 +4,7 @@ services:
     app:
         build:
             context: ./docker/php
-            dockerfile: Dockerfile            
+            dockerfile: Dockerfile
             args:
                 WWWGROUP: '${WWWGROUP}'
         image: app
@@ -15,6 +15,7 @@ services:
             LARAVEL_SAIL: 1
         volumes:
             - '.:/var/www/html'
+            - './storage/app/temp:/temp'
         networks:
             - sail
         depends_on:
