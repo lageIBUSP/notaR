@@ -27,7 +27,7 @@
 		@include ('includes.error_alert')
 
 		<div class="form-group">
-		    <label for="name">Título</label>
+		    <label for="name"><h2>Título</h2></label>
 		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Título do exercício" value="{{ old('name') }}">
 		    @error('name')
 			    <div class="invalid-feedback">{{ $message }}</div>
@@ -35,7 +35,7 @@
 		</div>
 
 		<div class="form-group">
-		    <label for="description">Enunciado</label>
+		    <label for="description"><h2>Enunciado</h2></label>
 		    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="Salve o resultado da estatística xyz na variável abc">{{ old('description') }}</textarea>
 		    @error('description')
 			    <div class="invalid-feedback">{{ $message }}</div>
@@ -43,7 +43,16 @@
 		</div>
 
         <div class="form-group">
-		    <label for="precondicoes">Pré-condições</label>
+		    <label for="precondicoes"><h2>Pré-condições</h2></label>
+            <div>
+                <label for="pacotes">Veja a lista de pacotes disponíveis:</label>
+                <select name="pacotes" id="pacotes">
+                    @foreach ($pacotesR as $i => $pacote)
+                        <option value="{{$pacote}}">{{$pacote}}</option>
+                    @endforeach
+                </select>
+            </div>
+
 		    <textarea class="form-control @error('precondicoes') is-invalid @enderror" id="precondicoes" name="precondicoes" placeholder="Código rodado antes da correção">{{ old('precondicoes') }}</textarea>
 		    @error('precondicoes')
 			    <div class="invalid-feedback">{{ $message }}</div>

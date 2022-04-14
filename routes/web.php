@@ -36,6 +36,7 @@ Route::get('/turma/{turma}/prazos', [TurmaController::class, 'editprazos']);
 Route::put('/turma/{turma}/prazos', [TurmaController::class, 'updateprazos']);
 
 Route::put('/exercicio/import', [ExercicioController::class, 'import'])->name('exercicio.import');
+Route::get('/exercicio/exportall', [ExercicioController::class, 'exportall']);
 Route::post('/exercicio/{exercicio}', [ExercicioController::class, 'submit'])->name('exercicio.submit');
 Route::post('/exercicio/{exercicio}/upload', [ExercicioController::class, 'upload'])->name('exercicio.upload');
 Route::get('/exercicio/{exercicio}/export', [ExercicioController::class, 'export'])->name('exercicio.export');

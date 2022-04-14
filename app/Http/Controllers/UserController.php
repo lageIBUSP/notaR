@@ -65,7 +65,11 @@ class UserController extends Controller
 	public function show(User $user)
 	{
 		$this->authorize('view', $user);
-		return View('user.show')->with('user',$user);
+
+        $prazos = $user->prazos->groupBy('futuro');
+		return View('user.show')->with('user',$user)
+        ->with('prazosFuturos',$prazos[1])
+        ->with('prazosPassados',$prazos[0]);
 	}
 
 	/**

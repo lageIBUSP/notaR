@@ -62,7 +62,11 @@ class TurmaController extends Controller
 	 */
 	public function show(Turma $turma)
 	{
-		return View('turma.show')->with('turma',$turma);
+        $prazos = $turma->prazosOrdered()->get()->groupBy('futuro');
+		return View('turma.show')->with('turma',$turma)
+        ->with('prazosPassados',$prazos[0])
+        ->with('prazosFuturos',$prazos[1])
+        ;
 	}
 
 	/**
@@ -86,7 +90,8 @@ class TurmaController extends Controller
 	public function editprazos(Turma $turma)
 	{
 		$this->authorize('edit', $turma);
-		return View('turma.prazos')->with('turma',$turma)->with('exercicios',Exercicio::all());
+		return View('turma.prazos')->with('turma',$turma)
+        ->with('exercicios',Exercicio::orderBy('name')->get());
 	}
 
     /**

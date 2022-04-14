@@ -19,13 +19,13 @@
         </tr>
     </thead>
     <tbody>
-    @foreach($prazos->sortBy('prazo') as $key => $value)
+    @foreach($prazos as $key => $value)
         <tr>
             @unless ($exercicio ?? "")
                 <td>
-                    <a href={{URL::to("/exercicio/".$value->exercicio->id)}}>
+                    <a href={{URL::to("/exercicio/".$value->exercicio_id)}}>
                     <div style="height:100%;width:100%">
-                        {{ $value->exercicio->name }}
+                        {{ $value->exercicio_name }}
                     </div>
                     </a>
                 </td>
@@ -33,9 +33,9 @@
 
             @unless ($turma ?? "")
                 <td>
-                <a href={{URL::to("/turma/".$value->turma->id)}}>
+                <a href={{URL::to("/turma/".$value->turma_id)}}>
                 <div style="height:100%;width:100%">
-                    {{ $value->turma->name }}
+                    {{ $value->turma_name }}
                 </div>
                 </a>
                 </td>

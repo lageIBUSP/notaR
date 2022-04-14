@@ -16,14 +16,14 @@
         <h2>Prazos Futuros</h2>
     </a>
     <div class="collapse {{$collapsed ?? "" ? "" : "show" }}" id="collapsePrazosFuturos">
-        @include('prazo.table',['prazos' => $turma->prazos->where('futuro')])
+        @include('prazo.table',['prazos' => $prazosFuturos])
     </div>
 
     <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
         <h2>Prazos Passados</h2>
     </a>
     <div class="collapse" id="collapsePrazosPassados">
-        @include('prazo.table',['prazos' => $turma->prazos->where('passado')])
+        @include('prazo.table',['prazos' => $prazosPassados])
     </div>
 
     

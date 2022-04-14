@@ -12,6 +12,7 @@ class Prazo extends Pivot
     protected $table = 'prazos';
 
     protected $guarded = [];
+
     // relationships
     public function turma()
     {
@@ -33,7 +34,7 @@ class Prazo extends Pivot
     }
 
   public function scopeFuturos($query) {
-        return $query->where('prazo', '>', now());
+        return $query->where('prazo', '>',  now());
     }
     public function scopePassados($query) {
         return $query->where('prazo', '<=', now());

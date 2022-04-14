@@ -8,20 +8,20 @@
     <p>{{ $user->isAdmin() ? "Professor" : "Aluno" }}</p>
     <a class="btn btn-edit" href="{{ URL::to('user/' . $user->id . '/edit') }}">Editar</a>
 </div>
-    
+
 <div class="container">
     <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
         <h2>Prazos Futuros</h2>
     </a>
     <div class="collapse {{$collapsed ?? "" ? "" : "show" }}" id="collapsePrazosFuturos">
-        @include('prazo.table',['prazos' => $user->prazos->where('futuro')])
+        @include('prazo.table',['prazos' => $prazosFuturos])
     </div>
 
     <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
         <h2>Notas Passadas</h2>
     </a>
     <div class="collapse show" id="collapsePrazosPassados">
-        @include('prazo.table',['prazos' => $user->prazos->where('passado')])
+        @include('prazo.table',['prazos' => $prazosPassados])
     </div>
 
 
