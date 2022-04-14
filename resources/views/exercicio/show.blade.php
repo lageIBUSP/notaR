@@ -13,19 +13,6 @@
         <p>{!! nl2br($exercicio->description) !!}</p>
     </div>
 
-    @if (!Auth::user())
-    <div class="alert alert-warning">
-        ATENÇÃO: você não está logado. Sua nota não será gravada.
-    </div>
-    @endif
-
-    @if ($foraDoPrazo)
-    <div class="alert alert-warning">
-        ATENÇÃO: Seu prazo para fazer este exercício passou. Sua nota será gravada, mas pode não ser considerada.
-    </div>
-    @endif
-
-
     @can ('edit', $exercicio)
     <div class="row">
         <a class="btn btn-edit inline" href="{{ URL::to('exercicio/' . $exercicio->id . '/edit') }}">Editar este exercício</a>
@@ -37,6 +24,19 @@
     <a name="enviar">
         <h3>Resposta</h3>
     </a>
+
+    @if ($foraDoPrazo ?? '')
+    <div class="alert alert-warning">
+        ATENÇÃO: Seu prazo para fazer este exercício passou. Sua nota será gravada, mas pode não ser considerada.
+    </div>
+    @endif
+
+    @if (!Auth::user())
+    <div class="alert alert-warning">
+        ATENÇÃO: você não está logado. Sua nota não será gravada.
+    </div>
+    @endif
+
     <form action="{{ route('exercicio.upload', $exercicio) }}#enviar" method='POST' enctype="multipart/form-data">
         @csrf
         <input type="file" id="file" hidden name="file" class="@error('file') is-invalid @enderror" >

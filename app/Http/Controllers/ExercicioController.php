@@ -15,7 +15,10 @@ use Illuminate\Support\Facades\Validator;
 use \ForceUTF8\Encoding;
 use Illuminate\Support\Facades\Log;
 use ZipArchive;
-use Symfony\Component\Yaml\Yaml as Yaml;
+use Symfony\Component\Yaml\Yaml;
+use \Sentiweb\Rserve\Connection;
+use \Sentiweb\Rserve\Exception as RserveException;
+use Exception;
 
 class ExercicioController extends Controller
 {
@@ -118,7 +121,7 @@ class ExercicioController extends Controller
 	public function show(Exercicio $exercicio)
 	{
 		$this->authorize('view', $exercicio);
-        $prazo = Auth::user()->prazo($exercicio);
+        $prazo = Auth::user() ? Auth::user()->prazo($exercicio) : false;
 
 		return View('exercicio.show')->with('exercicio',$exercicio)
 		->with('foraDoPrazo', $prazo ? $prazo->prazo <= now() : false);
@@ -130,7 +133,7 @@ class ExercicioController extends Controller
 	 * @return Array
 	 */
 	private function getInstalledPackages () {
-		$cnx = new \Sentiweb\Rserve\Connection('r');
+		$cnx = new Connection('r');
 
 		$rcode = 'pkgs <- installed.packages();'
 				. 'pkgs[,1];'
@@ -151,7 +154,7 @@ class ExercicioController extends Controller
 	private function corretoR (Exercicio $exercicio, string $file) {
 		// resposta do R
 		try {
-			$cnx = new \Sentiweb\Rserve\Connection('r');
+			$cnx = new Connection('r');
 
 			$rcode = 'source("/usr/local/src/notar/corretor.R");'
 					// database auth
@@ -168,7 +171,7 @@ class ExercicioController extends Controller
 					;
 			$r = $cnx->evalString($rcode);
 		}
-		catch (\Sentiweb\Rserve\Exception $e){
+		catch (RserveException $e){
 			return [
 				'status' => 'danger',
 				'mensagem' => 'Ocorreu um erro na correção do exercício! Por favor verifique seu código ou contate um administrador.' ,
@@ -271,7 +274,13 @@ class ExercicioController extends Controller
 
     private function recebeCodigo (String $codigo, Exercicio $exercicio, \Illuminate\Contracts\Validation\Validator $validator) {
 
-        Log::info('User '.Auth::user()->id.' submitted an answer to exercise '.$exercicio->id);
+        $user = Auth::user();
+        if($user) {
+            Log::info('User '.$user->id.' submitted an answer to exercise '.$exercicio->id);
+        }
+        else {
+            Log::info('Guest submitted an answer to exercise '.$exercicio->id);
+        }
 
 		$validator->after(function ($validator) use($codigo) {
 			foreach(Impedimento::all()->pluck('palavra') as $palavra) {
@@ -300,18 +309,21 @@ class ExercicioController extends Controller
 		Storage::delete($tempfile);
 
 		// salvar nota no banco de dados
-		if(Auth::user() && !$exercicio->draft) {
+		if($user && !$exercicio->draft) {
 			$exercicio->notas()->create([
 				'nota' => $respostaR['nota'],
-				'user_id' => Auth::user()->id,
+				'user_id' => $user()->id,
 				'testes' => $respostaR['resultado'],
 				'codigo' => $codigo
 			]);
         }
 
-		return View('exercicio.show')->with('exercicio', $exercicio)->
-					with('respostaR', $respostaR)->
-					with('codigo', $codigo);
+        $prazo = $user ? $user->prazo($exercicio) : false;
+
+		return View('exercicio.show')->with('exercicio', $exercicio)
+                    ->with('foraDoPrazo', $prazo ? $prazo->prazo <= now() : false)
+					->with('respostaR', $respostaR)
+					->with('codigo', $codigo);
 	}
 
 	/**
@@ -373,8 +385,15 @@ class ExercicioController extends Controller
         $exercicio = Exercicio::with('testes')->find($id);
         $this->authorize('edit', $exercicio);
 
-        $filename = '/temp/notaR_exercicio'.$id.'_'.date('m-d-Y_hia').'.yaml';
-        Storage::put($filename, $exercicio->export());
+       try
+       {
+            $filename = '/temp/notaR_exercicio'.$id.'_'.date('Ymd-his').'.yaml';
+            Storage::put($filename, $exercicio->export());
+       }
+       catch (Exception $e)
+       {
+            return back()->withErrors('Erro ao exportar exercício.');
+       };
 		return response()->download($filename)->deleteFileAfterSend(true);
     }
 
@@ -389,14 +408,22 @@ class ExercicioController extends Controller
        // Create files for each model
        // Create a file containing all of that
        $exercicios = Exercicio::with('testes')->get();
-       $filename = '/notaRexercicios'.date('m-d-Y_hia').'.zip';
-       $zip      = new ZipArchive;
-       if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
-           foreach ($exercicios as $key => $value) {
-               $zip->addFromString($key. '.yaml', $value->export());
-           }
-           $zip->close();
+       $filename = '/notaRexercicios'.date('Ymd-his').'.zip';
+
+       try
+       {
+            $zip      = new ZipArchive;
+            if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
+                foreach ($exercicios as $key => $value) {
+                    $zip->addFromString($key. '.yaml', $value->export());
+                }
+                $zip->close();
+            }
        }
+       catch (Exception $e)
+       {
+            return back()->withErrors('Erro ao exportar exercícios.');
+       };
        return response()->download(public_path($filename))->deleteFileAfterSend(true);
     }
 
