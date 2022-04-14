@@ -11,8 +11,8 @@ Chalom, A., Salles, M., Prado, P. I. & Oliveira, A. Adalardo de (2012). notaR - 
 ## Usando o notaR
 
 O notaR é usado hoje em cursos oferecidos pela Universade de São Paulo (USP), Universidade Estadual Paulista (UNESP),
-Instituto Nacional de Pesquisas da Amazônia (INPA), Universidade Federal do Rio Grande do Norte (UFRN):
-* [Introdução à Linguagem R](http://www.ecologia.ib.usp.br/bie5782/doku.php)
+Instituto Nacional de Pesquisas da Amazônia (INPA), Universidade Federal do Rio Grande do Norte (UFRN), abaixo o link para o material de duas destas disciplinas:
+* [Introdução à Linguagem R](http://ecor.ib.usp.br)
 * [Modelagem Estatística para Ecologia e Recursos Naturais](http://cmq.esalq.usp.br/BIE5781/doku.php)
 
 Para acessar a plataforma online usada por estes cursos, clique [aqui](http://notar.ib.usp.br/).
