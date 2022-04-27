@@ -12,21 +12,24 @@
         @include('user.table',['users' => $turma->users, 'editButton' => true, 'removeButton' => true])
     </div>
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
-        <h2>Prazos Futuros</h2>
-    </a>
-    <div class="collapse {{$collapsed ?? "" ? "" : "show" }}" id="collapsePrazosFuturos">
-        @include('prazo.table',['prazos' => $prazosFuturos])
-    </div>
+    @if($prazosFuturos ?? '')
+        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
+            <h2>Prazos Futuros</h2>
+        </a>
+        <div class="collapse {{$collapsed ?? "" ? "" : "show" }}" id="collapsePrazosFuturos">
+            @include('prazo.table',['prazos' => $prazosFuturos])
+        </div>
+    @endif
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
-        <h2>Prazos Passados</h2>
-    </a>
-    <div class="collapse" id="collapsePrazosPassados">
-        @include('prazo.table',['prazos' => $prazosPassados])
-    </div>
+    @if($prazosPassados ?? '')
+        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
+            <h2>Prazos Passados</h2>
+        </a>
+        <div class="collapse" id="collapsePrazosPassados">
+            @include('prazo.table',['prazos' => $prazosPassados])
+        </div>
+    @endif
 
-    
     @can ('edit', $turma)
         <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/edit') }}">Editar</a>
         <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/prazos') }}">Alterar prazos</a>

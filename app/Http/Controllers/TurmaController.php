@@ -63,10 +63,18 @@ class TurmaController extends Controller
 	public function show(Turma $turma)
 	{
         $prazos = $turma->prazosOrdered()->get()->groupBy('futuro');
-		return View('turma.show')->with('turma',$turma)
-        ->with('prazosPassados',$prazos[0])
-        ->with('prazosFuturos',$prazos[1])
-        ;
+		$v = View('turma.show')->with('turma',$turma);
+
+        if ($prazos->isNotEmpty()) {
+            if ($prazos->keys()->contains(0)) {
+                $v = $v->with('prazosPassados',$prazos[0]);
+
+            }
+            if ($prazos->keys()->contains(1)) {
+                $v = $v->with('prazosFuturos',$prazos[1]);
+            }
+        }
+        return $v;
 	}
 
 	/**

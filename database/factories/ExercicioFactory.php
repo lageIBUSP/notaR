@@ -22,7 +22,7 @@ class ExercicioFactory extends Factory
     public function definition()
     {
         return [
-            'name' => substr($this->faker->sentence(2), 0, -1),
+            'name' => $this->faker->numberBetween(101,130) . ': ' . $this->faker->sentence(3),
             'description' => $this->faker->paragraph,
             'precondicoes' => ''
         ];

@@ -22,7 +22,7 @@ class TesteFactory extends Factory
     public function definition()
     {
         return [
-            'condicao' => $this->faker->sentence(2),
+            'condicao' => $this->faker->lexify('?') . '==' . $this->faker->numberBetween(0,10),
             'dica' => $this->faker->sentence(2),
             'peso' => 1
         ];
