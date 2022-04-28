@@ -312,7 +312,7 @@ class ExercicioController extends Controller
 		if($user && !$exercicio->draft) {
 			$exercicio->notas()->create([
 				'nota' => $respostaR['nota'],
-				'user_id' => $user()->id,
+				'user_id' => $user->id,
 				'testes' => $respostaR['resultado'],
 				'codigo' => $codigo
 			]);
