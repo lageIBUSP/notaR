@@ -26,7 +26,7 @@
             </label>
         </div>
         <div class="form-group" style="display: flex; flex-direction: row; justify-content: space-between; align-items: center;">
-            <a class="small" href="{{ route('password.request') }}">
+            <span class="small">
                 Esqueceu sua senha? Contate um admin!
             </a>
             <button type="submit" class="btn btn-primary">Entrar</button>
