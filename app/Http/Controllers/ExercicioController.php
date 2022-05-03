@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Exercicio;
 use App\Models\Teste;
 use App\Models\Impedimento;
+use App\Utils\TmpFile;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -301,7 +302,7 @@ class ExercicioController extends Controller
 		$codigo = str_replace("\r\n","\n",$codigo);
 
 		// salva um arquivo com o codigo
-		$tempfile = '/temp/_'.time().md5($codigo);
+		$tempfile = TmpFile::generateTmpFileName(md5($codigo), '.R');
 		Storage::put($tempfile, $codigo);
 		// corrige
 		$respostaR = $this->corretoR($exercicio,$tempfile);
@@ -387,7 +388,7 @@ class ExercicioController extends Controller
 
        try
        {
-            $filename = '/temp/notaR_exercicio'.$id.'_'.date('Ymd-his').'.yaml';
+            $filename = TmpFile::generateTmpFileName('notaR_exercicio'.$exercicio->name,'.yaml');
             Storage::put($filename, $exercicio->export());
        }
        catch (Exception $e)
@@ -408,14 +409,15 @@ class ExercicioController extends Controller
        // Create files for each model
        // Create a file containing all of that
        $exercicios = Exercicio::with('testes')->get();
-       $filename = '/notaRexercicios'.date('Ymd-his').'.zip';
+       $filename = TmpFile::generateTmpFileName('notaR_exercicios','.zip');
 
        try
        {
             $zip      = new ZipArchive;
-            if ($zip->open(public_path($filename), ZipArchive::CREATE) === TRUE) {
+            if ($zip->open($filename, ZipArchive::CREATE) === TRUE) {
                 foreach ($exercicios as $key => $value) {
-                    $zip->addFromString($key. '.yaml', $value->export());
+                    $fn = Str::slug($value->name).'.yaml';
+                    $zip->addFromString($fn, $value->export());
                 }
                 $zip->close();
             }
@@ -424,7 +426,7 @@ class ExercicioController extends Controller
        {
             return back()->withErrors('Erro ao exportar exercícios.');
        };
-       return response()->download(public_path($filename))->deleteFileAfterSend(true);
+       return response()->download($filename)->deleteFileAfterSend(true);
     }
 
     private function importInput ($data) {

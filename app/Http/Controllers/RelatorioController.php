@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Turma;
+use App\Utils\TmpFile;
 
 class RelatorioController extends Controller
 {
@@ -55,7 +56,7 @@ class RelatorioController extends Controller
         }
 
         if ($export) {
-            $filename = 'test.csv';
+            $filename = TmpFile::generateTmpFileName('relatorio-'.$tipo.'-'.$turma->name, '.csv');
             $file = fopen($filename,'w');
             // write csv
             foreach($table as $row) {
@@ -63,7 +64,7 @@ class RelatorioController extends Controller
             }
             fclose($file);
 
-            return response()->download(public_path($filename))->deleteFileAfterSend(true);
+            return response()->download($filename)->deleteFileAfterSend(true);
         }
 
         // Prepare return
