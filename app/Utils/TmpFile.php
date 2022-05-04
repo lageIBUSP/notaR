@@ -9,6 +9,6 @@ class TmpFile
 {
     static public function generateTmpFileName (string $name, string $extension) {
         $name = Str::slug($name);
-        return '/temp/'.'_'.Auth::user()->id.$name.'_'.date('Ymd-his').$extension;
+        return '/temp/'.$name.'_'.date('Ymd-his').$extension;
     }
 }
