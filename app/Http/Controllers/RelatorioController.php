@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Turma;
+use App\Utils\TmpFile;
 
 class RelatorioController extends Controller
 {
-    
+
     /**
 	 * Selecionar relatorio
 	 *
@@ -20,31 +21,91 @@ class RelatorioController extends Controller
         $turmas = Turma::orderBy('created_at', 'DESC')->has('users')->get();
 		$rules = array(
 			'turma' => 'sometimes|int|exists:turmas,id',
-			'tipo' => 'sometimes|in:realizacao,notas'
+			'tipo' => 'sometimes|in:realizacao,notas',
+            'export' => 'sometimes|bool'
         );
         $data = $request->validate($rules);
         if(array_key_exists('turma',$data) && array_key_exists('tipo',$data)) {
-            return $this->relatorio($data['turma'], $data['tipo']);
+            return $this->relatorio($data['turma'], $data['tipo'], $data['export']);
         } else {
             return redirect()->action(
                 [self::class, 'index'],
-                ['turma' => $turmas->first()->id, 'tipo' => 'notas']
+                ['turma' => $turmas->first()->id, 'tipo' => 'notas', 'export' => 0]
             );
         }
     }
 
     /**
-	 * Relatório de nota
+	 * Separa os relatórios
 	 *
      * @param  int  $turma
      * @param  string  $tipo
+     * @param  bool  $export
 	 * @return \Illuminate\View\View
 	 */
-	public function relatorio(int $turma, string $tipo)
+	public function relatorio(int $turma, string $tipo, bool $export)
 	{
 		$this->authorize('view', Relatorio::class);
         $turma = Turma::with(['users', 'prazos', 'prazos.exercicio', 'users.notas'])
             ->find($turma);
+
+        if ($tipo == 'notas') {
+            $table = $this->relatorioNotas($turma);
+        } else {
+            $table = $this->relatorioRealizacao($turma);
+        }
+
+        if ($export) {
+            $filename = TmpFile::generateTmpFileName('relatorio-'.$tipo.'-'.$turma->name, '.csv');
+            $file = fopen($filename,'w');
+            // write csv
+            foreach($table as $row) {
+                fputcsv($file,$row);
+            }
+            fclose($file);
+
+            return response()->download($filename)->deleteFileAfterSend(true);
+        }
+
+        // Prepare return
+        $turmas = Turma::orderBy('created_at', 'DESC')->has('users')->get();
+
+        return View('relatorio.'.$tipo)
+                ->with('tabela', $table)
+                ->with('turma', $turma)
+                ->with('tipo', $tipo)
+                ->with('export', $export)
+                ->with('turmas', $turmas);
+
+	}
+
+    /** Relatório de notas
+     *
+     * @param Turma $turma
+     */
+    public function relatorioNotas (Turma $turma) {
+        $prazos = $turma->prazos->sortBy('exercicio.name');
+        $colnames = $prazos->pluck('exercicio.name')->prepend('');
+        $mytable = collect();
+        $mytable->push($colnames->all());
+        foreach ($turma->users->sortBy(['name','email']) as $user) {
+            $rowname = $user->name ? $user->name : $user->email;
+            $notas = $prazos->map( function ($prazo) use ($user) {
+                return $user->notaFinal($prazo);
+            });
+            $myrow = $notas->prepend($rowname);
+
+            $mytable->push($myrow->all());
+        }
+
+        return $mytable;
+    }
+
+    /** Relatório de realização
+     *
+     * @param Turma $turma
+     */
+    public function relatorioRealizacao (Turma $turma) {
 
         $nusers = $turma->users->count();
         foreach($turma->prazos as $prazo) {
@@ -70,20 +131,18 @@ class RelatorioController extends Controller
 
             $tentaram = $arr->count();
             $prazo->resumo = [
-                'tentaram' => number_format(100*$tentaram/$nusers, 1),
-                'notamaxima' => $tentaram ? number_format(100*$arr->where('nota','100')->count()/$tentaram, 1) : '',
+                'name'  => $prazo->exercicio->name,
+                'tentaram' => number_format(100*$tentaram/$nusers, 1)."%",
+                'notamaxima' => $tentaram ? number_format(100*$arr->where('nota','100')->count()/$tentaram, 1) : '' ,
                 'tentativas' => number_format($arr->average('tentativas'), 1),
-                'media' => $tentaram ? number_format($arr->average('nota'), 1) ."%" : "",
+                'media' => $tentaram ? number_format($arr->average('nota'), 1) : "",
 //                'primeiroerro' => $tentaram ? $arr->mode('primeiroerro')[0] : ''
             ];
         }
 
-        $turmas = Turma::orderBy('created_at', 'DESC')->has('users')->get();
-
-        return View('relatorio.'.$tipo)
-                ->with('turma', $turma)
-                ->with('tipo', $tipo)
-                ->with('turmas', $turmas);
-	}
-
+        $colnames = ['','Tentaram','Nota Máxima', 'Média de Tentativas', 'Média de Notas'];
+        $mytable = $turma->prazos->pluck('resumo');
+        $mytable->prepend($colnames);
+        return $mytable;
+    }
 }

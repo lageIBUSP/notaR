@@ -1,6 +1,13 @@
 @extends('layouts.base')
 @section('content')
-<h1>Lista de palavras proibidas</h1>
+<h1>
+    Impedimentos
+    @can ('create', App\Models\Impedimento::class)
+        <a class="btn btn-small btn-edit inline"
+            href="{{ URL::to('impedimento/create') }}">Novo impedimento
+        </a>
+    @endcan
+</h1>
 <div class="alert alert-info">
     As palavras listadas aqui não podem aparecer em nenhum lugar do seu código, por motivos de segurança.
 </div>

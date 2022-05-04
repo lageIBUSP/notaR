@@ -42,7 +42,7 @@ class UserController extends Controller
 		$rules = array(
 			'name'      => 'required',
 			'email'     => 'required|unique:users',
-			'password'  => 'required',
+			'password'  => 'required|min:8',
             'is_admin'  => 'sometimes|boolean'
 		);
 		$data = $request->validate($rules);
@@ -67,9 +67,17 @@ class UserController extends Controller
 		$this->authorize('view', $user);
 
         $prazos = $user->prazos->groupBy('futuro');
-		return View('user.show')->with('user',$user)
-        ->with('prazosFuturos',$prazos[1])
-        ->with('prazosPassados',$prazos[0]);
+		$v = View('user.show')->with('user',$user);
+        if ($prazos->isNotEmpty()) {
+            if ($prazos->keys()->contains(0)) {
+                $v = $v->with('prazosPassados',$prazos[0]);
+
+            }
+            if ($prazos->keys()->contains(1)) {
+                $v = $v->with('prazosFuturos',$prazos[1]);
+            }
+        }
+        return $v;
 	}
 
 	/**
@@ -101,9 +109,13 @@ class UserController extends Controller
 			'name'       => 'required',
 			'email'      => 'required',
             'is_admin'  => 'sometimes|boolean',
+			'password'  => 'sometimes|nullable|min:8',
             'addturma'  => 'sometimes|int|exists:turmas,id|nullable',
 		];
 		$data = $request->validate($rules);
+        if(array_key_exists('password', $data) && !$data['password']) {
+            unset($data['password']);
+        }
         if(isset($data['is_admin'])) {
             $this->authorize('makeAdmin',$user);
         }

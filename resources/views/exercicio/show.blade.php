@@ -2,7 +2,9 @@
 @section('content')
 
 <div class="container">
-    <h1>{!! nl2br($exercicio->name) !!}</h1>
+    <h1>
+        {!! nl2br($exercicio->name) !!}
+    </h1>
     @include ('includes.error_alert')
     @if ($exercicio->draft)
         <div class="alert alert-warning">
@@ -22,8 +24,11 @@
 
     <!-- form pra enviar exercicio -->
     <a name="enviar">
-        <h3>Resposta</h3>
+        <h3>
+            Resposta
+        </h3>
     </a>
+
 
     @if ($foraDoPrazo ?? '')
     <div class="alert alert-warning">
@@ -74,19 +79,22 @@
             @error('codigo')
                 <div class="invalid-feedback">{{ $message }}</div>
             @enderror
+        </div>
 
-        <input type="submit" class="btn btn-primary" value="Enviar">
+        <div class="row">
+            <input type="submit" class="btn btn-primary" value="Enviar">
         </div>
     </form>
-    @if ($respostaR ?? "")
-        <div class="row">
-            <div class="alert alert-{{$respostaR['status']}} retorno">
-                <p>{!!$respostaR['mensagem']!!}</p>
-                <p><b>Sua nota: {{ number_format($respostaR['nota'],1) }}%</b></p>
-            </div>
-        </div>
-    @endif
+    <div class="row">
+        @if ($respostaR ?? "")
+                <div class="alert alert-{{$respostaR['status']}} retorno">
+                    <p>{!!$respostaR['mensagem']!!}</p>
+                    <p><b>Sua nota: {{ number_format($respostaR['nota'],1) }}%</b></p>
+                </div>
+        @endif
 
+        <a class="btn btn-info inline right" href="https://github.com/lageIBUSP/notaR/wiki/Como-submeter-respostas"> Ajuda</a>
+    </div>
 
 </div>
 
