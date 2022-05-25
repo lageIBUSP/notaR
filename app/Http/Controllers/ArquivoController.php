@@ -17,6 +17,7 @@ class ArquivoController extends Controller
      */
     public function index()
     {
+        $this->authorize('list', Arquivo::class);
 		return View('arquivo.index')->with('arquivos',Arquivo::all());
     }
 
