@@ -17,8 +17,8 @@ class Arquivo extends Model
         return Storage::url($this->path);
     }
 
-    public function getDownloadPathAttribute() {
-        return Storage::disk('public')->path($this->path);
+    public function download() {
+        return Storage::disk('public')->download($this->path);
     }
 
 

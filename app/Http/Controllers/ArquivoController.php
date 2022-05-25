@@ -64,7 +64,7 @@ class ArquivoController extends Controller
      */
     public function show(Arquivo $arquivo)
     {
-        return response()->download($arquivo->downloadPath);
+        return $arquivo->download();
     }
 
     /**
