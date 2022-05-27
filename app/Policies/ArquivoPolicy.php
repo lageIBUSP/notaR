@@ -19,7 +19,7 @@ class ArquivoPolicy
      */
     public function list(User $user)
     {
-        return true;
+        return $user->isAdmin();
     }
 
     /**
