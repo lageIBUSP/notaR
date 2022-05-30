@@ -43,7 +43,7 @@
 		</div>
 
         <div class="form-group">
-		    <label for="precondicoes"><h2>Pré-condições</h2></label>
+		    <label for="precondicoes"><h2>Precondições</h2></label>
             <div>
                 <label for="pacotes">Veja a lista de pacotes disponíveis:</label>
                 <select name="pacotes" id="pacotes">
