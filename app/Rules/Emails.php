@@ -25,6 +25,9 @@ class Emails implements Rule
      */
     public function passes($attribute, $value)
     {
+        if (!$value) {
+            return true;
+        }
         $rules = [
             'email' => 'required|email',
         ];
