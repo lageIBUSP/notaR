@@ -134,15 +134,21 @@ class ExercicioController extends Controller
 	 * @return Array
 	 */
 	private function getInstalledPackages () {
-		$cnx = new Connection('r');
+        try {
+            $cnx = new Connection('r');
 
-		$rcode = 'pkgs <- installed.packages();'
-				. 'pkgs[,1];'
-				;
-		// resposta do R
-		$r = $cnx->evalString($rcode);
+            $rcode = 'pkgs <- installed.packages();'
+                    . 'pkgs[,1];'
+                    ;
+            // resposta do R
+            $r = $cnx->evalString($rcode);
 
-		return ($r);
+            return ($r);
+        }
+        catch (Exception $e) {
+            Log::error('Erro de conexão em getInstalledPackages');
+            return null;
+        }
 	}
 
 	/**
