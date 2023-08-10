@@ -106,8 +106,8 @@ class UserController extends Controller
 	{
 		$this->authorize('edit', $user);
 		$rules = [
-			'name'       => 'required',
-			'email'      => 'required',
+			'name'       => 'string',
+			'email'      => 'required|email',
             'is_admin'  => 'sometimes|boolean',
 			'password'  => 'sometimes|nullable|min:8',
             'addturma'  => 'sometimes|int|exists:turmas,id|nullable',
