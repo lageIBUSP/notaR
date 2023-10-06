@@ -2,7 +2,7 @@
 [![deploy-on-labtrop](https://github.com/lageIBUSP/notaR/actions/workflows/deploy-on-labtrop.yml/badge.svg)](https://github.com/lageIBUSP/notaR/actions/workflows/deploy-on-labtrop.yml)
 Um sistema para notas automatizadas em cursos que utilizam a linguagem R
 
-O notaR é um sistema para correção automática de exercícios em linguagem R, armazenamento e 
+O notaR é um sistema para correção automática de exercícios em linguagem R, armazenamento e
 visualização das notas resultantes. Ele é um software colaborativo, desenvolvido em linguagens de código aberto.
 
 Se você for usar o notaR, cite como:
@@ -10,7 +10,7 @@ Chalom, A., Salles, M., Prado, P. I. & Oliveira, A. Adalardo de (2012). notaR - 
 
 ## Usando o notaR
 
-O notaR é usado hoje em cursos oferecidos pela Universade de São Paulo (USP), Universidade Estadual Paulista (UNESP),
+O notaR é usado hoje em cursos oferecidos pela Universidade de São Paulo (USP), Universidade Estadual Paulista (UNESP),
 Instituto Nacional de Pesquisas da Amazônia (INPA), Universidade Federal do Rio Grande do Norte (UFRN), abaixo o link para o material de duas destas disciplinas:
 * [Introdução à Linguagem R](http://ecor.ib.usp.br)
 * [Modelagem Estatística para Ecologia e Recursos Naturais](http://cmq.esalq.usp.br/BIE5781/doku.php)
@@ -38,7 +38,7 @@ NOTA: se você escolher outro nome de usuário, é preciso criar um grupo `docke
 sudo su docker
 ```
 2. clone o repositório no seu servidor
-3. crie o arquivo ```.env``` a partir do ```.env.example```, com as informações do seu servidor. Use ```APP_ENV=local``` para desenvolvimento e ```APP_ENV=production``` para produção. 
+3. crie o arquivo ```.env``` a partir do ```.env.example```, com as informações do seu servidor. Use ```APP_ENV=local``` para desenvolvimento e ```APP_ENV=production``` para produção.
 4. rode o script ```deploy.sh```
 5. gere uma chave e registre ela no seu ```.env```:
 ```
@@ -47,7 +47,7 @@ docker exec -t notar_app_1 php artisan key:generate
 6. crie um usuário admin com login admin@notar.br:
 ```
 docker exec -t notar_app_1 php artisan migrate:admin novasenha
-``` 
+```
 7. se você tiver um banco de dados do notaR-legacy e quiser importar os exercícios, rode o comando
 ```
 docker exec -t notar_app_1 php artisan migrate:legacy
@@ -55,4 +55,3 @@ docker exec -t notar_app_1 php artisan migrate:legacy
 
 ## Licença de uso
 O código fonte do notaR está disponível sob licença GPLv3.
-

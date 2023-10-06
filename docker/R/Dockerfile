@@ -1,5 +1,5 @@
 # Using a fixed version R to ensure consistency
-FROM r-base:4.0.3
+FROM r-base:4.3.1
 # Install system dependencies
 RUN apt-get update --fix-missing && apt-get install -y \
     libmariadb-dev \
