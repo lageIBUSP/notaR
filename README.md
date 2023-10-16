@@ -42,15 +42,15 @@ sudo su docker
 4. rode o script ```deploy.sh```
 5. gere uma chave e registre ela no seu ```.env```:
 ```
-docker exec -t notar_app_1 php artisan key:generate
+docker exec -t notar-app-1 php artisan key:generate
 ```
 6. crie um usuário admin com login admin@notar.br:
 ```
-docker exec -t notar_app_1 php artisan migrate:admin novasenha
+docker exec -t notar-app-1 php artisan migrate:admin novasenha
 ```
 7. se você tiver um banco de dados do notaR-legacy e quiser importar os exercícios, rode o comando
 ```
-docker exec -t notar_app_1 php artisan migrate:legacy
+docker exec -t notar-app-1 php artisan migrate:legacy
 ```
 
 ## Licença de uso
