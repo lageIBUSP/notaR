@@ -28,27 +28,19 @@ O notaR 4.0 é instalado através do [Docker](https://www.docker.com/). O Docker
 
 Para instalar uma nova plataforma notaR, siga os seguintes passos (nota: alguns desses comando só funcionam em linux):
 
-0. crie um usuário para o notaR, com id 1337 e pertencente ao grupo `docker` (para facilitar, esse usuário pode se chamar `docker`):
-```
-sudo adduser -u 1337 docker
-```
-NOTA: se você escolher outro nome de usuário, é preciso criar um grupo `docker` e colocar o usuário nesse grupo.
-1. Faça login com esse usuário:
-```
-sudo su docker
-```
-2. clone o repositório no seu servidor
-3. crie o arquivo ```.env``` a partir do ```.env.example```, com as informações do seu servidor. Use ```APP_ENV=local``` para desenvolvimento e ```APP_ENV=production``` para produção.
-4. rode o script ```deploy.sh```
-5. gere uma chave e registre ela no seu ```.env```:
+1. Clone este repositório no seu servidor
+2. Crie o arquivo ```.env``` a partir do ```.env.example```, com as informações do seu servidor. Use ```APP_ENV=local``` para desenvolvimento e ```APP_ENV=production``` para produção.
+3. Edite os valores de `WWWUSER` e `WWWGROUP` de acordo com o user id do seu usuário
+4. Rode o script ```deploy.sh```
+5. Gere uma chave e registre ela no seu ```.env```:
 ```
 docker exec -t notar-app-1 php artisan key:generate
 ```
-6. crie um usuário admin com login admin@notar.br:
+6. Crie um usuário admin com login admin@notar.br:
 ```
 docker exec -t notar-app-1 php artisan migrate:admin novasenha
 ```
-7. se você tiver um banco de dados do notaR-legacy e quiser importar os exercícios, rode o comando
+7. Se você tiver um banco de dados do notaR-legacy e quiser importar os exercícios, rode o comando
 ```
 docker exec -t notar-app-1 php artisan migrate:legacy
 ```
