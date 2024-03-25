@@ -36,13 +36,13 @@ Para instalar uma nova plataforma notaR, siga os seguintes passos (nota: alguns 
 ```
 docker exec -t notar-app-1 php artisan key:generate
 ```
-6. Crie um usuário admin com login admin@notar.br:
+6. Crie o novo banco de dados:
+```
+docker exec -t notar-app-1 php artisan migrate
+```
+7. Crie um usuário admin com login admin@notar.br:
 ```
 docker exec -t notar-app-1 php artisan migrate:admin novasenha
-```
-7. Se você tiver um banco de dados do notaR-legacy e quiser importar os exercícios, rode o comando
-```
-docker exec -t notar-app-1 php artisan migrate:legacy
 ```
 
 ## Licença de uso
