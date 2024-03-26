@@ -11,9 +11,8 @@
         "php": "^8.3",
         "cturbelin/rserve-php": "2.0.x-dev",
         "fideloper/proxy": "^4.4",
-        "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "9.0",
+        "laravel/framework": "^9.0",
         "laravel/tinker": "^2.5",
         "neitanod/forceutf8": "~2.0",
         "symfony/yaml": "^6.0"
@@ -24,10 +23,10 @@
         "fakerphp/faker": "^1.9.1",
         "laravel/breeze": "^1.0",
         "laravel/sail": "^1.0.1",
-        "laravel/ui": "^3.2",
+        "laravel/ui": "^4.0",
         "mockery/mockery": "^1.4.2",
-        "nunomaduro/collision": "^6.1",
-        "phpunit/phpunit": "^9.3.3"
+        "nunomaduro/collision": "^7.0",
+        "phpunit/phpunit": "^10.0"
     },
     "config": {
         "optimize-autoloader": true,
@@ -51,7 +50,7 @@
             "Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev",
+    "minimum-stability": "stable",
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [
