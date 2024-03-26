@@ -10,23 +10,22 @@
     "require": {
         "php": "^8.3",
         "cturbelin/rserve-php": "2.0.x-dev",
-        "fideloper/proxy": "^4.4",
         "guzzlehttp/guzzle": "^7.0.1",
-        "laravel/framework": "^9.0",
+        "laravel/framework": "^10.0",
         "laravel/tinker": "^2.5",
         "neitanod/forceutf8": "~2.0",
         "symfony/yaml": "^6.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
-        "spatie/laravel-ignition": "^1.0",
         "fakerphp/faker": "^1.9.1",
-        "laravel/breeze": "^1.0",
-        "laravel/sail": "^1.0.1",
+        "laravel/breeze": "^1.29",
+        "laravel/sail": "^1.29",
         "laravel/ui": "^4.0",
         "mockery/mockery": "^1.4.2",
         "nunomaduro/collision": "^7.0",
-        "phpunit/phpunit": "^10.0"
+        "phpunit/phpunit": "^10.0",
+        "spatie/laravel-ignition": "^2.0"
     },
     "config": {
         "optimize-autoloader": true,
