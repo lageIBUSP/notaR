@@ -18,7 +18,13 @@ class Arquivo extends Model
     }
 
     public function download() {
-        return Storage::disk('public')->download($this->path);
+        // Gambiarra pra resolver problema do league/flysystem que não reconhece os mimetypes
+        $headers = [];
+        $ext = pathinfo($this->name, PATHINFO_EXTENSION);
+        if ($ext == 'r' | $ext == 'R')
+            $headers = ['Content-Type' => 'text/plain'];
+        // Manda o download
+        return Storage::disk('public')->download($this->path, $this->name, $headers);
     }
 
 
