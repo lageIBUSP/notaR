@@ -46,13 +46,6 @@ services:
         volumes:
             - './storage/app/public/arquivos:/arquivos'
             - './storage/app/temp:/temp'
-    cypress:
-        image: 'cypress/included'
-        volumes:
-            - '.:/var/www/html'
-        working_dir: '/var/www/html'
-        networks:
-            - sail
 networks:
     sail:
         driver: bridge
