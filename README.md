@@ -34,15 +34,15 @@ Para instalar uma nova plataforma notaR, siga os seguintes passos (nota: alguns 
 4. Rode o script ```deploy.sh```
 5. Gere uma chave e registre ela no seu ```.env```:
 ```
-docker exec -t notar-app-1 php artisan key:generate
+docker exec -t notar_app_1 php artisan key:generate
 ```
 6. Crie o novo banco de dados:
 ```
-docker exec -t notar-app-1 php artisan migrate
+docker exec -t notar_app_1 php artisan migrate
 ```
 7. Crie um usuário admin com login admin@notar.br:
 ```
-docker exec -t notar-app-1 php artisan migrate:admin novasenha
+docker exec -t notar_app_1 php artisan migrate:admin novasenha
 ```
 
 ## Licença de uso
