@@ -50,7 +50,7 @@ describe('Login test', () => {
 
     // Can see Arquivos
     cy.contains('Arquivos').click()
-    cy.url().should('include', '/arquivos')
+    cy.url().should('include', '/arquivo')
     cy.contains('Arquivos')
     cy.go('back')
 
@@ -62,7 +62,7 @@ describe('Login test', () => {
 
     // Can see Impedimentos
     cy.contains('Impedimentos').click()
-    cy.url().should('include', '/impedimentos')
+    cy.url().should('include', '/impedimento')
     cy.contains('Impedimentos')
     cy.go('back')
   })
