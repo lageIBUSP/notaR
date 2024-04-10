@@ -1,6 +1,6 @@
 describe('Login test', () => {
-  const email = 'admin@notar.br';
-  const password = 'novasenha';
+  const email = 'admin@notar.br'
+  const password = 'novasenha'
 
   before(() => {
     const artisan = './vendor/bin/sail artisan'
@@ -15,7 +15,7 @@ describe('Login test', () => {
     cy.visit('/')
 
     // Login link exists
-    cy.contains('Entrar').click();
+    cy.contains('Entrar').click()
     // Redirects to login
     cy.url().should('include', '/login')
 

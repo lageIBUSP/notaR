@@ -1,13 +1,13 @@
 describe('Visit page as a guest', () => {
     it('shows a homepage', () => {
-        cy.visit('/');
+        cy.visit('/')
 
-        cy.contains('notaR');
+        cy.contains('notaR')
     });
     it('shows exercicios link', () => {
-        cy.visit('/');
+        cy.visit('/')
 
-        cy.contains('Exercícios').click();
+        cy.contains('Exercícios').click()
         cy.url().should('include', '/exercicio')
     });
 });

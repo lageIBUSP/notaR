@@ -1,6 +1,6 @@
 describe('Cria, resolve e corrige exercício', () => {
-  const email = 'admin@notar.br';
-  const password = 'novasenha';
+  const email = 'admin@notar.br'
+  const password = 'novasenha'
 
   const title = 'Exercício 1'
   const description = 'Siga as instruções com atenção. Some x e y e salve na variável x, sem usar sum.'
