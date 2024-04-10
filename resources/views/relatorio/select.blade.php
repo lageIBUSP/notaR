@@ -1,5 +1,5 @@
 
-    <form action="{{URL::to('/relatorio')}}" method='GET' class="relatorio-select row">
+    <form action="{{URL::to('/relatorio')}}" method='GET' class="relatorio-select row gridline">
         <label for="turma">Turma:</label>
         <select id="turma" name="turma">
             @foreach ($turmas as $key => $value)

@@ -166,9 +166,6 @@ footer {
         margin-bottom: 20px;
         margin-left: 0px;
         margin-right: 0px;
-        display: grid;
-        grid-auto-flow: column;
-        grid-column-gap: 10px;
     }
 
     .form-group {
@@ -179,6 +176,12 @@ footer {
         max-width: 200px;
         display: inline;
         position: relative;
+    }
+
+    .gridline {
+        display: grid;
+        grid-auto-flow: column;
+        grid-column-gap: 10px;
     }
 
     input.small {
