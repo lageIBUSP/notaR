@@ -18,7 +18,9 @@ class RelatorioController extends Controller
 	public function index(Request $request)
 	{
 		$this->authorize('view', Relatorio::class);
+        // Prepare return
         $turmas = Turma::orderBy('created_at', 'DESC')->has('users')->get();
+        // Validate
 		$rules = array(
 			'turma' => 'sometimes|int|exists:turmas,id',
 			'tipo' => 'sometimes|in:realizacao,notas',
@@ -26,58 +28,40 @@ class RelatorioController extends Controller
         );
         $data = $request->validate($rules);
         if(array_key_exists('turma',$data) && array_key_exists('tipo',$data)) {
-            return $this->relatorio($data['turma'], $data['tipo'], $data['export']);
+            $turma = Turma::with(['users', 'prazos', 'prazos.exercicio', 'users.notas'])->find($data['turma']);
+            $tipo = $data['tipo'];
+            $export = $data['export'];
+
+            if ($tipo == 'notas') {
+                $table = $this->relatorioNotas($turma);
+            } else {
+                $table = $this->relatorioRealizacao($turma);
+            }
+
+            if ($export) {
+                $filename = TmpFile::generateTmpFileName('relatorio-'.$tipo.'-'.$turma->name, '.csv');
+                $file = fopen($filename,'w');
+                // write csv
+                foreach($table as $row) {
+                    fputcsv($file,$row);
+                }
+                fclose($file);
+
+                return response()->download($filename)->deleteFileAfterSend(true);
+            }
+
+            return View('relatorio.'.$tipo)
+                    ->with('tabela', $table)
+                    ->with('turma', $turma)
+                    ->with('tipo', $tipo)
+                    ->with('export', $export)
+                    ->with('turmas', $turmas);
+
         } else {
-            return redirect()->action(
-                [self::class, 'index'],
-                ['turma' => $turmas->first()->id, 'tipo' => 'notas', 'export' => 0]
-            );
+            return View('relatorio.notas')
+                ->with('turmas', $turmas);
         }
     }
-
-    /**
-	 * Separa os relatórios
-	 *
-     * @param  int  $turma
-     * @param  string  $tipo
-     * @param  bool  $export
-	 * @return \Illuminate\View\View
-	 */
-	public function relatorio(int $turma, string $tipo, bool $export)
-	{
-		$this->authorize('view', Relatorio::class);
-        $turma = Turma::with(['users', 'prazos', 'prazos.exercicio', 'users.notas'])
-            ->find($turma);
-
-        if ($tipo == 'notas') {
-            $table = $this->relatorioNotas($turma);
-        } else {
-            $table = $this->relatorioRealizacao($turma);
-        }
-
-        if ($export) {
-            $filename = TmpFile::generateTmpFileName('relatorio-'.$tipo.'-'.$turma->name, '.csv');
-            $file = fopen($filename,'w');
-            // write csv
-            foreach($table as $row) {
-                fputcsv($file,$row);
-            }
-            fclose($file);
-
-            return response()->download($filename)->deleteFileAfterSend(true);
-        }
-
-        // Prepare return
-        $turmas = Turma::orderBy('created_at', 'DESC')->has('users')->get();
-
-        return View('relatorio.'.$tipo)
-                ->with('tabela', $table)
-                ->with('turma', $turma)
-                ->with('tipo', $tipo)
-                ->with('export', $export)
-                ->with('turmas', $turmas);
-
-	}
 
     /** Relatório de notas
      *
