@@ -1,4 +1,4 @@
-describe('Login test', () => {
+describe('Cria, resolve e corrige exercício', () => {
   const email = 'admin@notar.br';
   const password = 'novasenha';
 
@@ -17,7 +17,7 @@ describe('Login test', () => {
 
   })
 
-  beforeEach('Log in via login form', function () {
+  beforeEach('Log in', function () {
     cy.visit('/login')
 
     // Fill up form
@@ -26,7 +26,7 @@ describe('Login test', () => {
     cy.get('input[name=password]').type(`${password}{enter}`)
   })
 
-  it('Create exercicio', function () {
+  it('Cria exercício', function () {
     // Can see Exercícios
     cy.contains('Exercícios').click()
     cy.url().should('include', '/exercicio')
