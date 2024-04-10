@@ -45,5 +45,19 @@ docker exec -t notar_app_1 php artisan migrate
 docker exec -t notar_app_1 php artisan migrate:admin novasenha
 ```
 
+## Rodando os testes de integração
+
+**ATENÇÃO: ESSES TESTES DESTROEM SEU BANCO DE DADOS LOCAL. NÃO RODE EM PRODUÇÃO**
+
+Os testes foram escritos para ajudar no desenvolvimento da plataforma. Todos os dados do banco de dados são destruídos antes dos testes, para evitar conflitos. Para testar e desenvolver a plataforma, instale o notaR no seu ambiente local para testes, seguindo o guia acima. Além disso, é necessário instalar o `npm`. Com isso, para abrir a interface gráfica do `cypress`, basta executar o seguinte comando:
+
+```
+npx cypress run
+```
+
+Na interface gráfica, selecione **E2E Testing**, e um browser à sua escolha.
+
+Para mais detalhes, consulte a [documentação do Cypress](https://docs.cypress.io/).
+
 ## Licença de uso
 O código fonte do notaR está disponível sob licença GPLv3.
