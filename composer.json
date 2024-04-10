@@ -19,6 +19,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.6",
         "fakerphp/faker": "^1.9.1",
+        "laracasts/cypress": "^3.0",
         "laravel/breeze": "^2.0",
         "laravel/sail": "^1.29",
         "laravel/ui": "^4.0",

@@ -44,10 +44,11 @@ class MigrateAdmin extends Command
         }
         User::create([
             'email' => 'admin@notar.br',
+            'name'  => 'Admin',
             'is_admin' => true,
             'password' => $this->argument('password')
         ]);
-        
+
         $this->info('User admin@notar.br created!');
 
         return 0;
