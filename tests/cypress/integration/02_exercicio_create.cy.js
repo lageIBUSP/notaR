@@ -17,16 +17,13 @@ describe('Cria, resolve e corrige exercício', () => {
 
   })
 
-  beforeEach('Log in', function () {
+  it('Cria exercício', function () {
     cy.visit('/login')
 
     // Fill up form
     cy.get('input[name=email]').type(email)
     // {enter} causes the form to submit
     cy.get('input[name=password]').type(`${password}{enter}`)
-  })
-
-  it('Cria exercício', function () {
     // Can see Exercícios
     cy.contains('Exercícios').click()
     cy.url().should('include', '/exercicio')
@@ -64,14 +61,18 @@ describe('Cria, resolve e corrige exercício', () => {
 
     // Should redirect to exercicio
     cy.url().should('include', '/exercicio/1')
+
+    cy.contains('h1', title)
+    cy.contains(description)
+    cy.contains('Editar este exercício')
+    cy.contains('Exportar este exercício')
+    cy.contains('Resposta')
   })
   it('Responder ao exercício', function () {
     cy.visit('/exercicio/1')
 
     cy.contains('h1', title)
     cy.contains(description)
-    cy.contains('Editar este exercício')
-    cy.contains('Exportar este exercício')
     cy.contains('Resposta')
 
     // Send valid answer
