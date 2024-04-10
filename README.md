@@ -49,7 +49,9 @@ docker exec -t notar_app_1 php artisan migrate:admin novasenha
 
 **ATENÇÃO: ESSES TESTES DESTROEM SEU BANCO DE DADOS LOCAL. NÃO RODE EM PRODUÇÃO**
 
-Os testes foram escritos para ajudar no desenvolvimento da plataforma. Todos os dados do banco de dados são destruídos antes dos testes, para evitar conflitos. Para testar e desenvolver a plataforma, instale o notaR no seu ambiente local para testes, seguindo o guia acima. Além disso, é necessário instalar o `npm`. Com isso, para abrir a interface gráfica do `cypress`, basta executar o seguinte comando:
+Os testes foram escritos para ajudar no desenvolvimento da plataforma. Todos os dados do banco de dados são destruídos antes dos testes, para evitar conflitos. Os testes foram desenvolvidos em [Cypress](https://www.cypress.io/) usando o pacote de cypress para laravel [laracasts/cypress](https://github.com/laracasts/cypress). Alguns arquivos foram gerados automaticamente usando o comanto `php artisan cypress:boilerplate`.
+
+Para testar e desenvolver a plataforma, instale o notaR no seu ambiente local para testes, seguindo o guia acima. Além disso, é necessário instalar o `npm`. Com isso, para abrir a interface gráfica do `cypress`, basta executar o seguinte comando:
 
 ```
 npx cypress run
