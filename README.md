@@ -45,6 +45,10 @@ docker exec -t notar_app_1 php artisan migrate
 docker exec -t notar_app_1 php artisan migrate:admin novasenha
 ```
 
+## Atualizando o CSS e javascript
+
+O CSS do notaR é gerado a partir dos arquivos `.scss` na pasta `resources/sass`. Os scripts javascript estão na pasta `resources/js`. Após modificar esses arquivos, é preciso compilar o código usando o `npm`. Em ambiente de desenvolvimento, use o script `npm run dev`, e antes de submeter qualquer commit, compile a versão de produção com `npm run prod`.
+
 ## Rodando os testes de integração
 
 **ATENÇÃO: ESSES TESTES DESTROEM SEU BANCO DE DADOS LOCAL. NÃO RODE EM PRODUÇÃO**
