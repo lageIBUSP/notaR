@@ -69,15 +69,17 @@ class RelatorioController extends Controller
      */
     public function relatorioNotas (Turma $turma) {
         $prazos = $turma->prazos->sortBy('exercicio.name');
-        $colnames = $prazos->pluck('exercicio.name')->prepend('');
+        $colnames = $prazos->pluck('exercicio.name')
+                           ->prepend('Email')
+                           ->prepend('Nome');
         $mytable = collect();
         $mytable->push($colnames->all());
         foreach ($turma->users->sortBy(['name','email']) as $user) {
-            $rowname = $user->name ? $user->name : $user->email;
             $notas = $prazos->map( function ($prazo) use ($user) {
                 return $user->notaFinal($prazo);
             });
-            $myrow = $notas->prepend($rowname);
+            $myrow = $notas->prepend($user->email)
+                           ->prepend($user->name);
 
             $mytable->push($myrow->all());
         }
@@ -117,14 +119,14 @@ class RelatorioController extends Controller
             $prazo->resumo = [
                 'name'  => $prazo->exercicio->name,
                 'tentaram' => number_format(100*$tentaram/$nusers, 1)."%",
-                'notamaxima' => $tentaram ? number_format(100*$arr->where('nota','100')->count()/$tentaram, 1) : '' ,
+                'notamaxima' => $tentaram ? number_format(100*$arr->where('nota','100')->count()/$tentaram, 1)."%" : '' ,
                 'tentativas' => number_format($arr->average('tentativas'), 1),
                 'media' => $tentaram ? number_format($arr->average('nota'), 1) : "",
 //                'primeiroerro' => $tentaram ? $arr->mode('primeiroerro')[0] : ''
             ];
         }
 
-        $colnames = ['','Tentaram','Nota Máxima', 'Média de Tentativas', 'Média de Notas'];
+        $colnames = ['Exercício','Tentaram','Tiveram nota máxima', 'Média de Tentativas', 'Média de Notas'];
         $mytable = $turma->prazos->pluck('resumo');
         $mytable->prepend($colnames);
         return $mytable;
