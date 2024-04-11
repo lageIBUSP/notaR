@@ -50,6 +50,8 @@
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
 
+        <input type="text" id="oi" name="oi" value="oi">
+
     </form>
 
     <form action="{{ route('exercicio.submit',$exercicio)}}#enviar" method="POST">

@@ -9,7 +9,7 @@ use App\Models\Turma;
 use App\Models\User;
 use App\Models\Exercicio;
 use App\Models\Prazo;
-use App\Rules\Emails;
+use App\Rules\CsvRule;
 
 class TurmaController extends Controller
 {
@@ -154,12 +154,18 @@ class TurmaController extends Controller
     public function update(Request $request, Turma $turma)
     {
         $this->authorize('edit',$turma);
-        $rules = array(
-                'name'       => 'required',
-                'description'=> 'required',
-                'maillist' => [new Emails],
-                'defaultpassword' => 'required_with:maillist'
-                );
+        $rules = [
+            'name'       => 'required',
+            'description'=> 'required',
+            'maillist'   => [
+                'file',
+                new CsvRule([
+                    'name' => 'required',
+                    'email' => 'required|email'
+                ])
+            ],
+            'defaultpassword' => 'required_with:maillist'
+        ];
         $data = $request->validate($rules);
         $turma->update(['name' => $data['name'],'description' => $data['description']]);
 
