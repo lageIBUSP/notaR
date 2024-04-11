@@ -6,7 +6,7 @@
         <h1>Editando {{ $turma->name }}</h1>
 	</div>
 	<div class="row">
-	    <form action={{URL::to('/turma/'.$turma->id)}} method="POST">
+	    <form action={{URL::to('/turma/'.$turma->id)}} method="POST" enctype="multipart/form-data">
 		@csrf
         @method('PUT')
         @include ('includes.error_alert')
@@ -25,8 +25,8 @@
 		    @enderror
 		</div>
 		<div class="form-group">
-		    <label for="maillist">Adicionar alunos por e-mail (um e-mail por linha) </label>
-		    <textarea class="form-control @error('maillist') is-invalid @enderror" id="maillist" name="maillist">{{ old('maillist','') }}</textarea>
+		    <label for="maillist">Adicionar alunos por csv</label>
+		    <input type="file" class="form-control @error('maillist') is-invalid @enderror" id="maillist" name="maillist">{{ old('maillist','') }}</input>
 		    @error('maillist')
                 <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
