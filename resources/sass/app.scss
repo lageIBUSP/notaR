@@ -178,6 +178,12 @@ footer {
         position: relative;
     }
 
+    .gridline {
+        display: grid;
+        grid-auto-flow: column;
+        grid-column-gap: 10px;
+    }
+
     input.small {
         max-width: 55px;
     }

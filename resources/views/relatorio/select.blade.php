@@ -1,5 +1,5 @@
 
-    <form action="{{URL::to('/relatorio')}}" method='GET' class="relatorio-select">
+    <form action="{{URL::to('/relatorio')}}" method='GET' class="relatorio-select row gridline">
         <label for="turma">Turma:</label>
         <select id="turma" name="turma">
             @foreach ($turmas as $key => $value)
@@ -18,4 +18,6 @@
             <option value="0" {{($export ?? '') == '0' ? "selected" : ""}}>Ver apenas</option>
             <option value="1" {{($export ?? '') == '1' ? "selected" : ""}}>Exportar</option>
         </select>
+
+        <input type="submit" class="btn btn-small inline btn-edit" value="Gerar relatório">
     </form>
