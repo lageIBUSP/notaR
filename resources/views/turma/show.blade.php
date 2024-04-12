@@ -30,19 +30,19 @@
         </div>
     @endif
 
-    @can ('edit', $turma)
-        <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/edit') }}">Editar</a>
-        <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/prazos') }}">Alterar prazos</a>
-    @endcan
-    @can ('delete', $turma)
-     <form method="POST" action="{{URL::to("/turma/".$turma->id)}}">
-        {{ csrf_field() }}
-        {{ method_field('DELETE') }}
+    <div class="row gridline">
+        @can ('edit', $turma)
+            <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/edit') }}">Editar</a>
+            <a class="btn btn-edit" href="{{ URL::to('turma/' . $turma->id . '/prazos') }}">Alterar prazos</a>
+        @endcan
+        @can ('delete', $turma)
+        <form method="POST" action="{{URL::to("/turma/".$turma->id)}}">
+            {{ csrf_field() }}
+            {{ method_field('DELETE') }}
 
-        <div class="form-group">
             <input type="submit" class="btn btn-danger delete" value="Deletar">
-        </div>
-    </form>
-    @endcan
+        </form>
+        @endcan
+    </div>
 
 @endsection

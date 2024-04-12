@@ -10,6 +10,7 @@ use App\Models\User;
 use App\Models\Exercicio;
 use App\Models\Prazo;
 use App\Rules\CsvRule;
+use App\Utils\Csv;
 
 class TurmaController extends Controller
 {
@@ -171,10 +172,12 @@ class TurmaController extends Controller
 
         // bulk add users
         if ($request->maillist ?? "") {
-            $emails = array_map('trim', explode("\n", $request->maillist)); //$value
+            $csv = new Csv($request->maillist->get());
             $pssw = $request->defaultpassword;
-            foreach( $emails as $email ) {
-                $newmember = User::where('email',$email)->first();
+            foreach( $csv->getData() as $user ) {
+                $email = $user['email'];
+                $name = $user['name'];
+                $newmember = User::where('email', $email)->first();
                 if($newmember) {
                     // if user not in turma, add
                     if ($turma->users()->find($newmember) == null) {
@@ -182,8 +185,10 @@ class TurmaController extends Controller
                     }
                 } else {
                     // if user doesn't exist, create new
-                    $newmember = User::create(['email' => $email]);
-                    $newmember->password = $pssw;
+                    $newmember = User::create([
+                        'email' => $email,
+                        'name' => $name,
+                        'password' => $pssw]);
                     $turma->users()->save($newmember);
                 }
             }
