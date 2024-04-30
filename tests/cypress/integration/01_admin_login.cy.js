@@ -8,6 +8,7 @@ describe('Login test', () => {
     // seed a user in the DB that we can control from our tests
     cy.exec(`${artisan} migrate:fresh`)
     cy.exec(`${artisan} migrate:admin ${password}`)
+    cy.exec(`${artisan} db:seed`)
 
   })
 

@@ -24,6 +24,9 @@ class DatabaseSeeder extends Seeder
 	    $turma = Turma::factory()
             ->hasAttached($alunos)
             ->create();
+	    $turma2 = Turma::factory()
+            ->hasAttached($alunos)
+            ->create();
 
         $turma_vazia = Turma::factory()->create();
 
