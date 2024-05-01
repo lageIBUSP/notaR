@@ -10,9 +10,9 @@ fi
 php artisan storage:link
 # Runs any DB migration
 php artisan migrate --force
-# Clear and restart caches
+# Clear caches
+php artisan route:clear
+php artisan config:clear
 php artisan cache:clear
-php artisan config:cache
 php artisan view:cache
-php artisan route:cache
 php artisan event:cache
