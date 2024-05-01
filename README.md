@@ -58,10 +58,17 @@ Os testes foram escritos para ajudar no desenvolvimento da plataforma. Todos os 
 Para testar e desenvolver a plataforma, instale o notaR no seu ambiente local para testes, seguindo o guia acima. Além disso, é necessário instalar o `npm`. Com isso, para abrir a interface gráfica do `cypress`, basta executar o seguinte comando:
 
 ```
-npx cypress run
+npx cypress open
 ```
 
 Na interface gráfica, selecione **E2E Testing**, e um browser à sua escolha.
+
+Para rodar todos os testes de uma vez, direto do terminal, rode:
+
+```
+npx cypress run
+```
+
 
 Para mais detalhes, consulte a [documentação do Cypress](https://docs.cypress.io/).
 

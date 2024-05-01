@@ -9,6 +9,7 @@ use App\Models\Exercicio;
 use App\Models\Nota;
 use App\Models\Prazo;
 use App\Models\Teste;
+use Monolog\Handler\SamplingHandler;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,43 +21,42 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 	    $ind_user = User::factory()->create();
-        $alunos = User::factory()->count(3)->create();
-	    $turma = Turma::factory()
+        $alunos = User::factory()->count(30)->create();
+
+        $turma_vazia = Turma::factory()->create();
+	    $turmas = Turma::factory()->count(10)
             ->hasAttached($alunos)
             ->create();
 
-        $turma_vazia = Turma::factory()->create();
-
-        $exercicios = Exercicio::factory()->count(5)
-             ->has(Teste::factory()->count(3))
-             ->create();
-
-
-        Prazo::factory()
-            ->for($turma)
-            ->for($exercicios[1])
-            ->create();
-        Prazo::factory()
-            ->for($turma_vazia)
-            ->for($exercicios[2])
+        $exercicios = Exercicio::factory()->count(30)
+            ->has(Teste::factory()->count(3))
             ->create();
 
-        Nota::factory()->count(2)
-            ->for($ind_user)
-            ->for($exercicios[1])
-            ->create();
-        Nota::factory()->count(2)
-            ->for($ind_user)
-            ->for($exercicios[2])
-            ->create();
-        Nota::factory()->count(2)
-            ->for($alunos[1])
-            ->for($exercicios[1])
-            ->create();
-        Nota::factory()->count(2)
-            ->for($alunos[2])
-            ->for($exercicios[2])
-            ->create();
 
+        foreach ($exercicios as $exercicio) {
+            Nota::factory()->count(2)
+                ->for($ind_user)
+                ->for($exercicio)
+                ->create();
+
+            Prazo::factory()
+                ->for($turma_vazia)
+                ->for($exercicio)
+                ->create();
+
+            foreach ($turmas as $turma) {
+                Prazo::factory()
+                    ->for($turma)
+                    ->for($exercicio)
+                    ->create();
+            }
+
+            foreach ($alunos as $aluno) {
+                Nota::factory()->count(5)
+                    ->for($aluno)
+                    ->for($exercicio)
+                    ->create();
+            }
+        }
     }
 }
