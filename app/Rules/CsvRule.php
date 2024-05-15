@@ -54,28 +54,20 @@ class CsvRule implements Rule
                 if($validator->fails()) {
 
                     $line_errors = $validator->errors()->toArray();
-
                     foreach($line_errors as $error_index => $line_error) {
-
                         // Add line information on error message
                         $errors[] = "Line ".($row_index+2).": ".$line_error[0];
-
                     }
-
                 }
-
             }
 
             $this->error_messages = $errors;
 
             if(empty($errors)) {
-
                 $result = true;
-
             }
 
         }
-
         return $result;
     }
 
