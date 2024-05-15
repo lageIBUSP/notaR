@@ -22,11 +22,13 @@ description: |-
     salada <- c"beringela", "batata"
     </code>
     Se você receber essa mensagem nos próximos exercícios, <a href="panic.jpg">não se desespere</a>! Clique no linque de ajuda que fica abaixo de todos os enunciados para ver dicas de como descobrir o que está errado!
-precondicoes: ''
+precondicoes: |-
+    my_carambola <- c("abacaxi", "beterraba")
+    my_salada <- c("beringela", "batata")
 testes:
     - { condicao: 'exists("carambola")', dica: 'Não existe um objeto chamado carambola. Você selecionou o arquivo correto?', peso: 1.0 }
     - { condicao: 'class(carambola)=="character"', dica: 'O objeto carambola deveria ser da classe character', peso: 1.0 }
-    - { condicao: 'identical(carambola, c("abacaxi", "beterraba"))', dica: 'O conteúdo do objeto carambola está incorreto. Você digitou corretamente?', peso: 1.0 }
+    - { condicao: 'identical(carambola, my_carambola)', dica: 'O conteúdo do objeto carambola está incorreto. Você digitou corretamente?', peso: 1.0 }
     - { condicao: 'exists("salada")', dica: 'Não existe um objeto chamado salada', peso: 1.0 }
     - { condicao: 'class(salada)=="character"', dica: 'O objeto salada deveria ser da classe character', peso: 1.0 }
-    - { condicao: 'identical(salada, c("beringela", "batata"))', dica: 'O conteúdo do objeto salada está incorreto. Você digitou corretamente?', peso: 1.0 }
+    - { condicao: 'identical(salada, my_salada)', dica: 'O conteúdo do objeto salada está incorreto. Você digitou corretamente?', peso: 1.0 }
