@@ -1,27 +1,27 @@
 name: '101.00 Bem-vindo(a) ao notaR'
 description: |-
-    <p>Olá! Este deve ser o primeiro exercício que você resolve no notaR, e ele serve para você ganhar familiaridade com o conceito de um corretor automático e com o funcionamento deste sistema. </p>
-    <p>O notaR funciona executando o script (código) que você envia e verificando se esse script cumpre os requisitos do exercício. Nós não estamos verificando quais são os comandos que você escreve, e sim qual é o resultado, já que existem várias maneiras de resolver os mesmos problemas.</p>
-    <p>Para pegar um gostinho de como o sistema funciona, nesse exercício você precisa criar 2 objetos. O primeiro deles é um vetor da classe "character" chamado <code>carambola</code>, contendo os elementos "abacaxi" e "beterraba".</p>
-    <p>Para isso, crie um arquivo no seu computador contendo o comando:
-    <br>
+    Olá! Este deve ser o primeiro exercício que você resolve no notaR, e ele serve para você ganhar familiaridade com o conceito de um corretor automático e com o funcionamento deste sistema.
+
+    O notaR funciona executando o script (código) que você envia e verificando se esse script cumpre os requisitos do exercício. Nós não estamos verificando quais são os comandos que você escreve, e sim qual é o resultado, já que existem várias maneiras de resolver os mesmos problemas.
+
+    Para pegar um gostinho de como o sistema funciona, nesse exercício você precisa criar 2 objetos. O primeiro deles é um vetor da classe "character" chamado <code>carambola</code>, contendo os elementos "abacaxi" e "beterraba".
+    Para isso, crie um arquivo no seu computador contendo o comando:
     <code>
      carambola <- c("abacaxi", "beterraba")
     </code>
-    <p>Salve esse arquivo e envie para o corretor usando a caixinha abaixo.</p>
-    <p>Feito? Você deve ter recebido uma mensagem indicando que seu aproveitamento foi de 50% até agora, e dando uma dica de como melhorar! O próximo passo é criar um objeto chamado <code>salada</code>, contendo "beringela" e "batata". Acrescente no seu script a seguinte linha (perceba que ela tem errinhos de digitação): <br>
+    Salve esse arquivo e envie para o corretor usando a caixinha abaixo.
+
+    Feito? Você deve ter recebido uma mensagem indicando que seu aproveitamento foi de 50% até agora, e dando uma dica de como melhorar! O próximo passo é criar um objeto chamado <code>salada</code>, contendo "beringela" e "batata". Acrescente no seu script a seguinte linha (perceba que ela tem errinhos de digitação):
     <code>
     salada <- c("berinjuela", "babata")
     </code>
+    Envie para o corretor e veja qual é a mensagem de ajuda agora! Corrija a digitação e envie de novo para receber a nota máxima!
 
-    <p>Envie para o corretor e veja qual é a mensagem de ajuda agora! Corrija a digitação e envie de novo para receber a nota máxima!</p>
-    <p>Por fim, às vezes cometemos erros e o código não executa. Tente enviar um arquivo com a seguinte linha (onde faltam os (parênteses)) para ver o que acontece.
-    <br>
+    Por fim, às vezes cometemos erros e o código não executa. Tente enviar um arquivo com a seguinte linha (onde faltam os (parênteses)) para ver o que acontece.
     <code>
     salada <- c"beringela", "batata"
     </code>
-    <br>
-    <p>Se você receber essa mensagem nos próximos exercícios, <a href="panic.jpg">não se desespere</a>! Clique no linque de ajuda que fica abaixo de todos os enunciados para ver dicas de como descobrir o que está errado!</p>
+    Se você receber essa mensagem nos próximos exercícios, <a href="panic.jpg">não se desespere</a>! Clique no linque de ajuda que fica abaixo de todos os enunciados para ver dicas de como descobrir o que está errado!
 precondicoes: ''
 testes:
     - { condicao: 'exists("carambola")', dica: 'Não existe um objeto chamado carambola. Você selecionou o arquivo correto?', peso: 1.0 }
