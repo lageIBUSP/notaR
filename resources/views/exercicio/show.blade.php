@@ -49,7 +49,6 @@
         @error('file')
             <div class="invalid-feedback">{{ $message }}</div>
         @enderror
-
     </form>
 
     <form action="{{ route('exercicio.submit',$exercicio)}}#enviar" method="POST">

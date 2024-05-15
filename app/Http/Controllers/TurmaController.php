@@ -9,7 +9,8 @@ use App\Models\Turma;
 use App\Models\User;
 use App\Models\Exercicio;
 use App\Models\Prazo;
-use App\Rules\Emails;
+use App\Rules\CsvRule;
+use App\Utils\Csv;
 
 class TurmaController extends Controller
 {
@@ -154,21 +155,29 @@ class TurmaController extends Controller
     public function update(Request $request, Turma $turma)
     {
         $this->authorize('edit',$turma);
-        $rules = array(
-                'name'       => 'required',
-                'description'=> 'required',
-                'maillist' => [new Emails],
-                'defaultpassword' => 'required_with:maillist'
-                );
+        $rules = [
+            'name'       => 'required',
+            'description'=> 'required',
+            'maillist'   => [
+                'file',
+                new CsvRule([
+                    'name' => 'required',
+                    'email' => 'required|email'
+                ])
+            ],
+            'defaultpassword' => 'required_with:maillist'
+        ];
         $data = $request->validate($rules);
         $turma->update(['name' => $data['name'],'description' => $data['description']]);
 
         // bulk add users
         if ($request->maillist ?? "") {
-            $emails = array_map('trim', explode("\n", $request->maillist)); //$value
+            $csv = new Csv($request->maillist->get());
             $pssw = $request->defaultpassword;
-            foreach( $emails as $email ) {
-                $newmember = User::where('email',$email)->first();
+            foreach( $csv->getData() as $user ) {
+                $email = $user['email'];
+                $name = $user['name'];
+                $newmember = User::where('email', $email)->first();
                 if($newmember) {
                     // if user not in turma, add
                     if ($turma->users()->find($newmember) == null) {
@@ -176,8 +185,10 @@ class TurmaController extends Controller
                     }
                 } else {
                     // if user doesn't exist, create new
-                    $newmember = User::create(['email' => $email]);
-                    $newmember->password = $pssw;
+                    $newmember = User::create([
+                        'email' => $email,
+                        'name' => $name,
+                        'password' => $pssw]);
                     $turma->users()->save($newmember);
                 }
             }
