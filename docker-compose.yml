@@ -16,7 +16,6 @@ services:
         volumes:
             - '.:/var/www/html'
             - './storage/app/temp:/temp'
-            - './storage/app/public/examples:/examples'
         networks:
             - sail
         depends_on:
