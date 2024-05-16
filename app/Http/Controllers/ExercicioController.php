@@ -311,7 +311,7 @@ class ExercicioController extends Controller
 		}
 
 		// corrigir EOL
-		$codigo = str_replace("\r\n", "\n", $codigo);
+		$codigo = str_replace("\r\n", PHP_EOL, $codigo).PHP_EOL;
 
 		// salva um arquivo com o codigo
 		$tempfile = TmpFile::generateTmpFileName(md5($codigo), '.R');
