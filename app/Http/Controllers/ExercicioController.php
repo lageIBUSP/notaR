@@ -164,6 +164,9 @@ class ExercicioController extends Controller
 			$cnx = new Connection('r');
 
 			$rcode = 'source("/usr/local/src/notar/corretor.R");'
+				        // Limits memory usage
+				        . 'rlimit_as(1e9);'
+					. 'rlimit_cpu(15);'
 					// database auth
 					. 'dbusr  <- "'. env('DB_USERNAME') . '";'
 					. 'dbpass <- "'. env('DB_PASSWORD') . '";'
@@ -174,6 +177,7 @@ class ExercicioController extends Controller
 					// run corretoR
 					. 'res <- notaR('. $exercicio->id .',"'.$file.'");'
 					. 'unlink("*",recursive=TRUE);'
+					// Returns the "res" object to caller
 					. 'res;'
 					;
 			$r = $cnx->evalString($rcode);

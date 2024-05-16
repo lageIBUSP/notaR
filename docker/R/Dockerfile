@@ -30,6 +30,7 @@ RUN apt-get update --fix-missing \
 RUN install2.r --error --skipinstalled --ncpus -1 \
     Rsampling \
     EcoVirtual \
+    unix \
     && rm -rf /tmp/downloaded_packages
 
 
@@ -37,4 +38,4 @@ RUN install2.r --error --skipinstalled --ncpus -1 \
 EXPOSE 6311
 
 # Run the Rserve library:
-CMD R --vanilla -e "library(Rserve);" -e "run.Rserve(remote=TRUE);"
+CMD Rscript bootstrap.R

@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Installs and upgrades any new PHP libraries
 if [ "$APP_ENV" == "production" ]; then
