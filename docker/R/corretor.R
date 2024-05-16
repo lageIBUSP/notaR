@@ -7,7 +7,7 @@ connect <- function (dbuser, dbpass, dbname) {
 		con<- dbConnect(MySQL(), user=dbuser, password=dbpass, dbname=dbname, host='mysql')
 		return (con);
 }
-# Construida na chamada PHP como 
+# Construida na chamada PHP como
 # con <- connect($DBUSER, $DBPASS, $DBNAME)
 
 # Funcao acessoria para testar se um objeto MySQL nao tem resultados
@@ -15,8 +15,8 @@ no.results <- function(object) {
   length(object[,1]) == 0
 }
 
-# corretoR recebe: 
-# texto 
+# corretoR recebe:
+# texto
 # E devolve um um vector logico com o resultado dos testes
 # Caso o codigo tenha erros de sintaxe, retorna NULL
 corretoR <- function (id.exerc, texto) {
@@ -29,14 +29,16 @@ corretoR <- function (id.exerc, texto) {
 							 paste("SELECT condicao FROM testes
 								   WHERE exercicio_id=", id.exerc,
 								   " ORDER BY id ASC", sep=""));
-		precondi <- dbGetQuery(con, 
-							   paste("SELECT precondicoes FROM exercicios 
+		precondi <- dbGetQuery(con,
+							   paste("SELECT precondicoes FROM exercicios
 									 WHERE id=", id.exerc, sep=""));
 
 		# Executa as precondicoes
 		if(!no.results(precondi)) eval(parse(text=precondi), envir=corrEnv);
 
 		# Executa o texto da resposta
+		# Evita que o codigo retorne matrizes
+		texto <- paste0(texto,";TRUE;");
 		# try pega erros de sintaxe
 		getError <- try(eval(parse(text=texto), envir=corrEnv));
 		if (class(getError) == "try-error") return (NULL);
@@ -47,7 +49,7 @@ corretoR <- function (id.exerc, texto) {
 		for (i in 1:notaMax) {
 				# A avaliacao pode retornar TRUE, FALSE ou erro
 				# No momento, erro esta sendo tratado como FALSE
-				# Edit fev 2013: 
+				# Edit fev 2013:
 				# O [1] no final tem a funcao de evitar condicoes com comprimento 0.
 				# Agora essas condicoes se tornam [1] NA, que serao transformados em FALSE abaixo
 				notas[i] <- (try(eval(parse(text=testes[i,1]), envir=corrEnv))[1] == TRUE)[1];
@@ -68,7 +70,7 @@ notaR <- function (id.exerc, arquivo) {
 	return (nota);
 }
 
-# Exemplos: 
+# Exemplos:
 # con <- connect('notaR', 'notaRPW', 'notaR')
 # corretoR(1, "y<-1;x<-2")
 # ou
