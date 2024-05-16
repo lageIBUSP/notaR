@@ -37,10 +37,11 @@ corretoR <- function (id.exerc, texto) {
 		if(!no.results(precondi)) eval(parse(text=precondi), envir=corrEnv);
 
 		# Executa o texto da resposta
-		# Evita que o codigo retorne matrizes
-		texto <- paste0(texto,";TRUE;");
+		getError <- try(eval(
+			c(parse(text=texto),"TRUE"), # Evita que o codigo retorne matrizes
+			envir=corrEnv
+		));
 		# try pega erros de sintaxe
-		getError <- try(eval(parse(text=texto), envir=corrEnv));
 		if (class(getError) == "try-error") return (NULL);
 
 		# Executa os testes cadastrados, sequencialmente
