@@ -8,15 +8,15 @@ use App\Models\Impedimento;
 
 class ImpedimentoController extends Controller
 {
-    /**
-     * List impedimentos.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
+	/**
+	 * List impedimentos.
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function index()
+	{
 		$this->authorize('view', Impedimento::class);
-		return View('impedimento.index')->with('impedimentos',Impedimento::all());
+		return View('impedimento.index')->with('impedimentos', Impedimento::all());
 	}
 
 	/**
@@ -40,66 +40,66 @@ class ImpedimentoController extends Controller
 	{
 		$this->authorize('create', Impedimento::class);
 		$rules = array(
-			'palavra'      => 'required|string',
+			'palavra' => 'required|string',
 		);
 		$data = $request->validate($rules);
 		// store
 		$impedimento = tap(new Impedimento($data))->save();
-		return redirect()->action([ImpedimentoController::class,'index']);
+		return redirect()->action([ImpedimentoController::class, 'index']);
 	}
 
 	/**
 	 * Show the profile of a given Impedimento.
 	 *
-	 * @param  App\Models\Impedimento $impedimento
+	 * @param  \App\Models\Impedimento $impedimento
 	 * @return \Illuminate\View\View
 	 */
 	public function show(Impedimento $impedimento)
 	{
-		return redirect()->action([ImpedimentoController::class,'index']);
+		return redirect()->action([ImpedimentoController::class, 'index']);
 	}
 
 	/**
 	 * Show the form for editing the specified resource.
 	 *
-	 * @param  App\Models\Impedimento $impedimento
+	 * @param  \App\Models\Impedimento $impedimento
 	 * @return \Illuminate\Http\Response
 	 */
 	public function edit(Impedimento $impedimento)
 	{
 		$this->authorize('edit', $impedimento);
-		return View('impedimento.edit')->with('impedimento',$impedimento);
+		return View('impedimento.edit')->with('impedimento', $impedimento);
 	}
 
 	/**
 	 * Update the specified resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @param  App\Models\Impedimento $impedimento
+	 * @param  \App\Models\Impedimento $impedimento
 	 * @return \Illuminate\Http\Response
 	 */
 	public function update(Request $request, Impedimento $impedimento)
 	{
 		$this->authorize('edit', $impedimento);
 		$rules = array(
-			'palavra'       => 'required|string',
+			'palavra' => 'required|string',
 		);
 		$data = $request->validate($rules);
 
-        $impedimento->update($data);
-		return redirect()->action([get_class($this),'index']);
+		$impedimento->update($data);
+		return redirect()->action([get_class($this), 'index']);
 	}
 
 	/**
 	 * Remove the specified resource from storage.
 	 *
-	 * @param  App\Models\Impedimento $impedimento
+	 * @param  \App\Models\Impedimento $impedimento
 	 * @return \Illuminate\Http\Response
 	 */
 	public function destroy(Impedimento $impedimento)
 	{
 		$this->authorize('delete', $impedimento);
-        $impedimento->delete();
-		return redirect()->action([get_class($this),'index']);
+		$impedimento->delete();
+		return redirect()->action([get_class($this), 'index']);
 	}
 }
