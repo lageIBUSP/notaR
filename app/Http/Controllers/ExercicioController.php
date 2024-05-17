@@ -347,12 +347,15 @@ class ExercicioController extends Controller
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  \App\Models\Exercicio  $exercicio
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\View\View
 	 */
 	public function edit(Exercicio $exercicio)
 	{
 		$this->authorize('edit', $exercicio);
-		return View('exercicio.edit')->with('exercicio', $exercicio)->with('exercicio.testes', $exercicio->testes)->with('pacotesR', $this->getInstalledPackages());
+		return View('exercicio.edit')
+			->with('exercicio', $exercicio)
+			->with('exercicio.testes', $exercicio->testes)
+			->with('pacotesR', $this->getInstalledPackages());
 	}
 
 	/**
@@ -368,7 +371,7 @@ class ExercicioController extends Controller
 		$data = $this->validateExercicio($request, $exercicio);
 
 		// store
-		DB::transaction(function  () use ($data, $exercicio) {
+		DB::transaction(function () use ($data, $exercicio) {
 			$exercicio->update($data);
 			$exercicio->testes()->delete(); // delete all testes because we're lazy
 			$n = count($data['dicas']);
