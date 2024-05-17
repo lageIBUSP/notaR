@@ -3,6 +3,7 @@ git pull
 COMPOSE="docker compose"
 CONTAINER="notar-app-1"
 if command -v docker-compose; then
+	echo "Using docker-compose"
 	COMPOSE="docker-compose"
 	CONTAINER="notar_app_1"
 fi
