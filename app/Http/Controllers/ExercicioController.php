@@ -31,7 +31,7 @@ class ExercicioController extends Controller
 	public function index()
 	{
 		$exercicios = Exercicio::orderBy('name');
-		/** @var App\Models\User */
+		/** @var \App\Models\User */
 		$user = Auth::user();
 		if (!$user || !$user->isAdmin()) {
 			$exercicios = $exercicios->published();
@@ -83,7 +83,7 @@ class ExercicioController extends Controller
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function store(Request $request)
 	{
@@ -108,8 +108,12 @@ class ExercicioController extends Controller
 
 		$test = $this->corretoR($exercicio, "/usr/local/src/notar/runtest.R");
 		if ($test['status'] == 'danger') {
-			return redirect()->action([ExercicioController::class, 'edit'], ['exercicio' => $exercicio])
-				->withErrors(['precondicoes' => 'Ocorreu um erro ao testar as precondições.']);
+			return redirect()->action(
+				[ExercicioController::class, 'edit'],
+				['exercicio' => $exercicio]
+			)->withErrors(
+				['precondicoes' => 'Ocorreu um erro ao testar as precondições.']
+			);
 		}
 
 		return redirect()->action([ExercicioController::class, 'show'], ['exercicio' => $exercicio]);
@@ -133,7 +137,7 @@ class ExercicioController extends Controller
 	/**
 	 * Retorna uma lista de pacotes instalados no ambiente R
 	 *
-	 * @return Array
+	 * @return array | null
 	 */
 	private function getInstalledPackages()
 	{
@@ -158,7 +162,7 @@ class ExercicioController extends Controller
 	 *
 	 * @param  Exercicio $exercicio
 	 * @param  string $codigo
-	 * @return Array
+	 * @return array
 	 */
 	private function corretoR(Exercicio $exercicio, string $file)
 	{
@@ -311,7 +315,7 @@ class ExercicioController extends Controller
 		}
 
 		// corrigir EOL
-		$codigo = str_replace("\r\n", "\n", $codigo);
+		$codigo = str_replace("\r\n", PHP_EOL, $codigo).PHP_EOL;
 
 		// salva um arquivo com o codigo
 		$tempfile = TmpFile::generateTmpFileName(md5($codigo), '.R');
@@ -356,7 +360,7 @@ class ExercicioController extends Controller
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \App\Models\Exercicio  $exercicio
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function update(Request $request, Exercicio $exercicio)
 	{
@@ -364,7 +368,7 @@ class ExercicioController extends Controller
 		$data = $this->validateExercicio($request, $exercicio);
 
 		// store
-		DB::transaction(function () use ($data, $exercicio) {
+		DB::transaction(function  () use ($data, $exercicio) {
 			$exercicio->update($data);
 			$exercicio->testes()->delete(); // delete all testes because we're lazy
 			$n = count($data['dicas']);
@@ -381,11 +385,18 @@ class ExercicioController extends Controller
 		// testa as preconds
 		$test = $this->corretoR($exercicio, "/usr/local/src/notar/runtest.R");
 		if ($test['status'] == 'danger') {
-			return redirect()->action([ExercicioController::class, 'edit'], ['exercicio' => $exercicio])
-				->withErrors(['precondicoes' => 'Ocorreu um erro ao testar as precondições.']);
+			return redirect()->action(
+				[ExercicioController::class, 'edit'],
+				['exercicio' => $exercicio]
+			)->withErrors(
+				['precondicoes' => 'Ocorreu um erro ao testar as precondições.']
+			);
 		}
 
-		return redirect()->action([ExercicioController::class, 'show'], ['exercicio' => $exercicio]);
+		return redirect()->action(
+			[ExercicioController::class, 'show'],
+			['exercicio' => $exercicio]
+		);
 	}
 
 	/**
@@ -471,7 +482,7 @@ class ExercicioController extends Controller
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @param  \App\Models\Exercicio  $exercicio
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function importEdit(Request $request, Exercicio $exercicio)
 	{
@@ -484,12 +495,16 @@ class ExercicioController extends Controller
 
 		$data = Yaml::parse($j);
 		if (is_null($data)) {
-			return redirect()->action([ExercicioController::class, 'edit'], ['exercicio' => $exercicio])
-				->withErrors(['file' => 'O arquivo enviado não é um json válido']);
+			return redirect()->action(
+				[ExercicioController::class, 'edit'],
+				['exercicio' => $exercicio]
+			)->withErrors(['file' => 'O arquivo enviado não é um json válido']);
 		}
 
-		return redirect()->action([ExercicioController::class, 'edit'], ['exercicio' => $exercicio])
-			->withInput($this->importInput((object) $data));
+		return redirect()->action(
+			[ExercicioController::class, 'edit'],
+			['exercicio' => $exercicio]
+		)->withInput($this->importInput((object) $data));
 	}
 
 
@@ -497,7 +512,7 @@ class ExercicioController extends Controller
 	 * Import from json file
 	 *
 	 * @param  \Illuminate\Http\Request  $request
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Http\RedirectResponse
 	 */
 	public function import(Request $request)
 	{
