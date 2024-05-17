@@ -179,8 +179,8 @@ class ExercicioController extends Controller
 				// import files
 				. 'file.copy(list.files("/arquivos/",recursive=TRUE,full.names=TRUE),".");'
 				// Limits memory usage
-				. 'rlimit_as(1e9);'
-				. 'rlimit_cpu(15);'
+				. 'rlimit_as(1e10);'
+				. 'rlimit_cpu(1);'
 				// run corretoR
 				. 'res <- notaR(' . $exercicio->id . ',"' . $file . '");'
 				. 'unlink("*",recursive=TRUE);'
@@ -188,7 +188,7 @@ class ExercicioController extends Controller
 				. 'res;'
 			;
 			$r = $cnx->evalString($rcode);
-		} catch (RserveException $e) {
+		} catch (Exception $e) {
 			return [
 				'status' => 'danger',
 				'mensagem' => 'Ocorreu um erro na correção do exercício! Por favor verifique seu código ou contate um administrador.',
