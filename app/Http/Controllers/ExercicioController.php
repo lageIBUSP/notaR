@@ -170,7 +170,7 @@ class ExercicioController extends Controller
 		try {
 			$cnx = new Connection('r');
 
-			$rcode = 'source("/usr/local/src/notar/corretor.R");'
+			$rcode = ''
 				// database auth
 				. 'dbusr  <- "' . env('DB_USERNAME') . '";'
 				. 'dbpass <- "' . env('DB_PASSWORD') . '";'
@@ -180,7 +180,7 @@ class ExercicioController extends Controller
 				. 'file.copy(list.files("/arquivos/",recursive=TRUE,full.names=TRUE),".");'
 				// Limits memory usage
 				. 'rlimit_as(1e10);'
-				. 'rlimit_cpu(1);'
+				. 'rlimit_cpu(15);'
 				// run corretoR
 				. 'res <- notaR(' . $exercicio->id . ',"' . $file . '");'
 				. 'unlink("*",recursive=TRUE);'
