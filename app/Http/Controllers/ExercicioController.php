@@ -170,7 +170,7 @@ class ExercicioController extends Controller
 		try {
 			$cnx = new Connection('r');
 
-			$rcode = 'source("/usr/local/src/notar/corretor.R");'
+			$rcode = ''
 				// database auth
 				. 'dbusr  <- "' . env('DB_USERNAME') . '";'
 				. 'dbpass <- "' . env('DB_PASSWORD') . '";'
@@ -178,13 +178,17 @@ class ExercicioController extends Controller
 				. 'con <- connect(dbusr, dbpass, dbname);'
 				// import files
 				. 'file.copy(list.files("/arquivos/",recursive=TRUE,full.names=TRUE),".");'
+				// Limits memory usage
+				. 'rlimit_as(1e10);'
+				. 'rlimit_cpu(15);'
 				// run corretoR
 				. 'res <- notaR(' . $exercicio->id . ',"' . $file . '");'
 				. 'unlink("*",recursive=TRUE);'
+				// Returns the "res" object to caller
 				. 'res;'
 			;
 			$r = $cnx->evalString($rcode);
-		} catch (RserveException $e) {
+		} catch (Exception $e) {
 			return [
 				'status' => 'danger',
 				'mensagem' => 'Ocorreu um erro na correção do exercício! Por favor verifique seu código ou contate um administrador.',
@@ -343,12 +347,15 @@ class ExercicioController extends Controller
 	 * Show the form for editing the specified resource.
 	 *
 	 * @param  \App\Models\Exercicio  $exercicio
-	 * @return \Illuminate\Http\Response
+	 * @return \Illuminate\Contracts\View\View
 	 */
 	public function edit(Exercicio $exercicio)
 	{
 		$this->authorize('edit', $exercicio);
-		return View('exercicio.edit')->with('exercicio', $exercicio)->with('exercicio.testes', $exercicio->testes)->with('pacotesR', $this->getInstalledPackages());
+		return View('exercicio.edit')
+			->with('exercicio', $exercicio)
+			->with('exercicio.testes', $exercicio->testes)
+			->with('pacotesR', $this->getInstalledPackages());
 	}
 
 	/**

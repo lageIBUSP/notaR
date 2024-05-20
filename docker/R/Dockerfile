@@ -12,12 +12,6 @@ RUN apt-get update --fix-missing \
     r-cran-rmysql \
     && rm -rf /var/lib/apt/lists/*
 
-
-# Copies the required files for notaR
-RUN mkdir -p /usr/local/src/notar
-COPY . /usr/local/src/notar
-WORKDIR /usr/local/src/notar
-
 # Install packages used in exercises
 RUN apt-get update --fix-missing \
     && apt-get install -y --no-install-recommends \
@@ -30,11 +24,16 @@ RUN apt-get update --fix-missing \
 RUN install2.r --error --skipinstalled --ncpus -1 \
     Rsampling \
     EcoVirtual \
+    unix \
     && rm -rf /tmp/downloaded_packages
 
+# Copies the required files for notaR
+RUN mkdir -p /usr/local/src/notar
+COPY . /usr/local/src/notar
+WORKDIR /usr/local/src/notar
 
 # We will listen on 6311
 EXPOSE 6311
 
 # Run the Rserve library:
-CMD R --vanilla -e "library(Rserve);" -e "run.Rserve(remote=TRUE);"
+CMD Rscript bootstrap.R
