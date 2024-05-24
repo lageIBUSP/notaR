@@ -1,4 +1,4 @@
-name: Laravel-Docker-Cypress
+name: Cypress
 
 on:
   pull_request:
@@ -19,5 +19,5 @@ jobs:
       run: docker exec notar_app_1 php artisan key:generate
     - name: Create Database
       run: docker exec -t notar_app_1 php artisan migrate
-    - name: Execute tests
-      run: npx cypress run
+    - name: Cypress run
+      uses: cypress-io/github-action@v6
