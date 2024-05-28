@@ -19,19 +19,11 @@ no.results <- function(object) {
 # texto
 # E devolve um um vector logico com o resultado dos testes
 # Caso o codigo tenha erros de sintaxe, retorna NULL
-corretoR <- function (id.exerc, texto) {
+corretoR <- function (precondi, testes, texto) {
 		# Definicoes iniciais
 		corrEnv <- new.env()
 		# Funcoes disponiveis dentro do ambiente de correcao
 		eval(parse(file=paste0("/usr/local/src/notar/acessorias.R")), envir=corrEnv)
-
-		testes <- dbGetQuery(con,
-							 paste("SELECT condicao FROM testes
-								   WHERE exercicio_id=", id.exerc,
-								   " ORDER BY id ASC", sep=""));
-		precondi <- dbGetQuery(con,
-							   paste("SELECT precondicoes FROM exercicios
-									 WHERE id=", id.exerc, sep=""));
 
 		# Executa as precondicoes
 		if(!no.results(precondi)) eval(parse(text=precondi), envir=corrEnv);
@@ -62,11 +54,19 @@ corretoR <- function (id.exerc, texto) {
 # Recebe o exercicio, transforma o texto em string, corrige, e retorna o vetor de true/false para os testes passados
 notaR <- function (id.exerc, arquivo) {
 	texto <- readLines(arquivo, encoding="utf8");
-	nota <- corretoR (id.exerc, texto);
+	testes <- dbGetQuery(con,
+							paste("SELECT condicao FROM testes
+									WHERE exercicio_id=", id.exerc,
+									" ORDER BY id ASC", sep=""));
+	precondi <- dbGetQuery(con,
+								paste("SELECT precondicoes FROM exercicios
+									WHERE id=", id.exerc, sep=""));
+
+	nota <- corretoR (precondi, testes, texto);
 	# Tenta de novo com charset latin1:
 	if (is.null(nota)) {
 		texto <- readLines(arquivo, encoding="latin1");
-		nota <- corretoR (id.exerc, texto);
+		nota <- corretoR (precondi, testes, texto);
 	}
 	return (nota);
 }

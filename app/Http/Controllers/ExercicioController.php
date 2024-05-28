@@ -169,17 +169,41 @@ class ExercicioController extends Controller
 		// resposta do R
 		try {
 			$cnx = new Connection('r');
+		} catch (Exception $e) {
+			Log::error('Erro ao conectar ao serviço R');
+			return [
+				'status' => 'danger',
+				'mensagem' => 'Ocorreu um erro ao conectar com o serviço R. Por favor contate um administrador.',
+				'resultado' => null,
+				'nota' => 0
+			];
+		}
 
+		try {
 			$rcode = ''
 				// database auth
 				. 'dbusr  <- "' . env('DB_USERNAME') . '";'
 				. 'dbpass <- "' . env('DB_PASSWORD') . '";'
 				. 'dbname <- "' . env('DB_DATABASE') . '";'
 				. 'con <- connect(dbusr, dbpass, dbname);'
+				;
+			$r = $cnx->evalString($rcode);
+		} catch (Exception $e) {
+			Log::error('Erro ao na conexão RMySql');
+			return [
+				'status' => 'danger',
+				'mensagem' => 'Ocorreu um erro ao acessar os testes do exercício. Por favor contate um administrador.',
+				'resultado' => null,
+				'nota' => 0
+			];
+		}
+
+		try {
+			$rcode = ''
 				// import files
 				. 'file.copy(list.files("/arquivos/",recursive=TRUE,full.names=TRUE),".");'
 				// Limits memory usage
-				. 'rlimit_as(1e10);'
+				. 'rlimit_as(1e9);'
 				. 'rlimit_cpu(15);'
 				// run corretoR
 				. 'res <- notaR(' . $exercicio->id . ',"' . $file . '");'
