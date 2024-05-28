@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Set permissions
+      run: sudo chmod -R 777 storage bootstrap/cache
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.cypress', '.env');"
     - name: Install
