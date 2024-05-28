@@ -56,7 +56,7 @@ notaR <- function (id.exerc, arquivo) {
 	# import files
 	file.copy(list.files("/arquivos/", recursive=TRUE, full.names=TRUE), ".");
 	# Limits memory usage
-	rlimit_as(1e9);
+	rlimit_as(1e10);
 	rlimit_cpu(15);
 	# Read file
 	texto <- readLines(arquivo, encoding="utf8");
