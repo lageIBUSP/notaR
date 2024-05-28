@@ -12,6 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+    - name: Copy .env
+      run: php -r "file_exists('.env') || copy('.env.cypress', '.env');"
     - name: Install
       run: ./deploy.sh
     - name: Create Database
