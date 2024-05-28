@@ -71,11 +71,6 @@ notaR <- function (id.exerc, arquivo) {
 
 	# Run corretor
 	nota <- corretoR (precondi, testes, texto);
-	# Tenta de novo com charset latin1:
-	if (is.null(nota)) {
-		texto <- readLines(arquivo, encoding="latin1");
-		nota <- corretoR (precondi, testes, texto);
-	}
 	# Delete files
 	unlink("*", recursive=TRUE);
 	return (nota);
