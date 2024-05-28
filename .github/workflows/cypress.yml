@@ -12,12 +12,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
-    - name: Copy .env
-      run: php -r "file_exists('.env') || copy('.env.cypress', '.env');"
     - name: Install
       run: ./deploy.sh
-    - name: Generate key
-      run: docker exec notar_app_1 php artisan key:generate
     - name: Create Database
       run: docker exec -t notar_app_1 php artisan migrate
     - name: Create admin user
