@@ -21,14 +21,14 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 	    $ind_user = User::factory()->create();
-        $alunos = User::factory()->count(30)->create();
+        $alunos = User::factory()->count(10)->create();
 
         $turma_vazia = Turma::factory()->create();
-	    $turmas = Turma::factory()->count(10)
+	    $turmas = Turma::factory()->count(3)
             ->hasAttached($alunos)
             ->create();
 
-        $exercicios = Exercicio::factory()->count(30)
+        $exercicios = Exercicio::factory()->count(5)
             ->has(Teste::factory()->count(3))
             ->create();
 
