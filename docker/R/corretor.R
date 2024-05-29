@@ -28,6 +28,10 @@ corretoR <- function (precondi, testes, texto) {
 		# Executa as precondicoes
 		if(!no.results(precondi)) eval(parse(text=precondi), envir=corrEnv);
 
+		# Limits memory usage
+		rlimit_as(1e10);
+		rlimit_cpu(15);
+
 		# Executa o texto da resposta
 		getError <- try(eval(
 			c(parse(text=texto),"TRUE"), # Evita que o codigo retorne matrizes
@@ -55,9 +59,6 @@ corretoR <- function (precondi, testes, texto) {
 notaR <- function (id.exerc, arquivo) {
 	# import files
 	file.copy(list.files("/arquivos/", recursive=TRUE, full.names=TRUE), ".");
-	# Limits memory usage
-	rlimit_as(1e10);
-	rlimit_cpu(15);
 	# Read file
 	texto <- readLines(arquivo, encoding="utf8");
 	# Get exercicio
