@@ -28,6 +28,10 @@ corretoR <- function (precondi, testes, texto) {
 		# Executa as precondicoes
 		if(!no.results(precondi)) eval(parse(text=precondi), envir=corrEnv);
 
+		# Limits memory usage
+		rlimit_as(1e10);
+		rlimit_cpu(15);
+
 		# Executa o texto da resposta
 		getError <- try(eval(
 			c(parse(text=texto),"TRUE"), # Evita que o codigo retorne matrizes
@@ -53,7 +57,11 @@ corretoR <- function (precondi, testes, texto) {
 
 # Recebe o exercicio, transforma o texto em string, corrige, e retorna o vetor de true/false para os testes passados
 notaR <- function (id.exerc, arquivo) {
+	# import files
+	file.copy(list.files("/arquivos/", recursive=TRUE, full.names=TRUE), ".");
+	# Read file
 	texto <- readLines(arquivo, encoding="utf8");
+	# Get exercicio
 	testes <- dbGetQuery(con,
 							paste("SELECT condicao FROM testes
 									WHERE exercicio_id=", id.exerc,
@@ -62,12 +70,10 @@ notaR <- function (id.exerc, arquivo) {
 								paste("SELECT precondicoes FROM exercicios
 									WHERE id=", id.exerc, sep=""));
 
+	# Run corretor
 	nota <- corretoR (precondi, testes, texto);
-	# Tenta de novo com charset latin1:
-	if (is.null(nota)) {
-		texto <- readLines(arquivo, encoding="latin1");
-		nota <- corretoR (precondi, testes, texto);
-	}
+	# Delete files
+	unlink("*", recursive=TRUE);
 	return (nota);
 }
 

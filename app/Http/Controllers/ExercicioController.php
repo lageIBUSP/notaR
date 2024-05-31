@@ -199,18 +199,8 @@ class ExercicioController extends Controller
 		}
 
 		try {
-			$rcode = ''
-				// import files
-				. 'file.copy(list.files("/arquivos/",recursive=TRUE,full.names=TRUE),".");'
-				// Limits memory usage
-				. 'rlimit_as(1e9);'
-				. 'rlimit_cpu(15);'
-				// run corretoR
-				. 'res <- notaR(' . $exercicio->id . ',"' . $file . '");'
-				. 'unlink("*",recursive=TRUE);'
-				// Returns the "res" object to caller
-				. 'res;'
-			;
+			// run corretoR
+			$rcode = 'notaR(' . $exercicio->id . ',"' . $file . '");';
 			$r = $cnx->evalString($rcode);
 		} catch (Exception $e) {
 			return [
