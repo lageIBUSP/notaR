@@ -13,7 +13,12 @@ return new class extends Migration
     {
         Schema::create('topicos', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('order')->unsigned()->unique();
             $table->timestamps();
+        });
+        Schema::table('exercicios', function (Blueprint $table) {
+            $table->foreignId('topico_id')->nullable()->constrained();
         });
     }
 
@@ -22,6 +27,10 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::table('exercicios', function (Blueprint $table) {
+            $table->dropForeign(['topico_id']);
+            $table->dropColumn('topico_id');
+        });
         Schema::dropIfExists('topicos');
     }
 };
