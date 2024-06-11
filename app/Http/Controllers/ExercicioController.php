@@ -186,6 +186,7 @@ class ExercicioController extends Controller
 				. 'dbpass <- "' . env('DB_PASSWORD') . '";'
 				. 'dbname <- "' . env('DB_DATABASE') . '";'
 				. 'con <- connect(dbusr, dbpass, dbname);'
+				. 'TRUE;' // This is to prevent connection object being returned (which causes an echo warning visible in production)
 				;
 			$r = $cnx->evalString($rcode);
 		} catch (Exception $e) {
