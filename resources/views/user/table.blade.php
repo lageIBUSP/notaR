@@ -7,7 +7,9 @@
                 <td>Turmas</td>
             @endunless
             <td>Admin</td>
-            <td>Ações</td>
+            @if ($editButton ?? '' or $removeButton ?? '')
+                <td>Ações</td>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -44,6 +46,7 @@
                 </a>
             </td>
 
+            @if ($editButton ?? '' or $removeButton ?? '')
             <td>
 
                 <!-- edit  -->
@@ -61,8 +64,8 @@
                 @endif
 
             </td>
+            @endif
         </tr>
     @endforeach
     </tbody>
 </table>
-
