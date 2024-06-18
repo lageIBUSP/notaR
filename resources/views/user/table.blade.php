@@ -58,9 +58,7 @@
 
                 <!-- remove -->
                 @if ($removeButton ?? '')
-                @can ('edit', $turma)
                 <a class="btn btn-small btn-remove" href="{{ URL::to('turma/' . $turma->id . '/remove/'.$value->id) }}">Remover</a>
-                @endcan
                 @endif
 
             </td>
