@@ -34,15 +34,5 @@
     <div class="collapse show" id="collapseTurmas">
         @include('turma.table',['turmas' => $user->turmas, 'editButton' => false, 'removeButton' => true])
     </div>
-
-    <a class="collapse-button" data-toggle="collapse" href="#collapseNotas" role="button" aria-expanded="true" aria-controls="collapseNotas">
-        <h4>Todas as Notas</h4>
-    </a>
-    <div class="collapse" id="collapseNotas">
-        <div class="alert alert-info">
-            Esta tabela contém todas as notas já registradas para esse usuário. Note que para uma nota ser válida ela precisa ter data anterior ao prazo correspondente. Apenas a máxima nota válida é usada.
-        </div>
-        @include('nota.table',['notas' => $user->notas])
-    </div>
 </div>
 @endsection

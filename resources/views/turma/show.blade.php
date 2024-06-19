@@ -9,7 +9,12 @@
         <h2>Membros</h2>
     </a>
     <div class="collapse show" id="collapseMembros">
-        @include('user.table',['users' => $turma->users, 'editButton' => true, 'removeButton' => true])
+        @can ('edit', $turma)
+            @include('user.table',['users' => $turma->users,
+                'removeButton' => true])
+        @else
+            @include('user.table',['users' => $turma->users])
+        @endcan
     </div>
 
     @if($prazosFuturos ?? '')

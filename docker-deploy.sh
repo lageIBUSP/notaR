@@ -14,5 +14,10 @@ php artisan migrate --force
 php artisan route:clear
 php artisan config:clear
 php artisan cache:clear
-php artisan view:cache
-php artisan event:cache
+php artisan view:clear
+php artisan event:clear
+# Cache views and events only on production
+if [ "$APP_ENV" == "production" ]; then
+  php artisan view:cache
+  php artisan event:cache
+fi

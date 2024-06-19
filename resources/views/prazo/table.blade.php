@@ -4,17 +4,15 @@
             @unless ($exercicio ?? "")
                 <td>Exercicio</td>
             @endif
+
             @unless ($turma ?? "")
                 <td>Turma</td>
             @endif
-            <td>Prazo</td>
+
+                <td>Prazo</td>
+
             @if ($user ?? "")
                 <td>Nota</td>
-            @endif
-            @if ($turma ?? "")
-            @can ('edit', $turma)
-                <td>Ações</td>
-            @endcan
             @endif
         </tr>
     </thead>
@@ -40,34 +38,18 @@
                 </a>
                 </td>
             @endif
-            <td>{{ $value->prazo }}</td>
+
+                <td>
+                    {{ $value->prazo }}
+                </td>
+
             @if ($user ?? "")
                 <td>
                     {{ $user->notaFinal($value) }}
                 </td>
             @endif
 
-            @if ($turma ?? "")
-            @can ('edit', $turma)
-                <td>
-
-                    <!-- remove -->
-                    @if ($removeButton ?? '')
-                     <form method="POST" action="{{URL::to("/prazo/".$value->id)}}">
-                        {{ csrf_field() }}
-                        {{ method_field('DELETE') }}
-
-                        <div class="form-group">
-                            <input type="submit" class="btn btn-remove" value="Remover">
-                        </div>
-                    </form>
-                    @endif
-
-                </td>
-            @endcan
-            @endif
         </tr>
     @endforeach
     </tbody>
 </table>
-

@@ -23,7 +23,7 @@
             <div class="alert alert-info">{{ Session::get('message') }}</div>
         @endif
         <!-- content -->
-        @include('exercicio.table')
+        @include('exercicio.table', ['editButton' => true])
     </div>
 
 </div>
