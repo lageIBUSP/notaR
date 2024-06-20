@@ -72,5 +72,13 @@ npx cypress run
 
 Para mais detalhes, consulte a [documentação do Cypress](https://docs.cypress.io/).
 
+# Debug e profile
+
+O notaR está configurado com ferramentas de debug e profiling para ajudar no desenvolvimento. Para
+habilitar o Xdebug, abra o arquivo docker/php/php.ini, descomente a linha de xdebug.mode e construa
+novamente os containers. O debug pode ser feito na sua IDE (no VSCode, é recomendado instalar a
+extensão Xdebug) e os arquivos de profiling serão gerados na pasta storage/logs e podem ser lidos 
+com o KCacheGrind.
+
 ## Licença de uso
 O código fonte do notaR está disponível sob licença GPLv3.

@@ -14,7 +14,7 @@
 	</p>
     
 	<p>	Caso contrário, você pode fazer os exercícios que se encontram no link ao lado, sem a necessídade de cadastro. 
-    O meterial completo do curso de introdução à linguagem,  <a href= "http://ecor.ib.usp.br"> ecoR </a> da USP, 
+    O material completo do curso de introdução à linguagem,  <a href= "http://ecor.ib.usp.br"> ecoR </a> da USP, 
      que motivou o desenvolvimento desta plataforma está disponível para acesso sem custos.
      
 	</p>
