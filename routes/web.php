@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TurmaController;
+use App\Http\Controllers\TopicoController;
 use App\Http\Controllers\PrazoController;
 use App\Http\Controllers\ExercicioController;
 use App\Http\Controllers\ArquivoController;
@@ -45,6 +46,7 @@ Route::put('/exercicio/{exercicio}/import', [ExercicioController::class, 'import
 Route::resources([
     'user' => UserController::class,
     'turma' => TurmaController::class,
+    'topico' => TopicoController::class,
     'exercicio' => ExercicioController::class,
     'prazo' => PrazoController::class,
     'arquivo' => ArquivoController::class,

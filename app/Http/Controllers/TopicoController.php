@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Topico;
+use App\Models\Exercicio;
 use Illuminate\Http\Request;
 
 class TopicoController extends Controller
@@ -12,7 +13,8 @@ class TopicoController extends Controller
      */
     public function index()
     {
-        //
+        // index is the same for exercicio and topico
+        return redirect()->action([ExercicioController::class,'index']);
     }
 
     /**
@@ -20,7 +22,7 @@ class TopicoController extends Controller
      */
     public function create()
     {
-        //
+		return View('topico.create');
     }
 
     /**
@@ -28,7 +30,20 @@ class TopicoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+		$this->authorize('create', Topico::class);
+		$rules = array(
+			'name'       => 'required',
+		);
+		$data = $request->validate($rules);
+
+        // set order of new Topico
+        $data['order'] = Topico::max('order') + 1;
+
+		// store
+		$topico = tap(new Topico($data))->save();
+
+        // redirect to show
+		return redirect()->action([get_class($this),'show'], ['topico' => $topico]);
     }
 
     /**
@@ -36,7 +51,9 @@ class TopicoController extends Controller
      */
     public function show(Topico $topico)
     {
-        //
+        // index is the same for exercicio and topico
+        return redirect()->action([ExercicioController::class,'index']);
+
     }
 
     /**
@@ -44,7 +61,8 @@ class TopicoController extends Controller
      */
     public function edit(Topico $topico)
     {
-        //
+		$this->authorize('edit', $topico);
+		return View('topico.edit')->with('topico',$topico);
     }
 
     /**
@@ -52,7 +70,13 @@ class TopicoController extends Controller
      */
     public function update(Request $request, Topico $topico)
     {
-        //
+        $this->authorize('edit',$topico);
+
+        $rules = [
+			'name'       => 'required',
+        ];
+        $data = $request->validate($rules);
+        $topico->update(['name' => $data['name'],'description' => $data['description']]);
     }
 
     /**
@@ -60,6 +84,11 @@ class TopicoController extends Controller
      */
     public function destroy(Topico $topico)
     {
-        //
+		$this->authorize('delete', $topico);
+        // remove exercicios
+        $topico->exercicios()->detach();
+
+        $topico->delete();
+		return redirect()->action([get_class($this),'index']);
     }
 }
