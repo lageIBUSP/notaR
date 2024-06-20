@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Topico;
 use App\Models\Exercicio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class TopicoController extends Controller
 {
@@ -13,8 +14,19 @@ class TopicoController extends Controller
      */
     public function index()
     {
-        // index is the same for exercicio and topico
-        return redirect()->action([ExercicioController::class,'index']);
+		$topicos = Topico::orderBy('order');
+		/** @var \App\Models\User */
+		$user = Auth::user();
+		if ( optional($user)->isAdmin() ) {
+			$topicos = $topicos->with('exercicios');
+		}
+        else {
+			$topicos = $topicos->with('exerciciosPublished');
+        }
+
+        $semTopico = Exercicio::whereDoesntHave('topico')->orderBy('name');
+		return View('topico.index')->with('topicos', $topicos->get())
+            ->with('semTopico', $semTopico->get());
     }
 
     /**

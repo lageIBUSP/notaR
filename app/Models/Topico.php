@@ -16,4 +16,9 @@ class Topico extends Model
     {
         return $this->hasMany(Exercicio::class);
     }
+    // scope published
+    public function exerciciosPublished()
+    {
+        return $this->hasMany(Exercicio::class)->published();
+    }
 }
