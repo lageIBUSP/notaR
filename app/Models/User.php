@@ -67,7 +67,7 @@ class User extends Authenticatable
     /**
      * Nota final (atual) dentro do prazo (get from DB)
      *
-     * @var App\Model\Prazo $prazo
+     * @var Prazo $prazo
      * @return float
      */
     public function getNotaFinal(Prazo $prazo) {
@@ -80,7 +80,7 @@ class User extends Authenticatable
     /**
      * Nota final (atual) dentro do prazo
      *
-     * @var App\Model\Prazo $prazo
+     * @var Prazo $prazo
      * @return float
      */
     public function notaFinal(Prazo $prazo) {
@@ -90,7 +90,7 @@ class User extends Authenticatable
     /**
      * Notas dentro do prazo
      *
-     * @var App\Model\Prazo $prazo
+     * @var Prazo $prazo
      */
     public function notasValidas(Prazo $prazo) {
         return $this->notas

@@ -14,6 +14,6 @@
     <div class="alert alert-info">{{ Session::get('message') }}</div>
 @endif
 
-@include('user.table',['editButton'=>true])
+@include('user.table')
 </div>
 @endsection

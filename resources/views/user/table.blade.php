@@ -7,7 +7,9 @@
                 <td>Turmas</td>
             @endunless
             <td>Admin</td>
-            <td>Ações</td>
+            @if ($editButton ?? '' or $removeButton ?? '')
+                <td>Ações</td>
+            @endif
         </tr>
     </thead>
     <tbody>
@@ -44,6 +46,7 @@
                 </a>
             </td>
 
+            @if ($editButton ?? '' or $removeButton ?? '')
             <td>
 
                 <!-- edit  -->
@@ -55,14 +58,12 @@
 
                 <!-- remove -->
                 @if ($removeButton ?? '')
-                @can ('edit', $turma)
                 <a class="btn btn-small btn-remove" href="{{ URL::to('turma/' . $turma->id . '/remove/'.$value->id) }}">Remover</a>
-                @endcan
                 @endif
 
             </td>
+            @endif
         </tr>
     @endforeach
     </tbody>
 </table>
-
