@@ -9,98 +9,97 @@ use Illuminate\Support\Facades\Auth;
 
 class TopicoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-		$topicos = Topico::orderBy('order');
-		/** @var \App\Models\User */
-		$user = Auth::user();
-		if ( optional($user)->isAdmin() ) {
-			$topicos = $topicos->with('exercicios');
-		}
-        else {
-			$topicos = $topicos->with('exerciciosPublished');
-        }
-
-        $semTopico = Exercicio::whereDoesntHave('topico')->orderBy('name');
-		return View('topico.index')->with('topicos', $topicos->get())
-            ->with('semTopico', $semTopico->get());
+  /**
+   * Display a listing of the resource.
+   */
+  public function index()
+  {
+    $topicos = Topico::orderBy('order');
+    /** @var \App\Models\User */
+    $user = Auth::user();
+    if (optional($user)->isAdmin()) {
+      $topicos = $topicos->with('exercicios');
+    } else {
+      $topicos = $topicos->with('exerciciosPublished');
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-		return View('topico.create');
-    }
+    $semTopico = Exercicio::whereDoesntHave('topico')->orderBy('name');
+    return View('topico.index')->with('topicos', $topicos->get())
+      ->with('semTopico', $semTopico->get());
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-		$this->authorize('create', Topico::class);
-		$rules = array(
-			'name'       => 'required',
-		);
-		$data = $request->validate($rules);
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create()
+  {
+    return View('topico.create');
+  }
 
-        // set order of new Topico
-        $data['order'] = Topico::max('order') + 1;
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request)
+  {
+    $this->authorize('create', Topico::class);
+    $rules = array(
+      'name' => 'required',
+    );
+    $data = $request->validate($rules);
 
-		// store
-		$topico = tap(new Topico($data))->save();
+    // set order of new Topico
+    $data['order'] = Topico::max('order') + 1;
 
-        // redirect to show
-		return redirect()->action([get_class($this),'show'], ['topico' => $topico]);
-    }
+    // store
+    $topico = tap(new Topico($data))->save();
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Topico $topico)
-    {
-        // index is the same for exercicio and topico
-        return redirect()->action([ExercicioController::class,'index']);
+    // redirect to show
+    return redirect()->action([get_class($this), 'show'], ['topico' => $topico]);
+  }
 
-    }
+  /**
+   * Display the specified resource.
+   */
+  public function show(Topico $topico)
+  {
+    // index is the same for exercicio and topico
+    return redirect()->action([get_class($this), 'index']);
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Topico $topico)
-    {
-		$this->authorize('edit', $topico);
-		return View('topico.edit')->with('topico',$topico);
-    }
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(Topico $topico)
+  {
+    $this->authorize('edit', $topico);
+    return View('topico.edit')->with('topico', $topico);
+  }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Topico $topico)
-    {
-        $this->authorize('edit',$topico);
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, Topico $topico)
+  {
+    $this->authorize('edit', $topico);
 
-        $rules = [
-			'name'       => 'required',
-        ];
-        $data = $request->validate($rules);
-        $topico->update(['name' => $data['name'],'description' => $data['description']]);
-    }
+    $rules = [
+      'name' => 'required',
+    ];
+    $data = $request->validate($rules);
+    $topico->update(['name' => $data['name']]);
+    return redirect()->action([get_class($this), 'index']);
+  }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Topico $topico)
-    {
-		$this->authorize('delete', $topico);
-        // remove exercicios
-        $topico->exercicios()->detach();
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(Topico $topico)
+  {
+    $this->authorize('delete', $topico);
+    // remove exercicios
+    $topico->exercicios()->detach();
 
-        $topico->delete();
-		return redirect()->action([get_class($this),'index']);
-    }
+    $topico->delete();
+    return redirect()->action([get_class($this), 'index']);
+  }
 }
