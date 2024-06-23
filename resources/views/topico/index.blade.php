@@ -1,6 +1,5 @@
 @extends('layouts.base')
 @section('content')
-<div class="container">
     <div class="row">
         <h1>Exercícios</h1>
     </div>
@@ -33,10 +32,9 @@
         @if (Session::has('message'))
             <div class="alert alert-info">{{ Session::get('message') }}</div>
         @endif
-        <!-- content -->
-        @include('topico.table', ['editButton' => true])
-        @include('exercicio.table', ['editButton' => true, 'exercicios' => $semTopico])
     </div>
+    <!-- content -->
+    @include('topico.table', ['editButton' => true])
+    @include('exercicio.table', ['editButton' => true, 'exercicios' => $semTopico])
 
-</div>
 @endsection
