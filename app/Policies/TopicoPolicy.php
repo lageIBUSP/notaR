@@ -74,7 +74,7 @@ class TopicoPolicy
      * @param  \App\Models\User  $user
      * @return mixed
      */
-    public function order(User $user)
+    public function sort(User $user)
     {
         return $user->isAdmin();
     }

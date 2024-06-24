@@ -43,6 +43,9 @@ Route::post('/exercicio/{exercicio}/upload', [ExercicioController::class, 'uploa
 Route::get('/exercicio/{exercicio}/export', [ExercicioController::class, 'export'])->name('exercicio.export');
 Route::put('/exercicio/{exercicio}/import', [ExercicioController::class, 'importEdit']);
 
+Route::get('/topico/sort', [TopicoController::class, 'sort'])->name('topico.sort');
+Route::put('/topico/sort', [TopicoController::class, 'order'])->name('topico.order');
+
 Route::resources([
     'user' => UserController::class,
     'turma' => TurmaController::class,

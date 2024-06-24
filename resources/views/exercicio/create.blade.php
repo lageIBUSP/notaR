@@ -35,6 +35,19 @@
 		</div>
 
 		<div class="form-group">
+		    <label for="topico"><h2>Tópico</h2></label>
+            @php($old_topico = old('topico_id'))
+				<select id="topico_id" name="topico_id" >
+					<option value="" {{$old_topico == null ? 'selected' : ''}}></option>
+					@foreach ($topicos as $value)
+						<option value="{{$value->id}}" {{$old_topico == $value->id ? 'selected' : ''}}>{{$value->name}}</option>
+					@endforeach
+				</select>
+		    @error('topico_id')
+			    <div class="invalid-feedback">{{ $message }}</div>
+		    @enderror
+		</div>
+		<div class="form-group">
 		    <label for="description"><h2>Enunciado</h2></label>
 		    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="Salve o resultado da estatística xyz na variável abc">{{ old('description') }}</textarea>
 		    @error('description')

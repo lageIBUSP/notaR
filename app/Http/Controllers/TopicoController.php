@@ -102,4 +102,35 @@ class TopicoController extends Controller
     $topico->delete();
     return redirect()->action([get_class($this), 'index']);
   }
+
+  /**
+   * Show form for reordering of Topico
+   */
+  public function sort()
+  {
+    $this->authorize('sort', Topico::class);
+    $topicos = Topico::orderBy('order')->get();
+
+    return View('topico.sort')->with('topicos', $topicos);
+  }
+
+  /**
+   * Update order of topicos
+   */
+  public function order(Request $request)
+  {
+    $this->authorize('sort', Topico::class);
+    $rules = [
+      'topico_id.*' => 'required|int',
+    ];
+
+    $data = $request->validate($rules);
+    foreach($data['topico_id'] as $i => $id) {
+
+    }
+
+
+
+    return redirect()->action([get_class($this), 'index']);
+  }
 }

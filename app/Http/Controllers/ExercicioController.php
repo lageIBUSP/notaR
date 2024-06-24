@@ -48,7 +48,9 @@ class ExercicioController extends Controller
 	public function create()
 	{
 		$this->authorize('create', Exercicio::class);
-		return View('exercicio.create')->with('pacotesR', $this->getInstalledPackages());
+		return View('exercicio.create')
+			->with('pacotesR', $this->getInstalledPackages())
+			->with('topicos', Topico::orderBy('order'));
 	}
 
 	/**

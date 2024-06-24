@@ -15,9 +15,9 @@
                 href="{{ URL::to('exercicio/create') }}">Cadastrar exercicio
             </a>
         @endcan
-        @can ('order', App\Models\Topico::class)
+        @can ('sort', App\Models\Topico::class)
             <a class="btn btn-small btn-edit inline"
-                href="{{ URL::to('topico/order') }}">Reordenar topicos
+                href="{{ URL::to('topico/sort') }}">Reordenar topicos
             </a>
         @endcan
         @can ('create', App\Models\Topico::class)
