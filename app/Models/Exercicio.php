@@ -13,6 +13,7 @@ class Exercicio extends Model
 
     protected $fillable = [
         'name',
+        'topico_id',
         'description',
         'precondicoes',
         'draft'

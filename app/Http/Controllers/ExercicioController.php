@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Exercicio;
 use App\Models\Teste;
+use App\Models\Topico;
 use App\Models\Impedimento;
 use App\Utils\TmpFile;
 use Illuminate\Support\Str;
@@ -62,6 +63,7 @@ class ExercicioController extends Controller
 			'name' => 'required|string|unique:exercicios' . ($exercicio ? ',name,' . $exercicio->id : ''),
 			'description' => 'required',
 			'precondicoes' => 'sometimes',
+			'topico_id' => 'sometimes|int|exists:topicos,id|nullable',
 			'dicas' => 'array',
 			'condicoes' => 'array',
 			'pesos' => 'array',
@@ -370,6 +372,7 @@ class ExercicioController extends Controller
 		return View('exercicio.edit')
 			->with('exercicio', $exercicio)
 			->with('exercicio.testes', $exercicio->testes)
+			->with('topicos', Topico::orderBy('order'))
 			->with('pacotesR', $this->getInstalledPackages());
 	}
 
