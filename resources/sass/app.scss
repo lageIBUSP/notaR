@@ -154,6 +154,24 @@ footer {
     transition: background-color 400ms ease-in-out, border-color 400ms ease-in-out, color 400ms ease-in-out;
 }
 
+a[data-toggle="collapse"] .rotate {
+    -webkit-transition: all 0.2s ease-out;
+    -moz-transition: all 0.2s ease-out;
+    -ms-transition: all 0.2s ease-out;
+    -o-transition: all 0.2s ease-out;
+    transition: all 0.2s ease-out;
+    -moz-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    transform: rotate(90deg);
+ }
+ a[data-toggle="collapse"].collapsed .rotate {
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+ }
+
 // Styles forms but only inside the main area of the site:
 .container-main {
     padding: 30px;

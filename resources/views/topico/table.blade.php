@@ -2,17 +2,19 @@
 
     <a class="collapse-button collapsed" data-toggle="collapse"
         href="#topico{{$value->order}}"
-        role="button" aria-expanded="true"
+        role="button" aria-expanded="false"
         aria-controls="topico{{$value->order}}">
-        <h2>{{$value->name}}
+        <h2>
+            {{$value->name}}
+            <i class="fa fa-chevron-right rotate"></i>
 
-                <!-- edit -->
-                @can ('edit', $value)
-                <a class="btn btn-small btn-edit" href="{{ URL::to('topico/' . $value->id . '/edit') }}">Editar</a>
-                @endcan
+            <!-- edit -->
+            @can ('edit', $value)
+            <a class="btn btn-small btn-edit pull-right" href="{{ URL::to('topico/' . $value->id . '/edit') }}">Editar</a>
+            @endcan
         </h2>
     </a>
-    <div class="collapse show" id="topico{{$value->order}}">
+    <div class="collapse" id="topico{{$value->order}}">
         @include('exercicio.table', ['editButton' => true, 'exercicios' => $value->exercicios])
     </div>
 
@@ -21,10 +23,12 @@
 {{-- exercicios sem topico --}}
 <a class="collapse-button collapsed" data-toggle="collapse"
     href="#semTopico"
-    role="button" aria-expanded="true"
+    role="button" aria-expanded="false"
     aria-controls="semTopico">
-    <h2>Outros exercícios</h2>
+    <h2>Outros exercícios
+    <i class="fa fa-chevron-right rotate"></i>
+    </h2>
 </a>
-<div class="collapse show" id="semTopico">
+<div class="collapse" id="semTopico">
     @include('exercicio.table', ['editButton' => true, 'exercicios' => $semTopico])
 </div>
