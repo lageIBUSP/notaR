@@ -2,7 +2,7 @@
 @section('content')
 
 <div class="container">
-    <form action="{{URL::to('/topico/sort')}}" method="PUT">
+    <form action="{{URL::to('/topico/sort')}}" method="POST">
         @csrf
         @method ('put')
 

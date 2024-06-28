@@ -35,6 +35,5 @@
     </div>
     <!-- content -->
     @include('topico.table', ['editButton' => true])
-    @include('exercicio.table', ['editButton' => true, 'exercicios' => $semTopico])
 
 @endsection

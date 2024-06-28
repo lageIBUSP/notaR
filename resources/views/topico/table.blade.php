@@ -17,3 +17,14 @@
     </div>
 
 @endforeach
+
+{{-- exercicios sem topico --}}
+<a class="collapse-button collapsed" data-toggle="collapse"
+    href="#semTopico"
+    role="button" aria-expanded="true"
+    aria-controls="semTopico">
+    <h2>Outros exercícios</h2>
+</a>
+<div class="collapse show" id="semTopico">
+    @include('exercicio.table', ['editButton' => true, 'exercicios' => $semTopico])
+</div>

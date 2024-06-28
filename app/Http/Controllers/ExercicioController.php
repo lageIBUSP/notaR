@@ -374,7 +374,7 @@ class ExercicioController extends Controller
 		return View('exercicio.edit')
 			->with('exercicio', $exercicio)
 			->with('exercicio.testes', $exercicio->testes)
-			->with('topicos', Topico::orderBy('order'))
+			->with('topicos', Topico::orderBy('order')->get())
 			->with('pacotesR', $this->getInstalledPackages());
 	}
 

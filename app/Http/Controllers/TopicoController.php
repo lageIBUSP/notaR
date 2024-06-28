@@ -6,6 +6,7 @@ use App\Models\Topico;
 use App\Models\Exercicio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TopicoController extends Controller
 {
@@ -125,11 +126,14 @@ class TopicoController extends Controller
     ];
 
     $data = $request->validate($rules);
+
+    // We want to commit all changes at once
+    DB::beginTransaction();
     foreach($data['topico_id'] as $i => $id) {
-
+      $model = Topico::find($id);
+      $model->update(['order' => $i]);
     }
-
-
+    DB::commit();
 
     return redirect()->action([get_class($this), 'index']);
   }

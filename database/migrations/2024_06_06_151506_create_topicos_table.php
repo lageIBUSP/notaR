@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('topicos', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('order')->unsigned()->unique();
+            $table->integer('order')->unsigned();
             $table->timestamps();
         });
         Schema::table('exercicios', function (Blueprint $table) {
