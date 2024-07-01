@@ -5,7 +5,7 @@
 	    <h1>Criar novo topico</h1>
 	</div>
 	<div class="row">
-	    <form action="{{URL::to("/topico")}}" method="{{ isset($topico) ? 'put' : 'post'}}">
+	    <form action="{{URL::to("/topico")}}" method="POST">
 		@csrf
 		@include ('includes.error_alert')
 		<div class="form-group">
