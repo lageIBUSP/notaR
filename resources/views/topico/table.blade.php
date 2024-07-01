@@ -1,9 +1,9 @@
 @foreach ($topicos as $value)
 
     <a class="collapse-button collapsed" data-toggle="collapse"
-        href="#topico{{$value->order}}"
+        href="#topico{{$value->id}}"
         role="button" aria-expanded="false"
-        aria-controls="topico{{$value->order}}">
+        aria-controls="topico{{$value->id}}">
         <h2>
             {{$value->name}}
             <i class="fa fa-chevron-right rotate"></i>
@@ -14,7 +14,7 @@
             @endcan
         </h2>
     </a>
-    <div class="collapse" id="topico{{$value->order}}">
+    <div class="collapse" id="topico{{$value->id}}">
         @include('exercicio.table', ['editButton' => true, 'exercicios' => $value->exercicios])
     </div>
 
