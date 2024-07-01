@@ -27,11 +27,22 @@ class ExercicioController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
 	 */
 	public function index()
 	{
-    return redirect()->action([TopicoController::class, 'index']);
+    $topicos = Topico::orderBy('order');
+    $semTopico = Exercicio::whereDoesntHave('topico')->orderBy('name');
+    /** @var \App\Models\User */
+    $user = Auth::user();
+    if (optional($user)->isAdmin()) {
+      $topicos = $topicos->with('exercicios');
+    } else {
+      $topicos = $topicos->with('exerciciosPublished');
+      $semTopico = $semTopico->published();
+    }
+
+    return View('exercicio.index')->with('topicos', $topicos->get())
+      ->with('semTopico', $semTopico->get());
 	}
 
 	/**

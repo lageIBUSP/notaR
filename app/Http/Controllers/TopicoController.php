@@ -15,19 +15,7 @@ class TopicoController extends Controller
    */
   public function index()
   {
-    $topicos = Topico::orderBy('order');
-    $semTopico = Exercicio::whereDoesntHave('topico')->orderBy('name');
-    /** @var \App\Models\User */
-    $user = Auth::user();
-    if (optional($user)->isAdmin()) {
-      $topicos = $topicos->with('exercicios');
-    } else {
-      $topicos = $topicos->with('exerciciosPublished');
-      $semTopico = $semTopico->published();
-    }
-
-    return View('topico.index')->with('topicos', $topicos->get())
-      ->with('semTopico', $semTopico->get());
+    return redirect()->action([ExercicioController::class, 'index']);
   }
 
   /**

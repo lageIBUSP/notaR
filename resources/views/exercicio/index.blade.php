@@ -1,6 +1,5 @@
 @extends('layouts.base')
 @section('content')
-<div class="container">
     <div class="row">
         <h1>Exercícios</h1>
     </div>
@@ -16,9 +15,9 @@
                 href="{{ URL::to('exercicio/create') }}">Cadastrar exercicio
             </a>
         @endcan
-        @can ('order', App\Models\Topico::class)
+        @can ('sort', App\Models\Topico::class)
             <a class="btn btn-small btn-edit inline"
-                href="{{ URL::to('topico/order') }}">Reordenar topicos
+                href="{{ URL::to('topico/sort') }}">Reordenar topicos
             </a>
         @endcan
         @can ('create', App\Models\Topico::class)
@@ -33,9 +32,8 @@
         @if (Session::has('message'))
             <div class="alert alert-info">{{ Session::get('message') }}</div>
         @endif
-        <!-- content -->
-        @include('exercicio.table', ['editButton' => true])
     </div>
+    <!-- content -->
+    @include('topico.table', ['editButton' => true])
 
-</div>
 @endsection
