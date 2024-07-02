@@ -37,4 +37,18 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * Custom logic for returning beautiful 404/500 pages.
+     */
+    function render($request, Throwable $exception)
+    {
+            if ($this->isHttpException($exception)) {
+                $code = $exception->getStatusCode();
+                if (in_array($code, [403, 404, 419, 500])) {
+                    return response()->view("errors.$code", [], $code);
+                }
+            }
+            return parent::render($request, $exception);
+         }
 }
