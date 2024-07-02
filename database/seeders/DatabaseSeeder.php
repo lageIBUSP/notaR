@@ -9,6 +9,7 @@ use App\Models\Exercicio;
 use App\Models\Nota;
 use App\Models\Prazo;
 use App\Models\Teste;
+use App\Models\Topico;
 use Monolog\Handler\SamplingHandler;
 
 class DatabaseSeeder extends Seeder
@@ -21,17 +22,27 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
 	    $ind_user = User::factory()->create();
-        $alunos = User::factory()->count(10)->create();
+        $alunos = User::factory()->count(5)->create();
 
         $turma_vazia = Turma::factory()->create();
 	    $turmas = Turma::factory()->count(3)
             ->hasAttached($alunos)
             ->create();
 
-        $exercicios = Exercicio::factory()->count(5)
-            ->has(Teste::factory()->count(3))
+        $topicos = Topico::factory()->count(2)->create();
+
+        foreach ($topicos as $key => $topico) {
+            Exercicio::factory()->count(2)
+                ->has(Teste::factory()->count(2))
+                ->for($topico)
+                ->create();
+        }
+
+        Exercicio::factory()->count(3)
+            ->has(Teste::factory()->count(2))
             ->create();
 
+        $exercicios = Exercicio::all();
 
         foreach ($exercicios as $exercicio) {
             Nota::factory()->count(2)

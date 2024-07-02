@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\Exercicio;
 use App\Models\Teste;
+use App\Models\Topico;
 use App\Models\Impedimento;
 use App\Utils\TmpFile;
 use Illuminate\Support\Str;
@@ -26,17 +27,22 @@ class ExercicioController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 *
-	 * @return \Illuminate\Http\Response
 	 */
 	public function index()
 	{
-		$exercicios = Exercicio::orderBy('name');
-		/** @var \App\Models\User */
-		$user = Auth::user();
-		if (!$user || !$user->isAdmin()) {
-			$exercicios = $exercicios->published();
-		}
-		return View('exercicio.index')->with('exercicios', $exercicios->get());
+    $topicos = Topico::orderBy('order');
+    $semTopico = Exercicio::whereDoesntHave('topico')->orderBy('name');
+    /** @var \App\Models\User */
+    $user = Auth::user();
+    if (optional($user)->isAdmin()) {
+      $topicos = $topicos->with('exercicios');
+    } else {
+      $topicos = $topicos->with('exerciciosPublished');
+      $semTopico = $semTopico->published();
+    }
+
+    return View('exercicio.index')->with('topicos', $topicos->get())
+      ->with('semTopico', $semTopico->get());
 	}
 
 	/**
@@ -47,7 +53,9 @@ class ExercicioController extends Controller
 	public function create()
 	{
 		$this->authorize('create', Exercicio::class);
-		return View('exercicio.create')->with('pacotesR', $this->getInstalledPackages());
+		return View('exercicio.create')
+			->with('pacotesR', $this->getInstalledPackages())
+			->with('topicos', Topico::orderBy('order'));
 	}
 
 	/**
@@ -62,6 +70,7 @@ class ExercicioController extends Controller
 			'name' => 'required|string|unique:exercicios' . ($exercicio ? ',name,' . $exercicio->id : ''),
 			'description' => 'required',
 			'precondicoes' => 'sometimes',
+			'topico_id' => 'sometimes|int|exists:topicos,id|nullable',
 			'dicas' => 'array',
 			'condicoes' => 'array',
 			'pesos' => 'array',
@@ -370,6 +379,7 @@ class ExercicioController extends Controller
 		return View('exercicio.edit')
 			->with('exercicio', $exercicio)
 			->with('exercicio.testes', $exercicio->testes)
+			->with('topicos', Topico::orderBy('order')->get())
 			->with('pacotesR', $this->getInstalledPackages());
 	}
 

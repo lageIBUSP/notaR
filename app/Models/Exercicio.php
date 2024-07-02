@@ -10,8 +10,10 @@ class Exercicio extends Model
 {
     use HasFactory;
     protected $table = 'exercicios';
+
     protected $fillable = [
         'name',
+        'topico_id',
         'description',
         'precondicoes',
         'draft'
@@ -67,6 +69,11 @@ class Exercicio extends Model
     public function notas()
     {
         return $this->hasMany(Nota::class);
+    }
+
+    public function topico()
+    {
+        return $this->belongsTo(Topico::class);
     }
 
     /** Generate exportable string

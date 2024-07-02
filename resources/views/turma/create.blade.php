@@ -5,7 +5,7 @@
 	    <h1>Criar nova turma</h1>
 	</div>
 	<div class="row">
-	    <form action="{{URL::to("/turma")}}" method="{{ isset($turma) ? 'put' : 'post'}}">
+	    <form action="{{URL::to("/turma")}}" method="POST">
 		@csrf
 		@include ('includes.error_alert')
 		<div class="form-group">
