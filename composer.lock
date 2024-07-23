@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d1e9e55d313862befef90771a0dfb213",
+    "content-hash": "5ae57f9538bb895128ac00e43c60a8fb",
     "packages": [
         {
             "name": "brick/math",
@@ -3208,6 +3208,70 @@
                 }
             ],
             "time": "2023-11-08T05:53:05+00:00"
+        },
+        {
+            "name": "stephenjude/default-model-sorting",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stephenjude/default-model-sorting.git",
+                "reference": "b60d5d3abeed8267e9b4d3ff0f8ac7fc63e88578"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stephenjude/default-model-sorting/zipball/b60d5d3abeed8267e9b4d3ff0f8ac7fc63e88578",
+                "reference": "b60d5d3abeed8267e9b4d3ff0f8ac7fc63e88578",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0|^11.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "^6.0|^7.0",
+                "phpunit/phpunit": "^9.0|^10.0|^11.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Stephenjude\\DefaultModelSorting\\DefaultModelSortingServiceProvider"
+                    ],
+                    "aliases": {
+                        "DefaultModelSorting": "Stephenjude\\DefaultModelSorting\\DefaultModelSortingFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stephenjude\\DefaultModelSorting\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Stephen Jude",
+                    "email": "hello@stephenjude.me",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Add default sorting column to your eloquent model",
+            "homepage": "https://github.com/stephenjude/default-model-sorting",
+            "keywords": [
+                "default-model-sorting",
+                "eloquent",
+                "model",
+                "orderby",
+                "sorting",
+                "stephenjude"
+            ],
+            "support": {
+                "issues": "https://github.com/stephenjude/default-model-sorting/issues",
+                "source": "https://github.com/stephenjude/default-model-sorting/tree/3.0.0"
+            },
+            "time": "2024-03-27T15:06:49+00:00"
         },
         {
             "name": "symfony/clock",
