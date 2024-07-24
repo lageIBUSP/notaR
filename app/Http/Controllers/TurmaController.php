@@ -15,6 +15,30 @@ use App\Utils\Csv;
 class TurmaController extends Controller
 {
 	/**
+	 * Validate model input
+	 *
+	 * @param  \Illuminate\Http\Request  $request
+	 * @return mixed
+	 */
+	private function validateRequest(Request $request, Turma|null $model = null)
+	{
+        $rules = [
+            'name'       => 'required|unique:turmas' . ($model ? ',name,' . $model->id : ''),
+            'description'=> 'required',
+            'maillist'   => [
+                'file',
+                new CsvRule([
+                    'name' => 'required',
+                    'email' => 'required|email'
+                ])
+            ],
+            'defaultpassword' => 'required_with:maillist'
+        ];
+
+        return $request->validate($rules);
+    }
+
+	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
@@ -28,11 +52,24 @@ class TurmaController extends Controller
 	/**
 	 * Show the form for creating a new resource.
 	 *
-	 * @return \Illuminate\Http\Response
+	 * @return View
 	 */
 	public function create()
 	{
+		$this->authorize('create', Turma::class);
 		return View('turma.create');
+	}
+
+	/**
+	 * Show the form for creating a copy of a model
+	 *
+     * @param  \App\Models\Turma  $turma
+	 * @return \Illuminate\Http\RedirectResponse
+	 */
+	public function duplicate(Turma $turma)
+	{
+		$this->authorize('create', Turma::class);
+
 	}
 
 	/**
@@ -44,14 +81,18 @@ class TurmaController extends Controller
 	public function store(Request $request)
 	{
 		$this->authorize('create', Turma::class);
-		$rules = array(
-			'name'       => 'required',
-			'description'=> 'required',
-		);
-		$data = $request->validate($rules);
+        $data = $this->validateRequest($request);
 
 		// store
 		$turma = tap(new Turma($data))->save();
+
+        // bulk add users
+        if ($request->maillist ?? "") {
+            $this->bulkAddUsers($turma,
+                new Csv($request->maillist->get()),
+                $request->defaultpassword);
+        }
+
 		return redirect()->action([get_class($this),'show'], ['turma' => $turma]);
 	}
 
@@ -155,43 +196,16 @@ class TurmaController extends Controller
     public function update(Request $request, Turma $turma)
     {
         $this->authorize('edit',$turma);
-        $rules = [
-            'name'       => 'required',
-            'description'=> 'required',
-            'maillist'   => [
-                'file',
-                new CsvRule([
-                    'name' => 'required',
-                    'email' => 'required|email'
-                ])
-            ],
-            'defaultpassword' => 'required_with:maillist'
-        ];
-        $data = $request->validate($rules);
-        $turma->update(['name' => $data['name'],'description' => $data['description']]);
+        $data = $this->validateRequest($request, $turma);
+        $turma->update(
+            ['name' => $data['name'],'description' => $data['description']]
+        );
 
         // bulk add users
         if ($request->maillist ?? "") {
-            $csv = new Csv($request->maillist->get());
-            $pssw = $request->defaultpassword;
-            foreach( $csv->getData() as $user ) {
-                $email = $user['email'];
-                $name = $user['name'];
-                $newmember = User::where('email', $email)->first();
-                if($newmember) {
-                    // if user not in turma, add
-                    if ($turma->users()->find($newmember) == null) {
-                        $turma->users()->save($newmember);
-                    }
-                } else {
-                    // if user doesn't exist, create new
-                    $newmember = User::create([
-                        'email' => $email,
-                        'name' => $name,
-                        'password' => $pssw]);
-                    $turma->users()->save($newmember);
-                }
-            }
+            $this->bulkAddUsers($turma,
+                new Csv($request->maillist->get()),
+                $request->defaultpassword);
         }
 
 		return redirect()->action([get_class($this),'show'], ['turma' => $turma]);
@@ -228,5 +242,27 @@ class TurmaController extends Controller
 
         $turma->delete();
 		return redirect()->action([get_class($this),'index']);
+    }
+
+    protected function bulkAddUsers (Turma $turma, Csv $csv, String $psswd)
+    {
+        foreach( $csv->getData() as $user ) {
+            $email = $user['email'];
+            $name = $user['name'];
+            $newmember = User::where('email', $email)->first();
+            if($newmember) {
+                // if user not in turma, add
+                if ($turma->users()->find($newmember) == null) {
+                    $turma->users()->save($newmember);
+                }
+            } else {
+                // if user doesn't exist, create new
+                $newmember = User::create([
+                    'email' => $email,
+                    'name' => $name,
+                    'password' => $psswd]);
+                $turma->users()->save($newmember);
+            }
+        }
     }
 }
