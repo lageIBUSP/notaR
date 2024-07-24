@@ -11,6 +11,7 @@ use App\Models\Exercicio;
 use App\Models\Prazo;
 use App\Rules\CsvRule;
 use App\Utils\Csv;
+use Illuminate\Support\Facades\DB;
 
 class TurmaController extends Controller
 {
@@ -32,10 +33,12 @@ class TurmaController extends Controller
                     'email' => 'required|email'
                 ])
             ],
-            'defaultpassword' => 'required_with:maillist'
+            'defaultpassword' => 'required_with:maillist',
+            'copyfrom' => 'int|exists:turmas,id|nullable'
         ];
 
-        return $request->validate($rules);
+        $data = $request->validate($rules);
+        return ['name' => $data['name'], 'description' => $data['description']];
     }
 
 	/**
@@ -57,7 +60,7 @@ class TurmaController extends Controller
 	public function create()
 	{
 		$this->authorize('create', Turma::class);
-		return View('turma.create');
+		return View('turma.create')->with('turmas', Turma::all());
 	}
 
 	/**
@@ -83,6 +86,7 @@ class TurmaController extends Controller
 		$this->authorize('create', Turma::class);
         $data = $this->validateRequest($request);
 
+        DB::beginTransaction();
 		// store
 		$turma = tap(new Turma($data))->save();
 
@@ -92,6 +96,16 @@ class TurmaController extends Controller
                 new Csv($request->maillist->get()),
                 $request->defaultpassword);
         }
+
+        // copy prazos from another turma
+        if ($request->copyfrom ?? "") {
+            $original = Turma::find($request->copyfrom);
+            foreach ($original->prazos as $prazo) {
+                $newprazo = $prazo->replicate();
+                $turma->prazos()->save($newprazo);
+            }
+        }
+        DB::commit();
 
 		return redirect()->action([get_class($this),'show'], ['turma' => $turma]);
 	}
@@ -197,9 +211,7 @@ class TurmaController extends Controller
     {
         $this->authorize('edit',$turma);
         $data = $this->validateRequest($request, $turma);
-        $turma->update(
-            ['name' => $data['name'],'description' => $data['description']]
-        );
+        $turma->update($data);
 
         // bulk add users
         if ($request->maillist ?? "") {

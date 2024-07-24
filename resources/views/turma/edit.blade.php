@@ -25,7 +25,9 @@
 		    @enderror
 		</div>
 		<div class="form-group">
-		    <label for="maillist">Adicionar alunos por csv (deve conter colunas "name" e "email"; <b><a href="/storage/examples/bulk_add_users.csv">baixe aqui</a></b> um arquivo de exemplo)</label>
+		    <label for="maillist">
+                Adicionar alunos por csv (deve conter colunas "name" e "email"; <b><a href="/storage/examples/bulk_add_users.csv">baixe aqui</a></b> um arquivo de exemplo)
+            </label>
 		    <input type="file" class="form-control @error('maillist') is-invalid @enderror" id="maillist" name="maillist">{{ old('maillist','') }}</input>
 		    @error('maillist')
                 <div class="invalid-feedback">{{ $message }}</div>
