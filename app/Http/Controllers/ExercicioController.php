@@ -59,12 +59,12 @@ class ExercicioController extends Controller
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Validate model
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return mixed
 	 */
-	private function validateExercicio(Request $request, Exercicio|null $exercicio)
+	private function validateRequest(Request $request, Exercicio|null $exercicio = null)
 	{
 		$rules = array(
 			'name' => 'required|string|unique:exercicios' . ($exercicio ? ',name,' . $exercicio->id : ''),
@@ -98,7 +98,7 @@ class ExercicioController extends Controller
 	{
 		$this->authorize('create', Exercicio::class);
 
-		$data = $this->validateExercicio($request, null);
+		$data = $this->validateRequest($request);
 		// store
 		$exercicio = new Exercicio($data);
 		DB::transaction(function () use ($data, $exercicio) {
@@ -393,7 +393,7 @@ class ExercicioController extends Controller
 	public function update(Request $request, Exercicio $exercicio)
 	{
 		$this->authorize('edit', $exercicio);
-		$data = $this->validateExercicio($request, $exercicio);
+		$data = $this->validateRequest($request, $exercicio);
 
 		// store
 		DB::transaction(function () use ($data, $exercicio) {
