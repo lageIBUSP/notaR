@@ -9,7 +9,6 @@ class Topico extends Model
 {
     use HasFactory;
     protected $table = 'topicos';
-    protected $guarded = [];
 
     // relationships
     public function exercicios()

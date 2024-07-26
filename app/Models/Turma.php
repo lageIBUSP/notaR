@@ -24,6 +24,10 @@ class Turma extends Model
     {
         return $this->belongsToMany(User::class);
     }
+    public function curso()
+    {
+        return $this->belongsTo(Curso::class);
+    }
     public function prazos()
     {
         return $this->hasMany(Prazo::class);
