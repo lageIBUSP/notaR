@@ -5,13 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Support\Carbon;
+use Stephenjude\DefaultModelSorting\Traits\DefaultOrderBy;
 
 class Prazo extends Pivot
 {
     use HasFactory;
     protected $table = 'prazos';
 
-    protected $guarded = [];
+    /**
+     * Set a default ordering for this model
+     */
+    use DefaultOrderBy;
+    protected static $orderByColumn = 'prazo';
 
     // relationships
     public function turma()
@@ -24,13 +29,13 @@ class Prazo extends Pivot
     }
 
     // passado/futuro
-    public function getPassadoAttribute() 
+    public function getPassadoAttribute()
     {
-        return $this->prazo < now(); 
+        return $this->prazo < now();
     }
-    public function getFuturoAttribute() 
+    public function getFuturoAttribute()
     {
-        return !$this->passado; 
+        return !$this->passado;
     }
 
   public function scopeFuturos($query) {

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Stephenjude\DefaultModelSorting\Traits\DefaultOrderBy;
 use Symfony\Component\Yaml\Yaml as Yaml;
 
 class Exercicio extends Model
@@ -24,6 +25,12 @@ class Exercicio extends Model
         'draft',
         'id'
     ];
+
+    /**
+     * Set a default ordering for this model
+     */
+    use DefaultOrderBy;
+    protected static $orderByColumn = 'name';
 
     /**
     * Scope a query to only include active users.

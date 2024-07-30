@@ -7,10 +7,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
+use Stephenjude\DefaultModelSorting\Traits\DefaultOrderBy;
 
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
+
+    /**
+     * Set a default ordering for this model
+     */
+    use DefaultOrderBy;
+    protected static $orderByColumn = 'name';
 
     /**
     * Sets a hashed password
