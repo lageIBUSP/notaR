@@ -31,7 +31,7 @@ class ExercicioController extends Controller
 	public function index()
 	{
     $topicos = Topico::orderBy('order');
-    $semTopico = Exercicio::whereDoesntHave('topico')->orderBy('name');
+    $semTopico = Exercicio::whereDoesntHave('topico');
     /** @var \App\Models\User */
     $user = Auth::user();
     if (optional($user)->isAdmin()) {
@@ -55,7 +55,7 @@ class ExercicioController extends Controller
 		$this->authorize('create', Exercicio::class);
 		return View('exercicio.create')
 			->with('pacotesR', $this->getInstalledPackages())
-			->with('topicos', Topico::orderBy('order'));
+			->with('topicos', Topico::all());
 	}
 
 	/**

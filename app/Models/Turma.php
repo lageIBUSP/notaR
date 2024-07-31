@@ -36,12 +36,12 @@ class Turma extends Model
 
     public function prazosOrdered()
     {
-        // THIS WILL ALWAYS BE ORDERED BY EX-NAME
+        // THIS WILL ALWAYS BE ORDERED BY PRAZO AND EX-NAME
         return $this->prazos()
             ->join('exercicios', 'prazos.exercicio_id', '=', 'exercicios.id')
             ->select('prazos.*','exercicios.name as exercicio_name')
-            ->orderBy('exercicio_name')
             ->orderBy('prazo')
+            ->orderBy('exercicio_name')
             ;
     }
 }
