@@ -15,7 +15,6 @@ class CursoController extends Controller
     {
         $cursos = Curso::orderBy('name');
         $semCurso = Turma::whereDoesntHave('curso');
-        /** @var \App\Models\User */
         $cursos = $cursos->with('turmas');
 
         return View('curso.index')->with('cursos', $cursos->get())
