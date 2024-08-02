@@ -19,9 +19,9 @@ jobs:
     - name: Install
       run: ./deploy.sh
     - name: Create Database
-      run: sail artisan migrate
+      run: vendor/bin/sail artisan migrate
     - name: Create admin user
-      run: sail artisan migrate:admin novasenha
+      run: vendor/bin/sail artisan migrate:admin novasenha
     - name: Cypress run
       uses: cypress-io/github-action@v6
       with:
