@@ -19,9 +19,9 @@ jobs:
     - name: Install
       run: ./deploy.sh
     - name: Create Database
-      run: docker exec -t notar_app_1 php artisan migrate
+      run: sail artisan migrate
     - name: Create admin user
-      run: docker exec -t notar_app_1 php artisan migrate:admin novasenha
+      run: sail artisan migrate:admin novasenha
     - name: Cypress run
       uses: cypress-io/github-action@v6
       with:
