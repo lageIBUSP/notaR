@@ -26,6 +26,7 @@ class TurmaController extends Controller
         $rules = [
             'name'       => 'required|unique:turmas' . ($model ? ',name,' . $model->id : ''),
             'description'=> 'required',
+			'curso_id' => 'sometimes|int|exists:cursos,id|nullable',
             'maillist'   => [
                 'file',
                 new CsvRule([
@@ -38,7 +39,7 @@ class TurmaController extends Controller
         ];
 
         $data = $request->validate($rules);
-        return ['name' => $data['name'], 'description' => $data['description']];
+        return ['name' => $data['name'], 'description' => $data['description'], 'curso_id' => $data['curso_id']];
     }
 
 	/**
