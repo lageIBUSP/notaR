@@ -5,17 +5,20 @@
     <div class="jumbotron">
         <p>{!! nl2br($turma->description) !!}</p>
     </div>
-    <a class="collapse-button" data-toggle="collapse" href="#collapseMembros" role="button" aria-expanded="true" aria-controls="collapseMembros">
-        <h2>Membros</h2>
-    </a>
-    <div class="collapse show" id="collapseMembros">
-        @can ('edit', $turma)
-            @include('user.table',['users' => $turma->users,
-                'removeButton' => true])
-        @else
-            @include('user.table',['users' => $turma->users])
-        @endcan
-    </div>
+
+    @can('seeMembers', $turma)
+        <a class="collapse-button" data-toggle="collapse" href="#collapseMembros" role="button" aria-expanded="true" aria-controls="collapseMembros">
+            <h2>Membros</h2>
+        </a>
+        <div class="collapse show" id="collapseMembros">
+            @can ('edit', $turma)
+                @include('user.table',['users' => $turma->users,
+                    'removeButton' => true])
+            @else
+                @include('user.table',['users' => $turma->users])
+            @endcan
+        </div>
+    @endcan
 
     @if($prazosFuturos ?? '')
         <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
