@@ -52,19 +52,24 @@
         @include('user.table',['users' => $turma->users, 'editButton' => true, 'removeButton' => true])
     </div>
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
-        <h2>Prazos Futuros</h2>
-    </a>
-    <div class="collapse" id="collapsePrazosFuturos">
-        @include('prazo.table',['prazos' => $turma->prazos->where('futuro')])
-    </div>
+    @if($prazosFuturos ?? '')
+        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
+            <h2>Prazos Futuros</h2>
+        </a>
+        <div class="collapse" id="collapsePrazosFuturos">
+            @include('prazo.table',['prazos' => $prazosFuturos])
+        </div>
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
-        <h2>Prazos Passados</h2>
-    </a>
-    <div class="collapse" id="collapsePrazosPassados">
-        @include('prazo.table',['prazos' => $turma->prazos->where('passado')])
-    </div>
+    @endif
+
+    @if($prazosPassados ?? '')
+        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
+            <h2>Prazos Passados</h2>
+        </a>
+        <div class="collapse" id="collapsePrazosPassados">
+            @include('prazo.table',['prazos' => $prazosPassados])
+        </div>
+    @endif
 
 
     @can ('delete', $turma)

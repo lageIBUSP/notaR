@@ -143,7 +143,20 @@ class TurmaController extends Controller
 	public function edit(Turma $turma)
 	{
 		$this->authorize('edit', $turma);
-		return View('turma.edit')->with('turma',$turma);
+
+        $prazos = $turma->prazosOrdered()->get()->groupBy('futuro');
+		$v = View('turma.edit')->with('turma',$turma);
+
+        if ($prazos->isNotEmpty()) {
+            if ($prazos->keys()->contains(0)) {
+                $v = $v->with('prazosPassados',$prazos[0]);
+
+            }
+            if ($prazos->keys()->contains(1)) {
+                $v = $v->with('prazosFuturos',$prazos[1]);
+            }
+        }
+        return $v;
 	}
 
 	/**
