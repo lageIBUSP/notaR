@@ -141,7 +141,7 @@ class TurmaController extends Controller
 	 * Show the form for editing the specified resource.
 	 *
      * @param  \App\Models\Turma  $turma
-	 * @return \Illuminate\Http\Response
+	 * @return View
 	 */
 	public function edit(Turma $turma)
 	{
@@ -167,7 +167,7 @@ class TurmaController extends Controller
 	 * Show the form for editing the prazos
 	 *
      * @param  \App\Models\Turma  $turma
-	 * @return \Illuminate\Http\Response
+	 * @return View
 	 */
 	public function editprazos(Turma $turma)
 	{
