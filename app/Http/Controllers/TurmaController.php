@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use App\Models\Turma;
+use App\Models\Curso;
 use App\Models\User;
 use App\Models\Exercicio;
 use App\Models\Prazo;
@@ -61,7 +62,9 @@ class TurmaController extends Controller
 	public function create()
 	{
 		$this->authorize('create', Turma::class);
-		return View('turma.create')->with('turmas', Turma::all());
+		return View('turma.create')
+            ->with('turmas', Turma::all())
+            ->with('cursos', Curso::all());
 	}
 
 	/**
@@ -145,7 +148,8 @@ class TurmaController extends Controller
 		$this->authorize('edit', $turma);
 
         $prazos = $turma->prazosOrdered()->get()->groupBy('futuro');
-		$v = View('turma.edit')->with('turma',$turma);
+		$v = View('turma.edit')->with('turma',$turma)
+            ->with('cursos', Curso::all());
 
         if ($prazos->isNotEmpty()) {
             if ($prazos->keys()->contains(0)) {

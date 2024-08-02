@@ -21,6 +21,20 @@
 			</div>
 
 			<div class="form-group">
+				<label for="curso">Curso</label>
+				@php($old_curso = old('curso_id', null))
+					<select id="curso_id" name="curso_id" >
+						<option value="" {{$old_curso == null ? 'selected' : ''}}></option>
+						@foreach ($cursos as $value)
+							<option value="{{$value->id}}" {{$old_curso == $value->id ? 'selected' : ''}}>{{$value->name}}</option>
+						@endforeach
+					</select>
+				@error('curso_id')
+					<div class="invalid-feedback">{{ $message }}</div>
+				@enderror
+			</div>
+
+			<div class="form-group">
 				<label for="description">Descrição</label>
 				<textarea
 					class="form-control @error('description') is-invalid @enderror"
