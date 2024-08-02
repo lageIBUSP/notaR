@@ -52,13 +52,31 @@
 					Importar prazos e exercícios da turma
 				</label>
 				@php($original_turma = old('copyfrom'))
-					<select id="copyfrom" name="copyfrom" >
-						<option value="" {{$original_turma == null ? 'selected' : ''}}></option>
-						@foreach ($turmas as $value)
-							<option value="{{$value->id}}" {{$original_turma == $value->id ? 'selected' : ''}}>{{$value->name}}</option>
-						@endforeach
-					</select>
+				<select id="copyfrom" name="copyfrom" >
+					<option value="" {{$original_turma == null ? 'selected' : ''}}></option>
+					@foreach ($turmas as $value)
+						<option value="{{$value->id}}" {{$original_turma == $value->id ? 'selected' : ''}}>{{$value->name}}</option>
+					@endforeach
+				</select>
 				@error('copyfrom')
+					<div class="invalid-feedback">{{ $message }}</div>
+				@enderror
+			</div>
+
+			<div class="form-group">
+				<label for="datainicial">
+					Ajustar prazos a partir da data
+				</label>
+
+				<input type='text'
+					class="form-control form-inline @error('datainicial') is-invalid @enderror datetimepicker-input"
+					data-toggle="datetimepicker"
+					id="datainicial"
+					data-target="datainicial"
+					name="datainicial"
+					value="{{old('datainicial','')}}">
+
+				@error('{{"prazos[]"}}')
 					<div class="invalid-feedback">{{ $message }}</div>
 				@enderror
 			</div>

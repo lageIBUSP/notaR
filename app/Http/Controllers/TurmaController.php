@@ -13,6 +13,7 @@ use App\Models\Prazo;
 use App\Rules\CsvRule;
 use App\Utils\Csv;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class TurmaController extends Controller
 {
@@ -36,7 +37,8 @@ class TurmaController extends Controller
                 ])
             ],
             'defaultpassword' => 'required_with:maillist',
-            'copyfrom' => 'int|exists:turmas,id|nullable'
+            'copyfrom' => 'int|exists:turmas,id|nullable',
+            'datainicial' => 'date|nullable'
         ];
 
         $data = $request->validate($rules);
@@ -103,8 +105,16 @@ class TurmaController extends Controller
         // copy prazos from another turma
         if ($request->copyfrom ?? "") {
             $original = Turma::find($request->copyfrom);
+            if ($request->datainicial ?? "") {
+                $original_firstdate = Carbon::parse($original->prazos()->min('prazo'));
+                $new_firstdate = Carbon::parse($request->datainicial);
+                $date_shift = $original_firstdate->diffInDays($new_firstdate);
+            }
             foreach ($original->prazos as $prazo) {
                 $newprazo = $prazo->replicate();
+                if ($request->datainicial ?? "") {
+                    $newprazo->shiftBy($date_shift);
+                }
                 $turma->prazos()->save($newprazo);
             }
         }
