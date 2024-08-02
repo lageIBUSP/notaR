@@ -30,19 +30,19 @@ class ExercicioController extends Controller
 	 */
 	public function index()
 	{
-    $topicos = Topico::orderBy('order');
-    $semTopico = Exercicio::whereDoesntHave('topico');
-    /** @var \App\Models\User */
-    $user = Auth::user();
-    if (optional($user)->isAdmin()) {
-      $topicos = $topicos->with('exercicios');
-    } else {
-      $topicos = $topicos->with('exerciciosPublished');
-      $semTopico = $semTopico->published();
-    }
+		$topicos = Topico::orderBy('order');
+		$semTopico = Exercicio::whereDoesntHave('topico');
+		/** @var \App\Models\User */
+		$user = Auth::user();
+		if (optional($user)->isAdmin()) {
+			$topicos = $topicos->with('exercicios');
+		} else {
+			$topicos = $topicos->with('exerciciosPublished');
+			$semTopico = $semTopico->published();
+		}
 
-    return View('exercicio.index')->with('topicos', $topicos->get())
-      ->with('semTopico', $semTopico->get());
+		return View('exercicio.index')->with('topicos', $topicos->get())
+			->with('semTopico', $semTopico->get());
 	}
 
 	/**
@@ -196,7 +196,7 @@ class ExercicioController extends Controller
 				. 'dbname <- "' . env('DB_DATABASE') . '";'
 				. 'con <- connect(dbusr, dbpass, dbname);'
 				. 'TRUE;' // This is to prevent connection object being returned (which causes an echo warning visible in production)
-				;
+			;
 			$r = $cnx->evalString($rcode);
 		} catch (Exception $e) {
 			Log::error('Erro ao na conexão RMySql');
@@ -339,7 +339,7 @@ class ExercicioController extends Controller
 		}
 
 		// corrigir EOL
-		$codigo = str_replace("\r\n", PHP_EOL, $codigo).PHP_EOL;
+		$codigo = str_replace("\r\n", PHP_EOL, $codigo) . PHP_EOL;
 
 		// salva um arquivo com o codigo
 		$tempfile = TmpFile::generateTmpFileName(md5($codigo), '.R');
