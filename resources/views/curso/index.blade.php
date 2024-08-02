@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('content')
     <div class="row">
-        <h1>Exercícios</h1>
+        <h1>Cursos</h1>
     </div>
 
     <div class="row gridline">

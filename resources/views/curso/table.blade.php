@@ -30,5 +30,5 @@
     </h2>
 </a>
 <div class="collapse" id="semcurso">
-    @include('turma.table', ['editButton' => true, 'turmas' => $semcurso])
+    @include('turma.table', ['editButton' => true, 'turmas' => $semCurso])
 </div>
