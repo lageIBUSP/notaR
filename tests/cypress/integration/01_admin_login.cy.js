@@ -32,9 +32,9 @@ describe('Login test', () => {
     cy.get('h1').should('contain', 'Admin')
 
     // Can see turmas
-    cy.contains('Turmas').click()
-    cy.url().should('include', '/turma')
-    cy.contains('Turmas')
+    cy.contains('Cursos').click()
+    cy.url().should('include', '/curso')
+    cy.contains('Cursos')
     cy.go('back')
 
     // Can see Users

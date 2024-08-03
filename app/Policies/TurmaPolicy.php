@@ -34,6 +34,19 @@ class TurmaPolicy
     }
 
     /**
+     * Determine whether the user can view the members.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Turma  $turma
+     * @return mixed
+     */
+    public function viewMembers(User $user, Turma $turma)
+    {
+        // Should students be able to see other students?
+        return $user->isAdmin();
+    }
+
+    /**
      * Determine whether the user can create models.
      *
      * @param  \App\Models\User  $user

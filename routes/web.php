@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TurmaController;
+use App\Http\Controllers\CursoController;
 use App\Http\Controllers\TopicoController;
 use App\Http\Controllers\PrazoController;
 use App\Http\Controllers\ExercicioController;
@@ -49,6 +50,7 @@ Route::put('/topico/sort', [TopicoController::class, 'order'])->name('topico.ord
 Route::resources([
     'user' => UserController::class,
     'turma' => TurmaController::class,
+    'curso' => CursoController::class,
     'topico' => TopicoController::class,
     'exercicio' => ExercicioController::class,
     'prazo' => PrazoController::class,

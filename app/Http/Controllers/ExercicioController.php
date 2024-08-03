@@ -30,19 +30,19 @@ class ExercicioController extends Controller
 	 */
 	public function index()
 	{
-    $topicos = Topico::orderBy('order');
-    $semTopico = Exercicio::whereDoesntHave('topico');
-    /** @var \App\Models\User */
-    $user = Auth::user();
-    if (optional($user)->isAdmin()) {
-      $topicos = $topicos->with('exercicios');
-    } else {
-      $topicos = $topicos->with('exerciciosPublished');
-      $semTopico = $semTopico->published();
-    }
+		$topicos = Topico::orderBy('order');
+		$semTopico = Exercicio::whereDoesntHave('topico');
+		/** @var \App\Models\User */
+		$user = Auth::user();
+		if (optional($user)->isAdmin()) {
+			$topicos = $topicos->with('exercicios');
+		} else {
+			$topicos = $topicos->with('exerciciosPublished');
+			$semTopico = $semTopico->published();
+		}
 
-    return View('exercicio.index')->with('topicos', $topicos->get())
-      ->with('semTopico', $semTopico->get());
+		return View('exercicio.index')->with('topicos', $topicos->get())
+			->with('semTopico', $semTopico->get());
 	}
 
 	/**
@@ -59,12 +59,12 @@ class ExercicioController extends Controller
 	}
 
 	/**
-	 * Store a newly created resource in storage.
+	 * Validate model
 	 *
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return mixed
 	 */
-	private function validateExercicio(Request $request, Exercicio|null $exercicio)
+	private function validateRequest(Request $request, Exercicio|null $exercicio = null)
 	{
 		$rules = array(
 			'name' => 'required|string|unique:exercicios' . ($exercicio ? ',name,' . $exercicio->id : ''),
@@ -98,7 +98,7 @@ class ExercicioController extends Controller
 	{
 		$this->authorize('create', Exercicio::class);
 
-		$data = $this->validateExercicio($request, null);
+		$data = $this->validateRequest($request);
 		// store
 		$exercicio = new Exercicio($data);
 		DB::transaction(function () use ($data, $exercicio) {
@@ -196,7 +196,7 @@ class ExercicioController extends Controller
 				. 'dbname <- "' . env('DB_DATABASE') . '";'
 				. 'con <- connect(dbusr, dbpass, dbname);'
 				. 'TRUE;' // This is to prevent connection object being returned (which causes an echo warning visible in production)
-				;
+			;
 			$r = $cnx->evalString($rcode);
 		} catch (Exception $e) {
 			Log::error('Erro ao na conexão RMySql');
@@ -339,7 +339,7 @@ class ExercicioController extends Controller
 		}
 
 		// corrigir EOL
-		$codigo = str_replace("\r\n", PHP_EOL, $codigo).PHP_EOL;
+		$codigo = str_replace("\r\n", PHP_EOL, $codigo) . PHP_EOL;
 
 		// salva um arquivo com o codigo
 		$tempfile = TmpFile::generateTmpFileName(md5($codigo), '.R');
@@ -393,7 +393,7 @@ class ExercicioController extends Controller
 	public function update(Request $request, Exercicio $exercicio)
 	{
 		$this->authorize('edit', $exercicio);
-		$data = $this->validateExercicio($request, $exercicio);
+		$data = $this->validateRequest($request, $exercicio);
 
 		// store
 		DB::transaction(function () use ($data, $exercicio) {

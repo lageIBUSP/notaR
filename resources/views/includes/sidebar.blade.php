@@ -1,10 +1,8 @@
 <!-- sidebar nav -->
 <nav id="sidebar-nav">
-    @can ('list', App\Models\Turma::class)
-        <div class="navbar-header">
-            <a class="navbar-brand" href="{{ URL::to('turma') }}">Turmas</a>
-        </div>
-    @endcan
+    <div class="navbar-header">
+        <a class="navbar-brand" href="{{ URL::to('curso') }}">Cursos</a>
+    </div>
     @can ('list', App\Models\User::class)
         <div class="navbar-header">
             <a class="navbar-brand" href="{{ URL::to('user') }}">Usuários</a>

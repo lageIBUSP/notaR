@@ -18,6 +18,17 @@ class Prazo extends Pivot
     use DefaultOrderBy;
     protected static $orderByColumn = 'prazo';
 
+    public function prazoParsed()
+    {
+        return Carbon::parse($this->prazo);
+    }
+
+    // shift prazo by a fixed ammount
+    public function shiftBy(int $days)
+    {
+        $this->prazo = $this->prazoParsed()->addDays($days);
+    }
+
     // relationships
     public function turma()
     {

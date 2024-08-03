@@ -10,6 +10,7 @@
         <form action="{{ URL::to('exercicio/import') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method ('put')
+
         <input type="file" id="file" hidden name="file" class="@error('filename') is-invalid @enderror" >
         <label class= "btn btn-primary" for="file">Importar dados de arquivo</label>
         @error('file')
@@ -17,9 +18,11 @@
         @enderror
         </form>
 	</div>
+
     @if (old('from_import',false))
         <div class="alert alert-info">Arquivo carregado. Verifique os campos antes de salvar!</div>
     @endif
+
 	<div class="row">
 	    <form action="{{URL::to("/exercicio")}}" method="POST">
 		@csrf
@@ -28,7 +31,10 @@
 
 		<div class="form-group">
 		    <label for="name"><h2>Título</h2></label>
-		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" placeholder="Título do exercício" value="{{ old('name') }}">
+		    <input type="text"
+                class="form-control @error('name') is-invalid @enderror"
+                id="name" name="name" placeholder="Título do exercício"
+                value="{{ old('name') }}">
 		    @error('name')
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
@@ -47,6 +53,7 @@
 			    <div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 		</div>
+
 		<div class="form-group">
 		    <label for="description"><h2>Enunciado</h2></label>
 		    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description" placeholder="Salve o resultado da estatística xyz na variável abc">{{ old('description') }}</textarea>

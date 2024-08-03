@@ -17,6 +17,21 @@
 			<div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
 		</div>
+
+		<div class="form-group">
+		    <label for="curso">Curso</label>
+            @php($old_curso = old('curso_id', $turma->curso_id))
+				<select id="curso_id" name="curso_id" >
+					<option value="" {{$old_curso == null ? 'selected' : ''}}></option>
+					@foreach ($cursos as $value)
+						<option value="{{$value->id}}" {{$old_curso == $value->id ? 'selected' : ''}}>{{$value->name}}</option>
+					@endforeach
+				</select>
+		    @error('curso_id')
+			    <div class="invalid-feedback">{{ $message }}</div>
+		    @enderror
+		</div>
+
 		<div class="form-group">
 		    <label for="description">Descrição</label>
 		    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('description',$turma->description) }}</textarea>
@@ -25,7 +40,9 @@
 		    @enderror
 		</div>
 		<div class="form-group">
-		    <label for="maillist">Adicionar alunos por csv (deve conter colunas "name" e "email"; <b><a href="/storage/examples/bulk_add_users.csv">baixe aqui</a></b> um arquivo de exemplo)</label>
+		    <label for="maillist">
+                Adicionar alunos por csv (deve conter colunas "name" e "email"; <b><a href="/storage/examples/bulk_add_users.csv">baixe aqui</a></b> um arquivo de exemplo)
+            </label>
 		    <input type="file" class="form-control @error('maillist') is-invalid @enderror" id="maillist" name="maillist">{{ old('maillist','') }}</input>
 		    @error('maillist')
                 <div class="invalid-feedback">{{ $message }}</div>
@@ -50,19 +67,24 @@
         @include('user.table',['users' => $turma->users, 'editButton' => true, 'removeButton' => true])
     </div>
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
-        <h2>Prazos Futuros</h2>
-    </a>
-    <div class="collapse" id="collapsePrazosFuturos">
-        @include('prazo.table',['prazos' => $turma->prazos->where('futuro')])
-    </div>
+    @if($prazosFuturos ?? '')
+        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
+            <h2>Prazos Futuros</h2>
+        </a>
+        <div class="collapse" id="collapsePrazosFuturos">
+            @include('prazo.table',['prazos' => $prazosFuturos])
+        </div>
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
-        <h2>Prazos Passados</h2>
-    </a>
-    <div class="collapse" id="collapsePrazosPassados">
-        @include('prazo.table',['prazos' => $turma->prazos->where('passado')])
-    </div>
+    @endif
+
+    @if($prazosPassados ?? '')
+        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
+            <h2>Prazos Passados</h2>
+        </a>
+        <div class="collapse" id="collapsePrazosPassados">
+            @include('prazo.table',['prazos' => $prazosPassados])
+        </div>
+    @endif
 
 
     @can ('delete', $turma)
