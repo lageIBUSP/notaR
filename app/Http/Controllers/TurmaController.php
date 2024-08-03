@@ -69,18 +69,6 @@ class TurmaController extends Controller
 	}
 
 	/**
-	 * Show the form for creating a copy of a model
-	 *
-     * @param  \App\Models\Turma  $turma
-	 * @return \Illuminate\Http\RedirectResponse
-	 */
-	public function duplicate(Turma $turma)
-	{
-		$this->authorize('create', Turma::class);
-
-	}
-
-	/**
 	 * Store a newly created resource in storage.
 	 *
 	 * @param  \Illuminate\Http\Request  $request
