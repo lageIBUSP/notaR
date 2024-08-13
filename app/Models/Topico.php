@@ -10,6 +10,7 @@ class Topico extends Model
 {
     use HasFactory;
     protected $table = 'topicos';
+    protected $guarded = [];
 
     /**
      * Set a default ordering for this model
