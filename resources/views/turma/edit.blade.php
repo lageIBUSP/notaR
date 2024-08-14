@@ -12,7 +12,10 @@
         @include ('includes.error_alert')
 		<div class="form-group">
 		    <label for="name">Nome</label>
-		    <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" name="name" value="{{ old('nome', $turma->name) }}">
+		    <input type="text"
+			class="form-control @error('name') is-invalid @enderror"
+			id="name" name="name"
+			value="{{ old('nome', $turma->name) }}">
 		    @error('name')
 			<div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
@@ -34,7 +37,11 @@
 
 		<div class="form-group">
 		    <label for="description">Descrição</label>
-		    <textarea class="form-control @error('description') is-invalid @enderror" id="description" name="description">{{ old('description',$turma->description) }}</textarea>
+		    <textarea
+			class="form-control @error('description') is-invalid @enderror"
+			id="description" name="description">
+				{{ old('description',$turma->description) }}
+			</textarea>
 		    @error('description')
 			<div class="invalid-feedback">{{ $message }}</div>
 		    @enderror
@@ -60,16 +67,43 @@
 	    </form>
 	</div>
 
-    <a class="collapse-button" data-toggle="collapse" href="#collapseMembros" role="button" aria-expanded="true" aria-controls="collapseMembros">
-        <h2>Membros</h2>
+    <a class="collapse-button collapsed" data-toggle="collapse"
+		href="#collapseMembros"
+		role="button" aria-expanded="false"
+		aria-controls="collapseMembros">
+        <h2>
+			Membros
+			<i class="fa fa-chevron-right rotate"></i>
+		</h2>
     </a>
     <div class="collapse" id="collapseMembros">
         @include('user.table',['users' => $turma->users, 'editButton' => true, 'removeButton' => true])
     </div>
 
+    @if($prazosPassados ?? '')
+        <a class="collapse-button collapsed" data-toggle="collapse"
+			href="#collapsePrazosPassados"
+			role="button" aria-expanded="false"
+			aria-controls="collapsePrazosPassados">
+            <h2>
+				Prazos Passados
+				<i class="fa fa-chevron-right rotate"></i>
+			</h2>
+        </a>
+        <div class="collapse" id="collapsePrazosPassados">
+            @include('prazo.table',['prazos' => $prazosPassados])
+        </div>
+    @endif
+
     @if($prazosFuturos ?? '')
-        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
-            <h2>Prazos Futuros</h2>
+        <a class="collapse-button collapsed" data-toggle="collapse"
+			href="#collapsePrazosFuturos"
+			role="button" aria-expanded="false"
+			aria-controls="collapsePrazosFuturos">
+            <h2>
+				Prazos Futuros
+				<i class="fa fa-chevron-right rotate"></i>
+			</h2>
         </a>
         <div class="collapse" id="collapsePrazosFuturos">
             @include('prazo.table',['prazos' => $prazosFuturos])
@@ -77,18 +111,8 @@
 
     @endif
 
-    @if($prazosPassados ?? '')
-        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
-            <h2>Prazos Passados</h2>
-        </a>
-        <div class="collapse" id="collapsePrazosPassados">
-            @include('prazo.table',['prazos' => $prazosPassados])
-        </div>
-    @endif
-
-
     @can ('delete', $turma)
-     <form method="POST" action="{{URL::to("/turma/".$turma->id)}}">
+    <form method="POST" action="{{URL::to("/turma/".$turma->id)}}">
         {{ csrf_field() }}
         {{ method_field('DELETE') }}
 
