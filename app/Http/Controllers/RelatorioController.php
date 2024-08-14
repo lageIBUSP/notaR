@@ -93,8 +93,9 @@ class RelatorioController extends Controller
      */
     public function relatorioRealizacao (Turma $turma) {
 
+        $prazos = $turma->prazos->sortBy('exercicio.name');
         $nusers = $turma->users->count();
-        foreach($turma->prazos as $prazo) {
+        foreach($prazos as $prazo) {
             $arr = collect();
             foreach($turma->users as $user) {
                 $notas = $user->notasValidas($prazo);
@@ -127,7 +128,7 @@ class RelatorioController extends Controller
         }
 
         $colnames = ['Exercício','Tentaram','Tiveram nota máxima', 'Média de Tentativas', 'Média de Notas'];
-        $mytable = $turma->prazos->pluck('resumo');
+        $mytable = $prazos->pluck('resumo');
         $mytable->prepend($colnames);
         return $mytable;
     }
