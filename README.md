@@ -77,8 +77,23 @@ Para mais detalhes, consulte a [documentação do Cypress](https://docs.cypress.
 O notaR está configurado com ferramentas de debug e profiling para ajudar no desenvolvimento. Para
 habilitar o Xdebug, abra o arquivo docker/php/php.ini, descomente a linha de xdebug.mode e construa
 novamente os containers. O debug pode ser feito na sua IDE (no VSCode, é recomendado instalar a
-extensão Xdebug) e os arquivos de profiling serão gerados na pasta storage/logs e podem ser lidos 
+extensão Xdebug) e os arquivos de profiling serão gerados na pasta storage/logs e podem ser lidos
 com o KCacheGrind.
+
+# Backup do banco de dados mysql no Docker
+
+Para fazer o dump do banco de dados, primeiro entre no contêiner passando as variáveis de ambiente do .env:
+```
+docker exec -ti --env-file=.env notar_mysql_1 bash
+```
+E em seguida faça o dump usando as variáveis de ambiente:
+```
+mysqldump -uroot -p${DB_PASSWORD} ${DB_DATABASE} > bak.sql
+```
+Por fim, copie o arquivo de backup do contêiner para fora do contêiner:
+```
+docker cp notar_mysql_1:bak.sql .
+```
 
 ## Licença de uso
 O código fonte do notaR está disponível sob licença GPLv3.

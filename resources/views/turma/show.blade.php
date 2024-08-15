@@ -6,11 +6,17 @@
         <p>{!! nl2br($turma->description) !!}</p>
     </div>
 
-    @can('seeMembers', $turma)
-        <a class="collapse-button" data-toggle="collapse" href="#collapseMembros" role="button" aria-expanded="true" aria-controls="collapseMembros">
-            <h2>Membros</h2>
+    @can('viewMembers', $turma)
+        <a class="collapse-button collapsed" data-toggle="collapse"
+        href="#collapseMembros"
+        role="button" aria-expanded="false"
+        aria-controls="collapseMembros">
+            <h2>
+                Membros
+                <i class="fa fa-chevron-right rotate"></i>
+            </h2>
         </a>
-        <div class="collapse show" id="collapseMembros">
+        <div class="collapse" id="collapseMembros">
             @can ('edit', $turma)
                 @include('user.table',['users' => $turma->users,
                     'removeButton' => true])
@@ -20,21 +26,34 @@
         </div>
     @endcan
 
-    @if($prazosFuturos ?? '')
-        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosFuturos" role="button" aria-expanded="true" aria-controls="collapsePrazosFuturos">
-            <h2>Prazos Futuros</h2>
-        </a>
-        <div class="collapse {{$collapsed ?? "" ? "" : "show" }}" id="collapsePrazosFuturos">
-            @include('prazo.table',['prazos' => $prazosFuturos])
-        </div>
-    @endif
-
     @if($prazosPassados ?? '')
-        <a class="collapse-button" data-toggle="collapse" href="#collapsePrazosPassados" role="button" aria-expanded="true" aria-controls="collapsePrazosPassados">
-            <h2>Prazos Passados</h2>
+        <a class="collapse-button collapsed" data-toggle="collapse"
+        href="#collapsePrazosPassados"
+        role="button" aria-expanded="false"
+        aria-controls="collapsePrazosPassados">
+            <h2>
+                Prazos Passados
+                <i class="fa fa-chevron-right rotate"></i>
+            </h2>
         </a>
         <div class="collapse" id="collapsePrazosPassados">
             @include('prazo.table',['prazos' => $prazosPassados])
+        </div>
+    @endif
+
+    @if($prazosFuturos ?? '')
+        <a class="collapse-button" data-toggle="collapse"
+        href="#collapsePrazosFuturos"
+        role="button" aria-expanded="true"
+        aria-controls="collapsePrazosFuturos">
+            <h2>
+                Prazos Futuros
+                <i class="fa fa-chevron-right rotate"></i>
+            </h2>
+        </a>
+        <div class="collapse show"
+        id="collapsePrazosFuturos">
+            @include('prazo.table',['prazos' => $prazosFuturos])
         </div>
     @endif
 
