@@ -22,8 +22,8 @@ RUN apt-get update --fix-missing \
 
 # Install packages used in exercises that aren't available in apt
 RUN install2.r --error --skipinstalled --ncpus -1 \
-    Rsampling \
-    EcoVirtual \
+    ## Rsampling \
+    ## EcoVirtual \
     unix \
     && rm -rf /tmp/downloaded_packages
 
